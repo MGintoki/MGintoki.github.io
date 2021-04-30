@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>HyperLedger链码学习笔记 | MGintoki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="主要内容 参考内容 存在问题 npm install 问题   票据链码 Commercial Paper （入门示例） 概念 链码 链码命名空间 处理器&#x2F;拦截器 连接配置文件和连接选项 钱包 网关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HyperLedger链码学习笔记">
+<meta property="og:url" content="https://mgintoki.github.io/2021/04/27/blockchain/HyperLedger%E9%93%BE%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="MGintoki">
+<meta property="og:description" content="主要内容 参考内容 存在问题 npm install 问题   票据链码 Commercial Paper （入门示例） 概念 链码 链码命名空间 处理器&#x2F;拦截器 连接配置文件和连接选项 钱包 网关">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-27T12:34:46.000Z">
+<meta property="article:modified_time" content="2021-04-30T04:07:37.447Z">
+<meta property="article:author" content="MGintoki">
+<meta property="article:tag" content="区块链">
+<meta property="article:tag" content="HyperLedger">
+<meta property="article:tag" content="链码">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="MGintoki" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon-32x32.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MGintoki</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mgintoki.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-blockchain/HyperLedger链码学习笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/27/blockchain/HyperLedger%E9%93%BE%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-04-27T12:34:46.000Z" itemprop="datePublished">2021-04-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      HyperLedger链码学习笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#zhu-yao-nei-rong">主要内容</a></li>
+<li><a href="#can-kao-nei-rong">参考内容</a></li>
+<li><a href="#cun-zai-wen-ti">存在问题</a><ul>
+<li><a href="#npm-install-wen-ti">npm install 问题</a></li>
+</ul>
+</li>
+<li><a href="#piao-ju-lian-ma-commercial-paper-ru-men-shi-li">票据链码 Commercial Paper （入门示例）</a><ul>
+<li><a href="#gai-nian">概念</a><ul>
+<li><a href="#lian-ma">链码</a></li>
+<li><a href="#lian-ma-ming-ming-kong-jian">链码命名空间</a></li>
+<li><a href="#chu-li-qi-lan-jie-qi">处理器/拦截器</a></li>
+<li><a href="#lian-jie-pei-zhi-wen-jian-he-lian-jie-xuan-xiang">连接配置文件和连接选项</a></li>
+<li><a href="#qian-bao">钱包</a></li>
+<li><a href="#wang-guan">网关</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
+<span id="more"></span>
+[toc]
+# 主要内容
+HyperLedger 1.4 版本链码开发学习
+
+<ul>
+<li>深入理解HP架构</li>
+<li>了解HP基础概念</li>
+<li>入门链码开发</li>
+</ul>
+<p>最终目的：能够下到HP底层代码</p>
+<h1><span id="can-kao-nei-rong">参考内容</span></h1><p>HP 1.4官方文档：<a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/zh_CN/release-1.4/whatis.html#">https://hyperledger-fabric.readthedocs.io/zh_CN/release-1.4/whatis.html#</a></p>
+<p>优客学院 基础培训（1、2、3）学习总结</p>
+<h1><span id="cun-zai-wen-ti">存在问题</span></h1><h3><span id="npm-install-wen-ti">npm install 问题</span></h3><ul>
+<li>npm ERR! Error: EACCES: permission denied, access</li>
+</ul>
+<blockquote>
+<p>sudo npm install –unsafe-perm=true –save-dev grunt</p>
+</blockquote>
+<ul>
+<li>NPM Error：gyp: No Xcode or CLT version detected!</li>
+</ul>
+<blockquote>
+<p>sudo rm -rf $(xcode-select -print-path)</p>
+</blockquote>
+<blockquote>
+<p>xcode-select –install</p>
+</blockquote>
+<h1><span id="piao-ju-lian-ma-commercial-paper-ru-men-shi-li">票据链码 Commercial Paper （入门示例）</span></h1><h2><span id="gai-nian">概念</span></h2><h3><span id="lian-ma">链码</span></h3><p>链码是一种，承载HP网络中代码的容器，链码安装在容器上，并可进行实例化。</p>
+<p>智能合约可以在链码容器内被定义，当在某个通道上安装并实例化一个链码的后，链码容器中的所有只能合约都是可用的。</p>
+<p>一般来说一个链码里推荐值定义一份智能合约。如果这些智能合约类似，也可以被定义在一起。</p>
+<p>如下该合约在构造函数里显式的指定了合约名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class CommercialPaperContract extends Contract &#123;</span><br><span class="line"></span><br><span class="line">    constructor() &#123;</span><br><span class="line">        &#x2F;&#x2F; Unique name when multiple contracts per chaincode file</span><br><span class="line">        super(&#39;org.papernet.commercialpaper&#39;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如何调用一份实例化好的链码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;获取调用的智能合约所在的网络</span><br><span class="line">const network &#x3D; await gateway.getNetwork(&#96;papernet&#96;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;在该网络里，指定链码以及链码上的智能合约</span><br><span class="line">const contract &#x3D; await network.getContract(&#39;papercontract&#39;, &#39;org.papernet.commercialpaper&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;定义在链码里的第一个合约会被视作默认合约，也可以通过不指定合约的方式调用。</span><br><span class="line">&#x2F;&#x2F;const contract &#x3D; await network.getContract(&#39;papercontract&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;调用该合约通用事务提交接口（需要背书），具体方法为issue</span><br><span class="line">const issueResponse &#x3D; await contract.submitTransaction(&#39;issue&#39;, &#39;MagnetoCorp&#39;, &#39;00001&#39;, &#39;2020-05-31&#39;, &#39;2020-11-30&#39;, &#39;5000000&#39;);</span><br></pre></td></tr></table></figure>
+
+<h3><span id="lian-ma-ming-ming-kong-jian">链码命名空间</span></h3><p>同一个链码下的所有智能合约，共享同一份命名空间和同一个世界状态，同时共享一个数据库。所以存在吧业务类型相似的合约放在一份链码中的场景。例如债券链码中含有美元债券合约和人民币债券合约。</p>
+<h3><span id="chu-li-qi-lan-jie-qi">处理器/拦截器</span></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">CommercialPaperContract extends Contract &#123;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    async beforeTransaction(ctx) &#123;</span><br><span class="line">        &#x2F;&#x2F; Write the transaction ID as an informational to the console</span><br><span class="line">        console.info(ctx.stub.getTxID());</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    async afterTransaction(ctx, result) &#123;</span><br><span class="line">        &#x2F;&#x2F; This handler interacts with the ledger</span><br><span class="line">        ctx.stub.cpList.putState(...);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    async unknownTransaction(ctx) &#123;</span><br><span class="line">        &#x2F;&#x2F; This handler throws an exception</span><br><span class="line">        throw new Error(&#39;Unknown transaction function&#39;);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3><span id="lian-jie-pei-zhi-wen-jian-he-lian-jie-xuan-xiang">连接配置文件和连接选项</span></h3><p>连接配置文件和连接选项示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Bring key classes into scope, most importantly Fabric SDK network class</span><br><span class="line">const fs &#x3D; require(&#39;fs&#39;);</span><br><span class="line">const yaml &#x3D; require(&#39;js-yaml&#39;);</span><br><span class="line">const &#123; FileSystemWallet, Gateway &#125; &#x3D; require(&#39;fabric-network&#39;);</span><br><span class="line">const CommercialPaper &#x3D; require(&#39;..&#x2F;contract&#x2F;lib&#x2F;paper.js&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; A wallet stores a collection of identities for use</span><br><span class="line">&#x2F;&#x2F;const wallet &#x3D; new FileSystemWallet(&#39;..&#x2F;user&#x2F;isabella&#x2F;wallet&#39;);</span><br><span class="line">const wallet &#x3D; new FileSystemWallet(&#39;..&#x2F;identity&#x2F;user&#x2F;isabella&#x2F;wallet&#39;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  const userName &#x3D; &#39;User1@org1.example.com&#39;;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; Load connection profile; will be used to locate a gateway</span><br><span class="line">        let connectionProfile &#x3D; yaml.safeLoad(fs.readFileSync(&#39;..&#x2F;gateway&#x2F;networkConnection.yaml&#39;, &#39;utf8&#39;));</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; Set connection options; identity and wallet</span><br><span class="line">        let connectionOptions &#x3D; &#123;</span><br><span class="line">            identity: userName,</span><br><span class="line">            &#x2F;&#x2F;wallet 标识了将要被应用程序上的网关所使用的钱包，钱包是由应用程序指定的</span><br><span class="line">            wallet: wallet,</span><br><span class="line">            discovery: &#123; enabled:false, asLocalhost: true &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; Connect to gateway using application specified parameters</span><br><span class="line">        console.log(&#39;Connect to Fabric gateway.&#39;);</span><br><span class="line"></span><br><span class="line">        await gateway.connect(connectionProfile, connectionOptions);</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; Access PaperNet network</span><br><span class="line">        console.log(&#39;Use network channel: mychannel.&#39;);</span><br><span class="line"></span><br><span class="line">        const network &#x3D; await gateway.getNetwork(&#39;mychannel&#39;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>连接配置文件：</p>
+<p>目的：简化应用程序和网络的交互</p>
+<p>主要表现为，在与一个组织相关的配置文件里，定义了这个组织有关这个网络的所有网络组建，如peer，ca，order，以及这些组建的一些策略。</p>
+<hr>
+<p>连接选项<br>命令参考官方文档 <a target="_blank" rel="noopener" href="https://hyperledger-fabric.readthedocs.io/zh_CN/release-1.4/developapps/connectionoptions.html">https://hyperledger-fabric.readthedocs.io/zh_CN/release-1.4/developapps/connectionoptions.html</a></p>
+<h3><span id="qian-bao">钱包</span></h3><blockquote>
+<p>一个钱包定义了一组用户身份，，应用程序会从这些身份中选择一个用户来使用，MSP定义了钱包中的身份，是什么身份，对应着这个MSP关联的CA发的证书。身份对应着通道资源的访问权限。</p>
+</blockquote>
+<p>钱包有四种类型：文件系统（使用FileSystemWallet类去管理）、内存、HSM、CouchDB</p>
+<h3><span id="wang-guan">网关</span></h3><blockquote>
+<p>网关代表应用程序和区块链网络的交互，使其能够专注应用逻辑。应用程序连接到网关，</p>
+</blockquote>
+<p><code>await gateway.connect(connectionProfile, connectionOptions);</code></p>
+<p>网关包括静态网关和动态网关。动态网关是fabric的默认配置。动态网关配置下，随着网络的改变，服务发现会确保对于应用程序可见网络拓扑的准确性。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/27/blockchain/HyperLedger%E9%93%BE%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="cko3t66yb0004rsxg7j1e2zie" data-title="HyperLedger链码学习笔记" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HyperLedger/" rel="tag">HyperLedger</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E7%A0%81/" rel="tag">链码</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/27/blockchain/DAO/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          DAO介绍
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/27/blockchain/mathchain/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">MathChain介绍</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CA/">CA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E4%B9%A6/">杂书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CA/" style="font-size: 10px;">CA</a> <a href="/tags/DAO/" style="font-size: 12.5px;">DAO</a> <a href="/tags/DevOps/" style="font-size: 15px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/HyperLedger/" style="font-size: 10px;">HyperLedger</a> <a href="/tags/K8S/" style="font-size: 10px;">K8S</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/did/" style="font-size: 17.5px;">did</a> <a href="/tags/mathchain/" style="font-size: 10px;">mathchain</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E8%B5%84%E4%BA%A7/" style="font-size: 10px;">加密资产</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 20px;">区块链</a> <a href="/tags/%E5%AE%B9%E5%99%A8/" style="font-size: 10px;">容器</a> <a href="/tags/%E6%9D%82%E4%B9%A6/" style="font-size: 10px;">杂书</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 12.5px;">架构</a> <a href="/tags/%E7%9B%91%E6%8E%A7/" style="font-size: 10px;">监控</a> <a href="/tags/%E7%BD%91%E5%85%B3/" style="font-size: 10px;">网关</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">证书</a> <a href="/tags/%E9%93%BE%E7%A0%81/" style="font-size: 10px;">链码</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/30/hexo/config/">博客配置</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/">《架构修炼之道-亿级网关...》阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/CA/PKI-CA/">PKI/CA与数字证书技术大全</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/">图解http阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/">《成为极少数》阅读笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 MGintoki<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

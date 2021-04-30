@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>DID解析 | MGintoki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Abstract 1.Introduction 1.1 Conformance 1.2 术语   3.Resolving a DID 3.1 Input 3.2 Algorithm   4 Dereferencing a DID URL 4.1 Input 4.2 Algorithm 4.3 Dereferencing the Primary Resource 4.4 Dereferen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DID解析">
+<meta property="og:url" content="https://mgintoki.github.io/2021/04/27/did/DID%20Resolution/index.html">
+<meta property="og:site_name" content="MGintoki">
+<meta property="og:description" content="Abstract 1.Introduction 1.1 Conformance 1.2 术语   3.Resolving a DID 3.1 Input 3.2 Algorithm   4 Dereferencing a DID URL 4.1 Input 4.2 Algorithm 4.3 Dereferencing the Primary Resource 4.4 Dereferen">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="leanote://file/getImage?fileId=5e1c59aaab64415ce9002ff6">
+<meta property="og:image" content="leanote://file/getImage?fileId=5e1c59aaab64415ce9002ff7">
+<meta property="article:published_time" content="2021-04-27T12:34:46.000Z">
+<meta property="article:modified_time" content="2021-04-30T04:07:37.456Z">
+<meta property="article:author" content="MGintoki">
+<meta property="article:tag" content="区块链">
+<meta property="article:tag" content="did">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="leanote://file/getImage?fileId=5e1c59aaab64415ce9002ff6">
+  
+    <link rel="alternate" href="/atom.xml" title="MGintoki" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon-32x32.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MGintoki</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mgintoki.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-did/DID Resolution" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/27/did/DID%20Resolution/" class="article-date">
+  <time class="dt-published" datetime="2021-04-27T12:34:46.000Z" itemprop="datePublished">2021-04-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      DID解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#abstract">Abstract</a></li>
+<li><a href="#1-introduction">1.Introduction</a><ul>
+<li><a href="#1-1-conformance">1.1 Conformance</a></li>
+<li><a href="#1-2-zhu-yu">1.2 术语</a></li>
+</ul>
+</li>
+<li><a href="#3-resolving-a-did">3.Resolving a DID</a><ul>
+<li><a href="#3-1-input">3.1 Input</a></li>
+<li><a href="#3-2-algorithm">3.2 Algorithm</a></li>
+</ul>
+</li>
+<li><a href="#4-dereferencing-a-did-url">4 Dereferencing a DID URL</a><ul>
+<li><a href="#4-1-input">4.1 Input</a></li>
+<li><a href="#4-2-algorithm">4.2 Algorithm</a></li>
+<li><a href="#4-3-dereferencing-the-primary-resource">4.3 Dereferencing the Primary Resource</a></li>
+<li><a href="#4-4-dereferencing-the-secondary-resource">4.4 Dereferencing the Secondary Resource</a></li>
+<li><a href="#4-5-additional-features">4.5 Additional Features</a></li>
+<li><a href="#4-5-examples">4.5 Examples</a></li>
+</ul>
+</li>
+<li><a href="#5-did-resolution-architectures">5. DID Resolution Architectures</a><ul>
+<li><a href="#5-1-method-architectures">5.1 Method Architectures</a></li>
+<li><a href="#5-2-reslover-architectures">5.2 Reslover Architectures</a></li>
+</ul>
+</li>
+<li><a href="#6-did-resolution-result">6 DID Resolution Result</a><ul>
+<li><a href="#6-1-example">6.1 Example</a></li>
+<li><a href="#6-2-did-document">6.2 DID Document</a></li>
+<li><a href="#6-3-resolver-metadata">6.3 Resolver Metadata</a></li>
+<li><a href="#6-4-method-metadata">6.4 Method Metadata</a></li>
+</ul>
+</li>
+<li><a href="#7-service-endpoint-construction">7. Service Endpoint Construction</a><ul>
+<li><a href="#7-1-input">7.1 Input</a></li>
+<li><a href="#7-2-algorithm">7.2 Algorithm</a></li>
+<li><a href="#7-3-example">7.3 Example</a></li>
+</ul>
+</li>
+<li><a href="#8-binding">8 Binding</a><ul>
+<li><a href="#8-1-http-s-binding">8.1 HTTP（S） Binding</a></li>
+<li><a href="#8-2-example">8.2 Example</a></li>
+</ul>
+</li>
+<li><a href="#9-errors">9.Errors</a></li>
+<li><a href="#10-security-and-privacy-considerations">10. Security and Privacy Considerations</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
+<span id="more"></span>
+## Abstract
+DID 标识符是一种自我授权的数字身份，DIDs完全由DID subject控制且独立于任何中心化的机构等。DIDs可以解析成DID documents，DID documents是简单的描述特定DID的文档。
+
+<h2><span id="1-introduction">1.Introduction</span></h2><p>DID Resolution（解析)是一个通过给定的DID获得一份DID document的过程。任何DID都可以被施加读创建、废弃、读以及更新4种操作。对于这些操作的具体细节取决于对应的DID method。</p>
+<p>在DID resolution的基础上可以进行DID URL dereferencing（DID URL 寻址）来通过一个给定的DID URL检索到特定资源的一种表示。任何一颗进行这个解析过程的硬件/软件被称为DID Resolver。</p>
+<p>注意：特定的DID method规范中定义了与DID的DID registry进行交互的具体步骤以及实际操作。（DID中只是定义了一个基础模版）</p>
+<h3><span id="1-1-conformance">1.1 Conformance</span></h3><p>规定了本篇文档用词语法的一致性。</p>
+<h3><span id="1-2-zhu-yu">1.2 术语</span></h3><p><code>Binding</code> 一个实际的机制，描述了一个Client如何 invoke 一个DID Resolver的具体机制。</p>
+<p><code>Client</code> 调用DID解析器的硬件/软件，以此来执行DID Relolution或是DID URL Dereferencing算法。这个调用是通过一个Binding完成的。</p>
+<p><code>DID Relolution</code> 一个将DID以及其额外的参数视为输入的一部分并且返回一个DID Document或是DID Resolution Result作为输出。这个算法依赖于特定的DID method中的Read操作。</p>
+<p><code>DID Resolution Result</code>一个DID Resolution或是DID URL Dereferencing返回结果（返回一个document）的包装。可能包含一个DID document以及其他的内容。</p>
+<p><code>DID URL Dereferencing</code>一个算法，接受一个DID URL的额外参数作为输入并返回一个DID文档或是一个DID Resolution Result或是资源的其它类型作为输出。</p>
+<p><code>Service Endpoint</code> 某个document中的service endpoint可以使别的文档发现他自己服务端点。（自己的service endpoint向外界提供服务）。servcie endpoint可以是任何类型的、subject希望公布的服务。</p>
+<p><code>Verifiable Read</code> 一个DID method特定的Read方法在DID Resolver和DID Registry之间获得DID Docuent的高可信度实现。在适应该DID method的条件下，拥有获取资源结果的完整性以及正确性的保证。</p>
+<h2><span id="3-resolving-a-did">3.Resolving a DID</span></h2><p>该部分介绍了DID resolution的输入以及算法，并且介绍了解析后的返回结果（document和DID resolution result）。该算法依赖于特定的DID method中实现的Read方法。</p>
+<p>通用接口如下：</p>
+<blockquote>
+<p>resolve ( did, input-options )</p>
+</blockquote>
+<h3><span id="3-1-input">3.1 Input</span></h3><p>DID Relolution的输入包括一个DID以及相关的输入参数。</p>
+<h4><span id="3-1-1-method-name">3.1.1 method-name</span></h4><p>method name是DID输入的重要部分。作为一个DID标识符的一部分，它定义了特定的方法的执行。</p>
+<h4><span id="3-1-2-result-type">3.1.2 result-type</span></h4><p>可能的value是以下两种：</p>
+<ul>
+<li>did-document</li>
+<li>resolution-result</li>
+</ul>
+<h4><span id="3-1-3-version-id">3.1.3 version-id</span></h4><h4><span id="3-1-4-version-time">3.1.4 version-time</span></h4><h4><span id="3-1-5-no-cache">3.1.5 no-cache</span></h4><p>可能的值：<br>-“false”<br>-“true”</p>
+<h3><span id="3-2-algorithm">3.2 Algorithm</span></h3><p>一个DID解析器必须实现如下的DID Resolution算法要求。<br>1、验证输入的DID是否合法。2、决定输入的DID中的DID method是否被该DID解析器支持。3.通过输入DID的method中的Read方法，由指定的DID Registry中通过DID获取对应的DID document。4、验证输出的合法性。5.如果输出是DID document类型或是null，返回结果。如果返回结果（result-type）是resolution-result，构建一个DID Resolution Result包装并且将DID document作为元数据填充进去，最后返回该result。</p>
+<h2><span id="4-dereferencing-a-did-url">4 Dereferencing a DID URL</span></h2><p>该部分定义了DID URL Dereferncing的算法：</p>
+<blockquote>
+<p>dereference ( did-url, input-options )</p>
+</blockquote>
+<h3><span id="4-1-input">4.1 Input</span></h3><h4><span id="4-1-1-did-url">4.1.1 DID URL</span></h4><h4><span id="4-1-2-result-type">4.1.2 result-type</span></h4><p>vales：</p>
+<ul>
+<li>did-document</li>
+<li>relolution-result</li>
+</ul>
+<h4><span id="4-1-3service-type">4.1.3service-type</span></h4><p>service-type输入参数可以被一个客户端使用，用来从一个DID Document中选择特定的服务。</p>
+<h4><span id="4-1-4-follow-redirect">4.1.4 follow-redirect</span></h4><h3><span id="4-2-algorithm">4.2 Algorithm</span></h3><p>DID解析器想要实现DID URL引用算法必须实现以下3步：<br>1、解析一个DID。同DID resolution算法首先进行DID解析，然后将参数传递。<br>2、引用Primary resource。分离Fragment，对主要DID URL解析。<br>3、引用secondary resource（仅在输入的DID中包含一个Fragment时才会引用二级次元）执行次级资源解析。</p>
+<h3><span id="4-3-dereferencing-the-primary-resource">4.3 Dereferencing the Primary Resource</span></h3><p>1.如果输入的DID URL中包括generic matrix parameter（以下简称为GMP） <code>service</code>并且带有可选的DID Path、DID Query的话：</p>
+<blockquote>
+<p>EXAMPLE 1<br>did:example:1234;service=agent/profile?query</p>
+</blockquote>
+<p>1.1 从被解析的DID document中，选择一个id属性匹配input DID URL 中service GMP值的service endpoint，这个service endpoint被称为input service endpoint。</p>
+<p>-1.2 执行Service Endpoint Construction算法（具体见第七章）<br>1.2.1 从input service endpoint 中读取到serviceEndpoint属性的值，这个值被称为input service endpoint URL。<br>1.2.2 将input DID URL 和input service endpoint URL传递进Service Endpoint Construction 算法中。<br>1.2.3 上述过程产生的结果被称为output service endpoint URL。</p>
+<ul>
+<li>1.3 返回 output service endpoint URL</li>
+</ul>
+<p>2.另一方面，如果input DID URL包含method-specific matrix parameters：</p>
+<blockquote>
+<p>EXAMPLE 2<br>did:example:1234;example:object=myprofile</p>
+</blockquote>
+<p>把如何取值这个input DID URL的工作委托给合适的DID method进行。</p>
+<p>3.如果input DID URL 不含DID Path 也不含DID Query：</p>
+<blockquote>
+<p>EXAMPLE 3<br>did:example:1234</p>
+</blockquote>
+<p>那么直接返回解析到的DID document    </p>
+<ol start="4">
+<li>如果input DID URL包含一个DID path and/or DID query<blockquote>
+<p>EXAMPLE 4<br>did:example:1234/custom/path?customquery</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>4.1 适合的DID method中<code>也许</code>会指示如何处理这个input DID URL。</li>
+<li>4.2 client也许能够以application-specific的方式来处理这个input DID URL</li>
+</ul>
+<h3><span id="4-4-dereferencing-the-secondary-resource">4.4 Dereferencing the Secondary Resource</span></h3><p>如果DID URL包含一个DID Fragment<br>[fragment 教程]（<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2c07fbb52b45%EF%BC%89">https://www.jianshu.com/p/2c07fbb52b45）</a><br>，那么取值这个被URL标定的资源不是依赖于URI scheme，而是依赖于primary资源的media type。<br>换句话说，也就是dereferencing the primary resource 的result。</p>
+<p>1.如果说Dereferencing the primary resource的结果是一个解析完成的DID document，并且这个document带有MIME type<code>application/did+ld+json</code>并且input DID URL<br>包括一个DID Fragment</p>
+<blockquote>
+<p>EXAMPLE 5<br>did:example:1234#keys-1</p>
+</blockquote>
+<p>1.1 从被解析的DID document中，选择id属性匹配input DID URL的JSON-LD object，例如一个public key或是一个service endpoint。这被称作输出资源。 从DID文档中选择JSON-LD Object必须要考虑相关的IRIs和已经解析的文档的基本IRI。<br>1.2 返回output resource</p>
+<p>2.如果result of dereferencing the primary resource 是一个 output service endpoint URL，并且input DID URL包括一个DID Fragment：</p>
+<blockquote>
+<p>EXAMPLE 6<br>did:example:1234;service=agent/profile?query#frag</p>
+</blockquote>
+<p>2.1将DID Fragment添加到output service endpoint URL后，换句话说，output service endpoint URL继承了DID Fragment。</p>
+<p>3.如果非以上两种情况，取值二级资源按照primary resource中的media type中定义的方式。</p>
+<h3><span id="4-5-additional-features">4.5 Additional Features</span></h3><p>4.5.1 Redirect<br>一个服务端点可能本身会含有一个<code>serviceEndpoint</code>属性并且该属性的值就是一个DID。这种情况下，一个DID解析子进程会被启动来访问最终的service endpoint。</p>
+<blockquote>
+<p>EXAMPLE 7</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;id&quot;: &quot;did:example:123456789abcdefghi#hub1&quot;,</span><br><span class="line">   &quot;type&quot;: &quot;HubService&quot;,</span><br><span class="line">   &quot;serviceEndpoint&quot;: &quot;did:example:xyz&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4.5.2 Proxy<br>一个DID document可能包含一个“proxy”服务类型，该服务会提供一个影射用来解析一个最终的service URL。</p>
+<blockquote>
+<p>EXAMPLE 8</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;id&quot;: &quot;did:example:123456789abcdefghi&quot;,</span><br><span class="line">   &quot;type&quot;: &quot;ProxyService&quot;,</span><br><span class="line">   &quot;serviceEndpoint&quot;: &quot;https:&#x2F;&#x2F;mydomain.com&#x2F;proxy&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4.5.3 JSON Pointer</p>
+<h3><span id="4-5-examples">4.5 Examples</span></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">EXAMPLE 9</span><br><span class="line">&#123;</span><br><span class="line">  &quot;@context&quot;: &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;ns&#x2F;did&#x2F;v1&quot;,</span><br><span class="line">  &quot;id&quot;: &quot;did:example:123456789abcdefghi&quot;,</span><br><span class="line">  &quot;publicKey&quot;: [&#123;</span><br><span class="line">    &quot;id&quot;: &quot;did:example:123456789abcdefghi#keys-1&quot;,</span><br><span class="line">    &quot;type&quot;: &quot;RsaVerificationKey2018&quot;,</span><br><span class="line">    &quot;publicKeyPem&quot;: &quot;-----BEGIN PUB...0101010..END PUB -----\r\n&quot;</span><br><span class="line">  &#125;],</span><br><span class="line">  &quot;service&quot;: [&#123;</span><br><span class="line">    &quot;id&quot;: &quot;did:example:123456789abcdefghi#agent&quot;,</span><br><span class="line">    &quot;type&quot;: &quot;AgentService&quot;,</span><br><span class="line">    &quot;serviceEndpoint&quot;: &quot;https:&#x2F;&#x2F;agent.example.com&#x2F;8377464&quot;</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    &quot;id&quot;: &quot;did:example:123456789abcdefghi#hub&quot;,</span><br><span class="line">    &quot;type&quot;: &quot;HubService&quot;,</span><br><span class="line">    &quot;serviceEndpoint&quot;: &quot;https:&#x2F;&#x2F;hub.example.com&#x2F;.identity&#x2F;did:example:0123456789abcdef&#x2F;&quot;</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    &quot;id&quot;: &quot;did:example:123456789abcdefghi#messages&quot;,</span><br><span class="line">    &quot;type&quot;: &quot;MessagingService&quot;,</span><br><span class="line">    &quot;serviceEndpoint&quot;: &quot;https:&#x2F;&#x2F;example.com&#x2F;messages&#x2F;8377464&quot;</span><br><span class="line">  &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>给出如下的input DID URL以及上面的DID document：<blockquote>
+<p>EXAMPLE 10<br>did:example:123456789abcdefghi#keys-1</p>
+</blockquote>
+</li>
+</ul>
+<p>之后dereferencing a DID URL算法的输出result如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;@context&quot;: &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;ns&#x2F;did&#x2F;v1&quot;,</span><br><span class="line">  &quot;id&quot;: &quot;did:example:123456789abcdefghi#keys-1&quot;,</span><br><span class="line">  &quot;type&quot;: &quot;RsaVerificationKey2018&quot;,</span><br><span class="line">  &quot;publicKeyPem&quot;: &quot;-----BEGIN PUB...0101010..END PUB -----\r\n&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>给定如下的input DID URL 以及同样的DID document。<blockquote>
+<p>EXAMPLE 12<br>did:example:123456789abcdefghi;service=messages/some/path?query#frag</p>
+</blockquote>
+</li>
+</ul>
+<p>result of the dereferencing a DID URL 是一个output service endpoint URL：</p>
+<blockquote>
+<p>EXAMPLE 13<br><a target="_blank" rel="noopener" href="https://example.com/messages/8377464/some/path?query#frag">https://example.com/messages/8377464/some/path?query#frag</a></p>
+</blockquote>
+<p><img src="leanote://file/getImage?fileId=5e1c59aaab64415ce9002ff6"></p>
+<h2><span id="5-did-resolution-architectures">5. DID Resolution Architectures</span></h2><h3><span id="5-1-method-architectures">5.1 Method Architectures</span></h3><p>DID解析架构中包括在一个DID上执行Read 操作，这个操作是由特定的DID决定的。</p>
+<p>根据DID method定义的Read操作的不同，DID Resolver和DID registry间的互相操作可以被实现为可验证Read和不可验证Read。</p>
+<p>一个Verifiable Read操作需要建立Read操作结果的完整性、正确性、可信性。他可以被实现成多种方式。</p>
+<ul>
+<li>通过一个本地的、可信网络的主机来访问DID registry。在blockchain-based DID method中，一个全节点的block chain可能会运行在本地网络主机上来实现Verifiable Read。</li>
+<li>DID Resolver可能远程链接DID registry但是有一些方法来验证Read 操作返回的result。在blocckchain-based DID method，即使不能获得blockchain全节点，也可以通过一个轻量级的客户端处理metadata来验证Read操作返回的result的可信性。</li>
+<li>通过secure channel访问。</li>
+</ul>
+<p>一个 Unverifiable read无法提供内容的正确性、完整性、安全性保证。</p>
+<p>一个DID resolver 必须实现一个Verifiable Read 方法，对于Unverifiable read方法则不做要求。</p>
+<p>一个DID resolver必须支持至少一个DID method的解析算法。</p>
+<h3><span id="5-2-reslover-architectures">5.2 Reslover Architectures</span></h3><p>DID Resolution 和 DID URL Dereferencing 被定义成抽象功能。这些算法倍DID resolvers实现。一个DID resolver 通过一个Binding调用一个client。Binding定义了这些抽象方法是如何通过固定的程序或是通信接口实现的。Binding包括Local Binding和Remote Binding（例如HTTP Binding）。</p>
+<p>5.2.1 Proxied Resolution<br>一个DID 解析器可能会调用另一个DID解析器，此时他作为一个代理，作为一个client，选择一个合适的Binding来调用第二个DID resolver。然后第一个resolver传递给第二个resolver输入，并从第二个resolver那里接受到执行结果返回给最初的client。<br><img src="leanote://file/getImage?fileId=5e1c59aaab64415ce9002ff7"></p>
+<p>5.2.2 Client-Side Dereferencing<br>暂缺</p>
+<h2><span id="6-did-resolution-result">6 DID Resolution Result</span></h2><p>这一部分定义了一个用来以某种方式呈现指定结果的数据结构。该结果为Resolving a DID或是Dereferencing a DID URL的返回的result。一个DID resolution result中包括了一个DID document或是其他的一些数据作为metadata。</p>
+<h3><span id="6-1-example">6.1 Example</span></h3><blockquote>
+<p>EXAMPLE 14: Example DID Resolution Result</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&quot;@context&quot;: &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;ns&#x2F;did-resolution&#x2F;v1&quot;,</span><br><span class="line">&quot;didDocument&quot;: &#123;</span><br><span class="line">	&quot;@context&quot;: &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;ns&#x2F;did&#x2F;v1&quot;,</span><br><span class="line">	&quot;id&quot;: &quot;did:sov:WRfXPg8dantKVubE3HX8pw&quot;,</span><br><span class="line">	&quot;service&quot;: &#123;</span><br><span class="line">		&quot;type&quot;: &quot;xdi&quot;,</span><br><span class="line">		&quot;serviceEndpoint&quot;: &quot;http:&#x2F;&#x2F;127.0.0.1:8080&#x2F;xdi&quot;</span><br><span class="line">	&#125;,</span><br><span class="line">	&quot;authentication&quot;: &#123;</span><br><span class="line">		&quot;type&quot;: &quot;Ed25519SignatureAuthentication2018&quot;,</span><br><span class="line">		&quot;publicKey&quot;: [&quot;did:sov:WRfXPg8dantKVubE3HX8pw#key-1&quot;]</span><br><span class="line">	&#125;,</span><br><span class="line">	&quot;publicKey&quot;: [&#123;</span><br><span class="line">		&quot;id&quot;: &quot;did:sov:WRfXPg8dantKVubE3HX8pw#key-1&quot;,</span><br><span class="line">		&quot;type&quot;: &quot;Ed25519VerificationKey2018&quot;,</span><br><span class="line">		&quot;publicKeyBase58&quot;: &quot;H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV&quot;</span><br><span class="line">	&#125;]</span><br><span class="line">&#125;,</span><br><span class="line">&quot;resolverMetadata&quot;: &#123;</span><br><span class="line">	&quot;driverId&quot;: &quot;did:sov&quot;,</span><br><span class="line">	&quot;driver&quot;: &quot;HttpDriver&quot;,</span><br><span class="line">	&quot;retrieved&quot;: &quot;2019-06-01T19:73:24Z&quot;,</span><br><span class="line">	&quot;duration&quot;: 1015</span><br><span class="line">&#125;,</span><br><span class="line">&quot;methodMetadata&quot;: &#123;</span><br><span class="line">	&quot;nymResponse&quot;: &#123;</span><br><span class="line">		&quot;result&quot;: &#123;</span><br><span class="line">			&quot;data&quot;: &quot;&#123;\&quot;dest\&quot;:\&quot;WRfXPg8dantKVubE3HX8pw\&quot;,\&quot;identifier\&quot;:\&quot;V4SGRU86Z58d6TV7PBUe6f\&quot;,\&quot;role\&quot;:\&quot;0\&quot;,\&quot;seqNo\&quot;:11,\&quot;txnTime\&quot;:1524055264,\&quot;verkey\&quot;:\&quot;H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV\&quot;&#125;&quot;,</span><br><span class="line">			&quot;type&quot;: &quot;105&quot;,</span><br><span class="line">			&quot;txnTime&quot;: 1.524055264E9,</span><br><span class="line">			&quot;seqNo&quot;: 11.0,</span><br><span class="line">			&quot;reqId&quot;: 1.52725687080231475E18,</span><br><span class="line">			&quot;identifier&quot;: &quot;HixkhyA4dXGz9yxmLQC4PU&quot;,</span><br><span class="line">			&quot;dest&quot;: &quot;WRfXPg8dantKVubE3HX8pw&quot;</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;op&quot;: &quot;REPLY&quot;</span><br><span class="line">	&#125;,</span><br><span class="line">	&quot;attrResponse&quot;: &#123;</span><br><span class="line">		&quot;result&quot;: &#123;</span><br><span class="line">			&quot;identifier&quot;: &quot;HixkhyA4dXGz9yxmLQC4PU&quot;,</span><br><span class="line">			&quot;seqNo&quot;: 12.0,</span><br><span class="line">			&quot;raw&quot;: &quot;endpoint&quot;,</span><br><span class="line">			&quot;dest&quot;: &quot;WRfXPg8dantKVubE3HX8pw&quot;,</span><br><span class="line">			&quot;data&quot;: &quot;&#123;\&quot;endpoint\&quot;:&#123;\&quot;xdi\&quot;:\&quot;http:&#x2F;&#x2F;127.0.0.1:8080&#x2F;xdi\&quot;&#125;&#125;&quot;,</span><br><span class="line">			&quot;txnTime&quot;: 1.524055265E9,</span><br><span class="line">			&quot;type&quot;: &quot;104&quot;,</span><br><span class="line">			&quot;reqId&quot;: 1.52725687092557056E18</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;op&quot;: &quot;REPLY&quot;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3><span id="6-2-did-document">6.2 DID Document</span></h3><p>result结果主体为一个document</p>
+<h3><span id="6-3-resolver-metadata">6.3 Resolver Metadata</span></h3><h3><span id="6-4-method-metadata">6.4 Method Metadata</span></h3><h2><span id="7-service-endpoint-construction">7. Service Endpoint Construction</span></h2><p>这个部分定义了Service Endpoint的输入以及输出算法，并返回一个service endpoint URL作为输出。这个算法在DID URL Dereferencing期间当service endpoints被选择的时候启用。</p>
+<h3><span id="7-1-input">7.1 Input</span></h3><p>Service Endpoint Construction算法的输入是一个input DID URL 和一个input service endpoint URL。并且该算法的输入要求如下：</p>
+<ul>
+<li>input DID URL 和input service endpoint URL 可以同时拥有path部分。</li>
+<li>input DID URL 和 input service endpoint URL 不能同时拥有query部分</li>
+<li>input DID URL 和input service endpoint URL不能同时拥有fragment部分。</li>
+<li>input service endpoint URL 一定是一个 HTTP（S）URL。</li>
+</ul>
+<h3><span id="7-2-algorithm">7.2 Algorithm</span></h3><ul>
+<li>Initialize a string output service endpoint URL to the value of the input service endpoint URL</li>
+<li>If the output service endpoint URL has a query component, remove it.</li>
+<li>If the output service endpoint URL has a fragment component, remove it.</li>
+<li>Append the path component of the input DID URL to the output service endpoint URL.</li>
+<li>If the input service endpoint URL has a query component, append ? plus the query to the output service endpoint URL.</li>
+<li>If the input DID URL has a query component, append ? plus the query to the output service endpoint URL.</li>
+<li>If the input service endpoint URL has a fragment component, append # plus the fragment to the output service endpoint URL.</li>
+<li>If the input DID URL has a fragment component, append # plus the fragment to the output service endpoint URL.</li>
+<li>Return the output service endpoint URL.</li>
+</ul>
+<h3><span id="7-3-example">7.3 Example</span></h3><p>Given the following input service endpoint URL:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://example.com/messages/8377464">https://example.com/messages/8377464</a></p>
+</blockquote>
+<p>And given the following input DID URL:</p>
+<blockquote>
+<p>did:example:123456789abcdefghi;service=messages/some/path?query#frag</p>
+</blockquote>
+<p>Then the output service endpoint URL is:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://example.com/messages/8377464/some/path?query#frag">https://example.com/messages/8377464/some/path?query#frag</a></p>
+</blockquote>
+<h2><span id="8-binding">8 Binding</span></h2><h3><span id="8-1-http-s-binding">8.1 HTTP（S） Binding</span></h3><p>这一部分是关于一个DID resolver通过一个HTTP（s）endpoint暴露（exposes）DID resolution以及DID URL dereferencing功能（包括各种输入参数和输出数据）</p>
+<p>具体执行步骤如下：<br>1.通过将input DID 或是input DID URL 追加到 DID Resolver HTTP（s）endpoint末尾来构建一个HTTP（s）请求。<br>2.在这个http请求上执行http get请求。<br>3.如果输入DID不存在，响应404回复错误码。<br>4.如果输入的DID存在，那么：</p>
+<ul>
+<li>http 响应状态码设成200.</li>
+<li>hhtp response 要包含content-type header。这个header的值一定是<code>application/did+ld+json</code></li>
+<li>http response body 一定要包含 解析得到的DID document或者是其他的输出资源作为DID resolution或是DID URL dereferencing 功能的返回结果。</li>
+</ul>
+<p>5.如果input DID 存在并且 result是一个servcie endpoint URL：</p>
+<ul>
+<li>http response status code 一定是 303</li>
+<li>http response 一定要包含一个<code>location</code> header，header的值一定是output service endpoint URL。</li>
+</ul>
+<h3><span id="8-2-example">8.2 Example</span></h3><p>Given the following DID Resolver HTTP(S) endpoint:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://uniresolver.io/1.0/identifiers/">https://uniresolver.io/1.0/identifiers/</a></p>
+</blockquote>
+<p>And given the following input DID:</p>
+<blockquote>
+<p>did:sov:WRfXPg8dantKVubE3HX8pw</p>
+</blockquote>
+<p>Then the request HTTP(S) URL is:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw">https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</a></p>
+</blockquote>
+<p>The HTTP(S) Binding can be invoked as follows:</p>
+<blockquote>
+<p>EXAMPLE 15: Example curl call to a DID Resolver via HTTP(S) Binding<br>curl -X GET <a target="_blank" rel="noopener" href="https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw">https://uniresolver.io/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</a></p>
+</blockquote>
+<h2><span id="9-errors">9.Errors</span></h2><h2><span id="10-security-and-privacy-considerations">10. Security and Privacy Considerations</span></h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/27/did/DID%20Resolution/" data-id="cko3t66z8002crsxgc3fy61od" data-title="DID解析" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/did/" rel="tag">did</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/27/devops/%E7%AC%AC%E4%B8%80%E6%9C%ACDocker%E4%B9%A6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          《第一本Docker书》学习笔记
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CA/">CA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E4%B9%A6/">杂书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CA/" style="font-size: 10px;">CA</a> <a href="/tags/DAO/" style="font-size: 12.5px;">DAO</a> <a href="/tags/DevOps/" style="font-size: 15px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/HyperLedger/" style="font-size: 10px;">HyperLedger</a> <a href="/tags/K8S/" style="font-size: 10px;">K8S</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/did/" style="font-size: 17.5px;">did</a> <a href="/tags/mathchain/" style="font-size: 10px;">mathchain</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E8%B5%84%E4%BA%A7/" style="font-size: 10px;">加密资产</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 20px;">区块链</a> <a href="/tags/%E5%AE%B9%E5%99%A8/" style="font-size: 10px;">容器</a> <a href="/tags/%E6%9D%82%E4%B9%A6/" style="font-size: 10px;">杂书</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 12.5px;">架构</a> <a href="/tags/%E7%9B%91%E6%8E%A7/" style="font-size: 10px;">监控</a> <a href="/tags/%E7%BD%91%E5%85%B3/" style="font-size: 10px;">网关</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">证书</a> <a href="/tags/%E9%93%BE%E7%A0%81/" style="font-size: 10px;">链码</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/30/hexo/config/">博客配置</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/">《架构修炼之道-亿级网关...》阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/CA/PKI-CA/">PKI/CA与数字证书技术大全</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/">图解http阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/">《成为极少数》阅读笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 MGintoki<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>PKI/CA与数字证书技术大全 | MGintoki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="参考链接： 阅读结构 1 PKI总览 1.1 基本概念（PKI核心标准） 1.2 相关PKI标准 1.3相关法律   2 PKI体系内容 2.1 数字证书与私钥 2.2 PKI&#x2F;CA与KMC 2.3 PKI应用体系 2.4 PKI相关标准和法规 2.5 根CA信任模型   3 PKI基本技术 3.1 ASN.1 编码 3.2 密码技术 对称加密算法 非对称加密算法 哈希算法 MAC OT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PKI&#x2F;CA与数字证书技术大全">
+<meta property="og:url" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/index.html">
+<meta property="og:site_name" content="MGintoki">
+<meta property="og:description" content="参考链接： 阅读结构 1 PKI总览 1.1 基本概念（PKI核心标准） 1.2 相关PKI标准 1.3相关法律   2 PKI体系内容 2.1 数字证书与私钥 2.2 PKI&#x2F;CA与KMC 2.3 PKI应用体系 2.4 PKI相关标准和法规 2.5 根CA信任模型   3 PKI基本技术 3.1 ASN.1 编码 3.2 密码技术 对称加密算法 非对称加密算法 哈希算法 MAC OT">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/img/9631618476373_.pic_hd.jpg">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/img/9641618479475_.pic.jpg">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/img/9751618798293_.pic_hd.jpg">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/img/9761618799946_.pic_hd.jpg">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/img/9771618800472_.pic.jpg">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/img/9781618816155_.pic_hd.jpg">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/img/9791618818812_.pic_hd.jpg">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/img/9801618831664_.pic_hd.jpg">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/img/9811618833812_.pic_hd.jpg">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/img/9821618834144_.pic_hd.jpg">
+<meta property="article:published_time" content="2021-04-29T12:34:46.000Z">
+<meta property="article:modified_time" content="2021-04-30T04:07:37.438Z">
+<meta property="article:author" content="MGintoki">
+<meta property="article:tag" content="CA">
+<meta property="article:tag" content="加密">
+<meta property="article:tag" content="证书">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/img/9631618476373_.pic_hd.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="MGintoki" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon-32x32.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MGintoki</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mgintoki.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-CA/PKI-CA" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/29/CA/PKI-CA/" class="article-date">
+  <time class="dt-published" datetime="2021-04-29T12:34:46.000Z" itemprop="datePublished">2021-04-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CA/">CA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      PKI/CA与数字证书技术大全
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#can-kao-lian-jie">参考链接：</a></li>
+<li><a href="#yue-du-jie-gou">阅读结构</a></li>
+<li><a href="#1-pki-zong-lan">1 PKI总览</a><ul>
+<li><a href="#1-1-ji-ben-gai-nian-pki-he-xin-biao-zhun">1.1 基本概念（PKI核心标准）</a></li>
+<li><a href="#1-2-xiang-guan-pki-biao-zhun">1.2 相关PKI标准</a></li>
+<li><a href="#1-3-xiang-guan-fa-lu">1.3相关法律</a></li>
+</ul>
+</li>
+<li><a href="#2-pki-ti-xi-nei-rong">2 PKI体系内容</a><ul>
+<li><a href="#2-1-shu-zi-zheng-shu-yu-si-yao">2.1 数字证书与私钥</a></li>
+<li><a href="#2-2-pki-ca-yu-kmc">2.2 PKI/CA与KMC</a></li>
+<li><a href="#2-3-pki-ying-yong-ti-xi">2.3 PKI应用体系</a></li>
+<li><a href="#2-4-pki-xiang-guan-biao-zhun-he-fa-gui">2.4 PKI相关标准和法规</a></li>
+<li><a href="#2-5-gen-ca-xin-ren-mo-xing">2.5 根CA信任模型</a></li>
+</ul>
+</li>
+<li><a href="#3-pki-ji-ben-ji-zhu">3 PKI基本技术</a><ul>
+<li><a href="#3-1-asn-1-bian-ma">3.1 ASN.1 编码</a></li>
+<li><a href="#3-2-mi-ma-ji-zhu">3.2 密码技术</a><ul>
+<li><a href="#dui-cheng-jia-mi-suan-fa">对称加密算法</a></li>
+<li><a href="#fei-dui-cheng-jia-mi-suan-fa">非对称加密算法</a></li>
+<li><a href="#ha-xi-suan-fa">哈希算法</a></li>
+<li><a href="#mac">MAC</a></li>
+<li><a href="#otp">OTP</a></li>
+</ul>
+</li>
+<li><a href="#3-3-shu-zi-qian-ming-he-shu-zi-xin-feng">3.3 数字签名和数字信封</a></li>
+<li><a href="#3-4-base64-bian-ma">3.4 Base64编码</a></li>
+<li><a href="#3-5-ldap-xie-yi">3.5 LDAP协议</a></li>
+</ul>
+</li>
+<li><a href="#4-zheng-shu-yu-si-yao">4 证书与私钥</a><ul>
+<li><a href="#4-1-rsa">4.1 RSA</a></li>
+<li><a href="#4-2-zheng-shu-zi-duan">4.2 证书字段</a></li>
+<li><a href="#4-3-zheng-shu-guo-nei-yong-kuo-zhan-xiang">4.3 证书国内用扩展项</a></li>
+<li><a href="#4-4-zheng-shu-fen-lei">4.4 证书分类</a></li>
+<li><a href="#4-5-zheng-shu-he-si-yao-de-cun-chu">4.5 证书和私钥的存储</a></li>
+<li><a href="#4-5-si-yao-he-zheng-shu-fang-wen-fang-shi">4.5 私钥和证书访问方式</a></li>
+</ul>
+</li>
+<li><a href="#5-ca-yu-kmc-xi-tong-she-ji">5 CA与KMC 系统设计</a><ul>
+<li><a href="#5-1-xi-tong-jie-gou">5.1 系统结构</a></li>
+<li><a href="#5-2-xi-tong-she-ji">5.2 系统设计</a><ul>
+<li><a href="#5-2-1-ca-xi-tong-she-ji">5.2.1 CA系统设计</a></li>
+<li><a href="#5-2-2-kmc-xi-tong-she-ji">5.2.2 KMC系统设计</a></li>
+<li><a href="#5-2-3-qi-ye-ji-ca-she-ji-shi-li">5.2.3 企业级CA设计示例</a></li>
+<li><a href="#5-2-4-shuang-zheng-shu-ji-zhu-liu-cheng-she-ji">5.2.4 双证书技术流程设计</a></li>
+</ul>
+</li>
+<li><a href="#5-3-ocsp-socsp-fu-wu">5.3 OCSP/SOCSP服务</a><ul>
+<li><a href="#5-3-1-ocsp-socsp-fu-wu">5.3.1 OCSP/SOCSP服务</a></li>
+<li><a href="#5-3-2-crl-fu-wu">5.3.2 CRL服务</a></li>
+<li><a href="#5-3-3-ldap-fu-wu">5.3.3 LDAP服务</a></li>
+</ul>
+</li>
+<li><a href="#5-4-ca-bu-shu-jie-gou">5.4 CA 部署结构</a></li>
+</ul>
+</li>
+<li><a href="#6-ca-ying-yong-shi-li">6 CA应用实例</a><ul>
+<li><a href="#6-1-ca-ji-ben-yong-fa">6.1 CA基本用法</a></li>
+<li><a href="#6-2-tong-yong-ying-yong-ji-zhu">6.2 通用应用技术</a></li>
+<li><a href="#6-3-dai-ma-zheng-shu">6.3 代码证书</a></li>
+<li><a href="#6-4-wang-shang-yin-xing-xi-tong">6.4 网上银行系统</a></li>
+<li><a href="#6-5-wang-shang-bao-shui-xi-tong">6.5 网上报税系统</a></li>
+<li><a href="#6-5-dian-zi-bing-li-xi-tong">6.5 电子病历系统</a></li>
+</ul>
+</li>
+<li><a href="#7-ca-zhong-xin-yun-ying">7 CA中心运营</a></li>
+<li><a href="#8-xiang-guan-fa-lu-fa-gui">8 相关法律法规</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
+<span id="more"></span>
+
+<h1><span id="can-kao-lian-jie">参考链接：</span></h1><p><a target="_blank" rel="noopener" href="https://gx.jd.com/gx/gx_bookDetail.action?bookId=30344836">https://gx.jd.com/gx/gx_bookDetail.action?bookId=30344836</a></p>
+<h1><span id="yue-du-jie-gou">阅读结构</span></h1><p>阅读笔记整体分为7个部分</p>
+<ul>
+<li>1、基本概念，总览。整体性阐述了PKI/CA体系的概念和起源</li>
+<li>2、PKI体系内容。包括数字证书与私钥，CA与KMC，PKI应用三大模块介绍</li>
+<li>3、PKI技术基础。包括PKI基本编码规则，密码技术，LDAP技术 </li>
+<li>4、<strong>PKI证书与私钥</strong>包括公私钥与证书的规格，证书的分类、证书的存储、证书的访问等</li>
+<li>5、<strong>PKI CA与KMC</strong>包括PKI体系系统结构、系统设计、对外服务设计、部署结构等</li>
+<li>6、<strong>PKI应用设计</strong>包括常用应用设计，常见应用等</li>
+<li>7、PKI/CA中心运营。仅做了解</li>
+<li>8、相关法律法规。仅做了解。</li>
+</ul>
+<p>关键点</p>
+<ul>
+<li>整本书比较的偏底层，包括各种数学算法以及实现。对于我理解来说较为吃力，所以我更多从实用场景出发，主要理解这个玩意是啥，怎么用。唉，数学菜b</li>
+<li>第5章节比较重点，主要介绍了企业级CA的实现，包括需求定义，功能模块，实现参考等</li>
+<li>理解ASN.1编码</li>
+<li>碰到不理解的证书字段时，来查（当手册用）</li>
+</ul>
+<h1><span id="1-pki-zong-lan">1 PKI总览</span></h1><h2><span id="1-1-ji-ben-gai-nian-pki-he-xin-biao-zhun">1.1 基本概念（PKI核心标准）</span></h2><ul>
+<li>PKI的本质是把非对称秘钥管理标准化</li>
+<li>PKI体系的本质是为了解决公钥和用户映射关系容易被篡改的问题。</li>
+<li>CA（Certificate Authority）是特殊的秘钥管理中心。拥有自己的公私钥，可以用自己的私钥给用户签发证书。</li>
+<li>证书是一种特殊的文件格式，包括用户的身份信息、公钥信息、CA中心的签名</li>
+<li>LDAP（Light-weith Directory）是一个证书访问协议，支持TCP/IP，供用户请求和下载证书。</li>
+<li>CRL（Certificate Revocation List）记录了所有失效证书的清单。CA中心定期签名并生成CRL，并写入下次生成CSR的时间，可以供用户访问和下载。</li>
+<li>OCSP（Online Certificate Status Protocol）供用户实时查询证书的<strong>当前状态</strong>。（确保证书的时效性）</li>
+</ul>
+<h2><span id="1-2-xiang-guan-pki-biao-zhun">1.2 相关PKI标准</span></h2><ul>
+<li>密码相关标准：ASN.1、DER、DES、AES、RSA、ECC等</li>
+<li>证书应用标准：SSL/TLS、SET、WAP等</li>
+<li>证书存储标准：PKCS系列标准，ISO 7816系列标准</li>
+<li>证书访问标准：PKCS11、CryptoApi等</li>
+<li>CA运营标准 CP、CPS等</li>
+</ul>
+<h2><span id="1-3-xiang-guan-fa-lu">1.3相关法律</span></h2><ul>
+<li>具有社会普遍公信的电子签名，需要由满足法律法规的CA以合法合规的方式制作。</li>
+<li>对于PKI的使用和运营，如果不是内部使用而是对接公用，会有严格的限制和法律法规</li>
+</ul>
+<h1><span id="2-pki-ti-xi-nei-rong">2 PKI体系内容</span></h1><h2><span id="2-1-shu-zi-zheng-shu-yu-si-yao">2.1 数字证书与私钥</span></h2><p><img src="/2021/04/29/CA/PKI-CA/img/9631618476373_.pic_hd.jpg"></p>
+<ul>
+<li>数字证书中不含私密信息，可以进行公开发布</li>
+<li>数字证书可作为”网络身份证”来使用，流程如下：<ul>
+<li>1、验证数字证书是否伪造，通过验证签名是否合法</li>
+<li>2、验证数字证书的可信度。通过验证证书的签发CA</li>
+<li>3、验证数字证书是否在黑名单上。通过CRL或OCSP实现</li>
+<li>4、验证证书是否和持证人一致。通过要求证书持有人，对特定的数据用私钥加密或签名，然后用公钥证书来验证。</li>
+<li>5、自定义验证证书其他字段</li>
+</ul>
+</li>
+<li>数字证书可以附加很多策略，包括<ul>
+<li>有效期</li>
+<li>秘钥用途。（该秘钥能够用来干嘛，数据签名、数据加密、签发证书、用户电子邮件等）</li>
+<li>持有人或签发人的别名</li>
+<li>CRL地址</li>
+<li>是否是CA中心的证书（以及如果是CA证书能否签发下级CA，能签发几级）</li>
+</ul>
+</li>
+<li>CA中心拥有一张自签名证书。浏览器内置CA中心的证书来信任根证书。</li>
+<li>为了保证私钥唯一性，可将私钥锁定在硬件设备里，无法导出，然后用公钥申请证书。</li>
+</ul>
+<h2><span id="2-2-pki-ca-yu-kmc">2.2 PKI/CA与KMC</span></h2><p><img src="/2021/04/29/CA/PKI-CA/img/9641618479475_.pic.jpg"></p>
+<ul>
+<li>PKI引入CA来统一管理证书的生命周期，包括<ul>
+<li>证书的签发和更新。更新的公钥可以选择是否改变</li>
+<li>数字证书的吊销、注销等</li>
+<li>数字证书的挂失、解冻</li>
+<li>数字证书的查询、下载。可通过HTTP或是LDAP</li>
+<li>数字证书状态查询。相关协议有CRL和OCSP</li>
+</ul>
+</li>
+<li>KMC（Key Management Center）用于管理私钥。可以KMC生成秘钥对，导出给用户，也可以用户生成秘钥对，导如到KMC</li>
+<li>双证书机制：<ul>
+<li>为了保证用户私钥安全，可以区分两种私钥</li>
+<li>签名证书专门用来签名，不提供备份恢复机制</li>
+<li>加密证书专门用来加密数据，提供备份恢复机制</li>
+</ul>
+</li>
+<li>LDAP LDAP是轻量级的目录访问协议，提供了证书的获取和下载功能</li>
+<li>CRL是定期生成的</li>
+<li>OCSP 为了解决CRL的失效性问题，可以供用户实时获取证书的最新状态</li>
+<li>RA（Registry Authority）注册中心可以专门用于提供证书的办理、证书材料申请、审核、制作证书、证书交付用户的功能。<h2><span id="2-3-pki-ying-yong-ti-xi">2.3 PKI应用体系</span></h2></li>
+<li>证书可以实现<ul>
+<li>身份认证</li>
+<li>保密性（公钥加密信息）</li>
+<li>完整性 （签名文件，确保不被篡改）</li>
+<li>不可抵赖性（可要求对方用私钥签名，然后自己保存原文。通过对方证书公钥验证签名是对方的）</li>
+</ul>
+</li>
+<li>数字证书与应用系统结合<ul>
+<li>操作系统登录</li>
+<li>电子文件加密</li>
+<li>电子印章/代码签名/时间戳</li>
+<li>电子邮件加密</li>
+</ul>
+</li>
+<li>常见场景<ul>
+<li>网上报税</li>
+<li>网上银行<h2><span id="2-4-pki-xiang-guan-biao-zhun-he-fa-gui">2.4 PKI相关标准和法规</span></h2>关键标准如下：<br>PKCS#1 RSA密码标准<br>PKCS#5 基于口令的密码标准<br>PKCS#7 密码消息标记语法<br>PKCS#8 私钥信息语法标准<h2><span id="2-5-gen-ca-xin-ren-mo-xing">2.5 根CA信任模型</span></h2></li>
+</ul>
+</li>
+<li>根CA之间可以互相签发证书达到两个根证书体系的互信</li>
+</ul>
+<h1><span id="3-pki-ji-ben-ji-zhu">3 PKI基本技术</span></h1><blockquote>
+<p>注：本章有些底层技术阅读的时候不甚理解，部分过于底层先知道怎么用，部分重要的可能需要动手做一做促进理解</p>
+</blockquote>
+<h2><span id="3-1-asn-1-bian-ma">3.1 ASN.1 编码</span></h2><blockquote>
+<p>ASN.1(Abstract Syntax Notation One/抽象文法描述语言)是一种对于分布式系统中，信息交换的数据消息进行抽象描述的，规范化语言。ASN.1在设计的时候充分的考虑了数据结构的扩展性</p>
+</blockquote>
+<p>使用场景</p>
+<ul>
+<li>多种通讯协议</li>
+<li>SNMP 网络协议</li>
+<li>北美、日本等地的电话协议编码</li>
+</ul>
+<p>15种基本数据类型以及5种结构体数据类型</p>
+<p>BER（Basic Encoding Rules）和DER（Distinguished Encoding Rules)编码</p>
+<ul>
+<li>BER编码有三种编码格式</li>
+<li>DER只有一种编码格式，适用于需求安全传输的系统</li>
+</ul>
+<h2><span id="3-2-mi-ma-ji-zhu">3.2 密码技术</span></h2><h3><span id="dui-cheng-jia-mi-suan-fa">对称加密算法</span></h3><p>目前新系统推荐AES对称加密算法</p>
+<h3><span id="fei-dui-cheng-jia-mi-suan-fa">非对称加密算法</span></h3><p>主流为RSA和ECDSA算法</p>
+<h3><span id="ha-xi-suan-fa">哈希算法</span></h3><h3><span id="mac">MAC</span></h3><p>MAC（Message Authentication Code/消息认证码）（TLS通信中有所应用）</p>
+<ul>
+<li>发送者和接收者协商好秘钥算法和秘钥</li>
+<li>发送者将消息和MAC加密后发送给接收者</li>
+<li>接收者接收到消息，用秘钥解析消息</li>
+<li>接收者解析出MAC</li>
+<li>接收者自己对消息做MAC算法，比对两个MAC的区别</li>
+</ul>
+<h3><span id="otp">OTP</span></h3><p>One Time Password一次性密码。一般用于电子令牌等（例如那种周期性（30s/60s）刷新的电子令牌<br>验证流程：</p>
+<ul>
+<li>用户和服务器协商好秘钥算法和秘钥</li>
+<li>用户获取同步因子，使用已协商的秘钥和算法处理，生成OTP码<ul>
+<li>同步因子可以是时间同步、时间同步或是基于挑战应答机制</li>
+</ul>
+</li>
+<li>服务器获取当前用户的当前同步因子，使用已协商的秘钥和算法对其处理，生成新的OTP码</li>
+<li>服务器比较两个OTP码</li>
+</ul>
+<h2><span id="3-3-shu-zi-qian-ming-he-shu-zi-xin-feng">3.3 数字签名和数字信封</span></h2><h2><span id="3-4-base64-bian-ma">3.4 Base64编码</span></h2><p>Base64编码可以将任意二进制字节编码成64个可打印的ASCII码字符</p>
+<h2><span id="3-5-ldap-xie-yi">3.5 LDAP协议</span></h2><blockquote>
+<p>LDAP这一章节讲的全是抽象概念，缺乏实际应用。目前对于自身实现的CA业务，仅存在数据库中。需要的话可以去多搜索下网上的LDAP介绍。</p>
+</blockquote>
+<p>LDAP（Lightweight Directory Access Protocol）轻型目录访问协议。使用了ASN。1定义，是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息。</p>
+<p>好处：<br>    - 维护目录结构，读效率高（适合读多写少的场景）<br>    - 具有实体概念，可以与现实世界对应。（例如可以创建一个组织实体，对于一个员工的加入和离职处理方便）<br>    - 提供了高可用的认证功能，被许多应用用来做认证<br>缺点：<br>    - 比较繁杂<br>    - 旧，用的少，示例就少</p>
+<h1><span id="4-zheng-shu-yu-si-yao">4 证书与私钥</span></h1><h2><span id="4-1-rsa">4.1 RSA</span></h2><p>本章主要是讲的是算法底层，暂时不了解</p>
+<h2><span id="4-2-zheng-shu-zi-duan">4.2 证书字段</span></h2><p>主要是介绍了证书各个字段的用途，需要时详细看</p>
+<p>x509证书包括了三个基本字段</p>
+<ul>
+<li>tbsCertificate 原始证书（包括持有者公钥，持有者信息，签发者信息，证书其他信息等）</li>
+<li>signatureAlgorithm 摘要算法和签名算法</li>
+<li>signatureValue 签名值</li>
+</ul>
+<h2><span id="4-3-zheng-shu-guo-nei-yong-kuo-zhan-xiang">4.3 证书国内用扩展项</span></h2><h2><span id="4-4-zheng-shu-fen-lei">4.4 证书分类</span></h2><p>1 根据持有者是否是CA分类</p>
+<ul>
+<li>1.1 CA证书：CA证书可以给用户和其他CA签发证书</li>
+<li>1.2 非CA证书：在证书的subjec中增加DN进行区分。例如OU=PERSON为个人证书，OU=UNIT是机构证书<ul>
+<li>个人证书（姓名、身份证、E-mail、电话等）</li>
+<li>单位证书（名称、组织机构代码、E-mail、电话）</li>
+<li>系统证书（域名，IP地址，系统公钥）<ul>
+<li>web服务器证书</li>
+<li>域控制器证书</li>
+<li>OCSP服务器证书</li>
+<li>时间戳服务器证书</li>
+<li>VPN证书</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>2、根据秘钥产生类型分类<br>可通过KeyUsage、ExtKeyUsage扩展项来设置秘钥的用途</p>
+<ul>
+<li>2.1 签名证书<ul>
+<li>只用于签名验签，不用于加密解密（安全、唯一）</li>
+<li>CA中心对其秘钥无控制权，秘钥必须在用户客户端产生和保管</li>
+</ul>
+</li>
+<li>2.2 加密证书<ul>
+<li>只用于加密解密，不用于签名校验</li>
+<li>秘钥对必须由CA产生（备份恢复，行业监管）</li>
+</ul>
+</li>
+</ul>
+<p>3、根据用途分类</p>
+<ul>
+<li>SSL服务器证书</li>
+<li>SSL客户端证书</li>
+<li>代码签名证书（对代码进行签名校验）</li>
+<li>Email证书（安全电子邮件）</li>
+</ul>
+<h2><span id="4-5-zheng-shu-he-si-yao-de-cun-chu">4.5 证书和私钥的存储</span></h2><p>证书保存格式</p>
+<ul>
+<li>DER文件格式。文件后缀为der或crt</li>
+<li>base64保存（字符串）</li>
+<li>PKCS#7文件，常见后缀名pb7</li>
+</ul>
+<p>私钥保存形式</p>
+<ul>
+<li>PKCS#8格式</li>
+<li>PKCS#12格式，常见后缀pfx或p12</li>
+</ul>
+<h2><span id="4-5-si-yao-he-zheng-shu-fang-wen-fang-shi">4.5 私钥和证书访问方式</span></h2><p>讲的是，有个Crypto API 来管理证书和私钥。还是先放数据库吧。用盐和用户密码进行一次hash之后作为对称秘钥对私钥加密</p>
+<h1><span id="5-ca-yu-kmc-xi-tong-she-ji">5 CA与KMC 系统设计</span></h1><h2><span id="5-1-xi-tong-jie-gou">5.1 系统结构</span></h2><p><img src="/2021/04/29/CA/PKI-CA/img/9751618798293_.pic_hd.jpg"></p>
+<p><img src="/2021/04/29/CA/PKI-CA/img/9761618799946_.pic_hd.jpg"></p>
+<p>CA实体结构</p>
+<ul>
+<li>1、CA相关实体<ul>
+<li>终端实体（持有证书用户，涉及他人证书的用户）</li>
+<li>CA</li>
+<li>RA</li>
+<li>CRL 签发者</li>
+<li>存储库。可采用数据库或是LDAP方式</li>
+</ul>
+</li>
+<li>2、证书作废</li>
+<li>3、操作协议（LDAP，HTTP等）</li>
+<li>4、管理协议<ul>
+<li>注册（用户可以把申请证书的相关信息提交给CA或是RA）</li>
+<li>初始化 在使用前需要正确的安装秘钥相关数据</li>
+<li>签发证书</li>
+<li>秘钥对恢复</li>
+<li>秘钥对更新。所有的秘钥对都要定期更新生成新秘钥对，然后签发新证书</li>
+<li>作废请求</li>
+<li>交叉认证。两个CA互签交叉认证证书</li>
+</ul>
+</li>
+</ul>
+<p>CA系统结构</p>
+<ul>
+<li>用户注册管理系统<ul>
+<li>证书申请</li>
+<li>身份审核</li>
+<li>证书下载</li>
+</ul>
+</li>
+<li>证书/CRL签发系统</li>
+<li>证书/CRL存储发布系统</li>
+<li>证书/CRL查询系统</li>
+<li>证书管理系统</li>
+<li>安全管理系统</li>
+</ul>
+<p>KMC系统结构<br><img src="/2021/04/29/CA/PKI-CA/img/9771618800472_.pic.jpg"></p>
+<ul>
+<li>秘钥生成</li>
+<li>秘钥存储</li>
+<li>秘钥分发</li>
+<li>秘钥备份</li>
+<li>秘钥更新</li>
+<li>秘钥撤销</li>
+<li>秘钥归档</li>
+<li>秘钥恢复</li>
+</ul>
+<h2><span id="5-2-xi-tong-she-ji">5.2 系统设计</span></h2><h3><span id="5-2-1-ca-xi-tong-she-ji">5.2.1 CA系统设计</span></h3><p>总体设计原则：</p>
+<ul>
+<li>标准化、模块化设计原则</li>
+<li>各模块之间通信通过通过基于身份验证的安全通信协议</li>
+<li>RA、证书、CRL签发、秘钥管理可以设置独立的数据库</li>
+<li>访问控制功能</li>
+<li>安全审计功能</li>
+</ul>
+<hr>
+<p>1、RA系统设计<br>系统功能</p>
+<ul>
+<li>用户信息的录入。支持批量从外部导入的功能</li>
+<li>用户信息的审核</li>
+<li>用户证书的下载</li>
+<li>安全审计（对系统的管理人员、操作人员操作日志进行查询、统计等）</li>
+<li>安全管理（安全访问控制，核心数据备份）</li>
+<li>多级审核</li>
+</ul>
+<p>模块组成：<br><img src="/2021/04/29/CA/PKI-CA/img/9781618816155_.pic_hd.jpg"></p>
+<hr>
+<p>2、证书/CRL签发系统</p>
+<ul>
+<li>证书生成与签发。（证书签发完成后，可以发布到LDAP服务器）</li>
+<li>证书更新</li>
+<li>CRL的生成和签发</li>
+<li>安全审计<ul>
+<li>管理人员、操作人员的操作日志进行查询、统计、报表和打印</li>
+<li>数据一致性校验</li>
+</ul>
+</li>
+<li>安全管理<ul>
+<li><strong>证书模板管理。不同的证书模板定义了不同的证书种类，证书模板包括相应种类的证书基本项与扩展项</strong></li>
+<li>证书的备份和归档</li>
+<li>服务器安全配置/配置服务器可接受的主机访问列表</li>
+<li><strong>为子系统定义管理员，并且为管理员签发证书</strong></li>
+<li>数据库系统的配置</li>
+<li>CRL发布策略的配置</li>
+</ul>
+</li>
+</ul>
+<p>模块组成：</p>
+<ul>
+<li>证书/CRL/用户信息 数据库</li>
+<li>LDAP目录服务器</li>
+<li>安全管理<ul>
+<li>定期对数据库和目录服务器内容进行备份归档</li>
+<li>对数据库和LDAP目录服务器中的数据做一致性检查</li>
+</ul>
+</li>
+<li>安全审计</li>
+</ul>
+<hr>
+<p>3、证书/CRL存储发布系统<br>系统功能<br>    - 证书/CRL存储<br>    - 证书/CRL发布<br>    - 安全审计<br>    - 安全管理<br>    - 数据一致性校验</p>
+<p>模块组成</p>
+<ul>
+<li>数据库<ul>
+<li>存放证书/CRL/用户其他信息</li>
+</ul>
+</li>
+<li>目录服务器：<ul>
+<li>主从服务器，配置在不同等级的安全区域</li>
+<li>用户访问从目录服务器</li>
+<li>签发完成的数据写入到主目录服务器</li>
+<li>从目录服务器主从映射功能自动映射到从目录服务器中</li>
+</ul>
+</li>
+<li>安全管理</li>
+<li>安全审计</li>
+</ul>
+<hr>
+<p>4、证书/CRL查询系统<br>系统功能：</p>
+<ul>
+<li>CRL查询</li>
+<li>在线证书状态查询</li>
+</ul>
+<p>模块组成：</p>
+<ul>
+<li>证书状态数据库/OCSP服务器。根据查询请求的证书序列号，从状态数据库检索状态数据</li>
+<li>密码设备</li>
+<li>安全管理<ul>
+<li>OCSP服务器配置，定义可接受的访问控制信息，查询的证书状态数据库地址</li>
+<li>启动/停止查询服务,配置可接受查询的用户请求数量</li>
+</ul>
+</li>
+<li>安全审计</li>
+</ul>
+<hr>
+<p>5、证书管理系统<br>综合信息控制和服务调度系统，接受用户的各种请求，将请求提供给相应的独立子系统。</p>
+<hr>
+<p>6、安全管理系统</p>
+<ul>
+<li>安全审计系统</li>
+<li>日志内容：<ul>
+<li>事件审计</li>
+<li>操作员姓名</li>
+<li>操作项目</li>
+<li>操作起始/终止时间</li>
+<li>证书序列号</li>
+<li>操作结果</li>
+</ul>
+</li>
+<li>日志管理内容<ul>
+<li>日志查询</li>
+<li>日志备份</li>
+<li>日志处理/管理</li>
+</ul>
+</li>
+<li>安全防护系统</li>
+</ul>
+<h3><span id="5-2-2-kmc-xi-tong-she-ji">5.2.2 KMC系统设计</span></h3><p>功能模块：</p>
+<ul>
+<li>秘钥生成</li>
+<li>秘钥管理<ul>
+<li>接收、审核CA的秘钥申请</li>
+<li>接收、审查恢复秘钥申请并处理</li>
+<li>操作人员身份权限认证</li>
+</ul>
+</li>
+<li>秘钥库管理<ul>
+<li>备用库、在用库、过期库管理</li>
+</ul>
+</li>
+<li>认证管理</li>
+<li>安全审计</li>
+<li>秘钥恢复<ul>
+<li>用户秘钥恢复</li>
+<li>司法取证秘钥恢复</li>
+</ul>
+</li>
+<li>密码服务模块<ul>
+<li>国密算法支持</li>
+<li>硬件设备支持</li>
+</ul>
+</li>
+<li>审计模块</li>
+</ul>
+<h3><span id="5-2-3-qi-ye-ji-ca-she-ji-shi-li">5.2.3 企业级CA设计示例</span></h3><p>CA系统分两种</p>
+<ul>
+<li>运营型CA</li>
+<li>企业自用CA</li>
+</ul>
+<hr>
+<p>1、证书机制</p>
+<ul>
+<li>证书分类<ul>
+<li>个人，单位，web，设备</li>
+</ul>
+</li>
+<li>业务状态<ul>
+<li>证书申请状态<ul>
+<li>已录入</li>
+<li>审核通过</li>
+<li>审核失败</li>
+<li>已制作</li>
+</ul>
+</li>
+<li>证书作废状态<ul>
+<li>已录入作废申请</li>
+<li>审核通过</li>
+<li>审核失败</li>
+</ul>
+</li>
+<li>证书冻结状态<ul>
+<li>已录入</li>
+<li>审核通过/失败</li>
+</ul>
+</li>
+<li>证书解冻状态<ul>
+<li>已录入</li>
+<li>审核通过/失败</li>
+</ul>
+</li>
+<li>证书更新状态<ul>
+<li>已录入</li>
+<li>审核通过/失败</li>
+<li>以更新</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>2、管理机制</p>
+<ul>
+<li>三级管理：CA管理员、RA管理员、CA操作员<ul>
+<li>CA管理员负责初始化CA，配置CA策略，管理RA，管理RA管理员、查询统计等</li>
+<li>RA管理员：管理RA操作员</li>
+<li>RA操作员<ul>
+<li>录入员。录入证书新建/更新申请信息</li>
+<li>审核员</li>
+<li>制作员</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>3、RA服务</p>
+<ul>
+<li>证书申请、证书作废、证书刚更新、证书冻结、RA操作员管理、查询统计、RA策略管理</li>
+</ul>
+<hr>
+<p>4、证书服务</p>
+<ul>
+<li>证书下载、CRL下载、证书更新、双证书下载更新、证书查询、证书申请、证书作废/冻结</li>
+<li>OCSP/SOCSP服务，LDAP服务，证书验证服务</li>
+</ul>
+<hr>
+<p>5、安全性</p>
+<p>6、模块设计</p>
+<p><img src="/2021/04/29/CA/PKI-CA/img/9791618818812_.pic_hd.jpg"></p>
+<h3><span id="5-2-4-shuang-zheng-shu-ji-zhu-liu-cheng-she-ji">5.2.4 双证书技术流程设计</span></h3><h2><span id="5-3-ocsp-socsp-fu-wu">5.3 OCSP/SOCSP服务</span></h2><h3><span id="5-3-1-ocsp-socsp-fu-wu">5.3.1 OCSP/SOCSP服务</span></h3><p>SOCSP就是Simplae OCSP，协议请求和相应较为简化</p>
+<h3><span id="5-3-2-crl-fu-wu">5.3.2 CRL服务</span></h3><p>CRL服务<br>CRL详细内容：需要就直接去翻书吧，这章主要介绍了CRL的一些字段</p>
+<h3><span id="5-3-3-ldap-fu-wu">5.3.3 LDAP服务</span></h3><h2><span id="5-4-ca-bu-shu-jie-gou">5.4 CA 部署结构</span></h2><ul>
+<li>这章介绍了多种CA的部署结构，但无一例外，结构都挺大，东西都挺多。</li>
+<li>对于当前业务这种微服务来讲，可能能做到就是把东西全放到这一个服务里面去。</li>
+<li>如果真要做这种分布式的CA，需要时再来研究吧，感觉现在看了没啥用</li>
+</ul>
+<h1><span id="6-ca-ying-yong-shi-li">6 CA应用实例</span></h1><h2><span id="6-1-ca-ji-ben-yong-fa">6.1 CA基本用法</span></h2><p>1、身份认证<br>用户的证书上记录了用户的信息，为了证明用户是证书的所有者，可以采用<strong>挑战应答模式</strong>进行身份认证。<br>    - 服务端随机生成一个随机数<br>    - 用户用自己的私钥对随机数签名，将签名和证书一起交给服务端<br>    - 服务端校验签名、校验证书，确认用户的合法性<br><img src="/2021/04/29/CA/PKI-CA/img/9801618831664_.pic_hd.jpg"></p>
+<hr>
+<p>2、保密性</p>
+<ul>
+<li>自己加密-自己解密</li>
+<li>自己用别人公钥加密，别人用自己的私钥解密<br>3、完整性</li>
+<li>发保密电子邮件点 时候，可以把邮件hash加密后，和电子邮件一起发过去<br>4、抗抵赖性</li>
+</ul>
+<h2><span id="6-2-tong-yong-ying-yong-ji-zhu">6.2 通用应用技术</span></h2><p>本章的话先做理解，需要用到的时候详细再看</p>
+<ul>
+<li>SSL/TLS协议：安全传输协议（HTTP，TCP）</li>
+<li>IPSec协议：IP层安全协议</li>
+<li>Kerberos：身份认证协议</li>
+<li>TSP：时间戳协议<ul>
+<li>将数据的hash和时间值签名</li>
+</ul>
+</li>
+<li>SET：安全电子协议（保证互联网在线交易时信用卡支付的安全性）</li>
+<li>3-D Secure：简易电子交易安全性问题</li>
+<li>WAP 无线应用协议</li>
+<li>S/MIME Secure/Multipurpose Internet Mail Extensions（把internet实体封装成安全对象）</li>
+</ul>
+<h2><span id="6-3-dai-ma-zheng-shu">6.3 代码证书</span></h2><ul>
+<li>可以对软件或是插件进行签名（需要代码签名用途的证书）</li>
+</ul>
+<h2><span id="6-4-wang-shang-yin-xing-xi-tong">6.4 网上银行系统</span></h2><p>主要需求</p>
+<ul>
+<li>鉴别用户的个人身份和权限</li>
+<li>交易数据的真实性和完整性</li>
+<li>交易数据机密性</li>
+<li>抗抵赖</li>
+<li>审计</li>
+<li>秘钥管理</li>
+</ul>
+<p>架构示意：<br><img src="/2021/04/29/CA/PKI-CA/img/9811618833812_.pic_hd.jpg"></p>
+<h2><span id="6-5-wang-shang-bao-shui-xi-tong">6.5 网上报税系统</span></h2><ul>
+<li>确保纳税人身份</li>
+<li>确保数据的保密性和完整性</li>
+<li><strong>确保数据的法律效力</strong></li>
+<li>自主打印缴款凭证</li>
+</ul>
+<h2><span id="6-5-dian-zi-bing-li-xi-tong">6.5 电子病历系统</span></h2><p>需求：</p>
+<ul>
+<li>确定身份</li>
+<li>责任归属</li>
+<li>强调时间可信需求</li>
+<li>安全完整传输<br><img src="/2021/04/29/CA/PKI-CA/img/9821618834144_.pic_hd.jpg"></li>
+</ul>
+<h1><span id="7-ca-zhong-xin-yun-ying">7 CA中心运营</span></h1><h1><span id="8-xiang-guan-fa-lu-fa-gui">8 相关法律法规</span></h1><p>用到相关东西的时候，可以来翻翻</p>
+<ul>
+<li>电子签名</li>
+<li>电子认证</li>
+<li>电子政务</li>
+<li>商用密码</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/" data-id="cko3t66z20027rsxgd6mp489w" data-title="PKI/CA与数字证书技术大全" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CA/" rel="tag">CA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%81%E4%B9%A6/" rel="tag">证书</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          《架构修炼之道-亿级网关...》阅读笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">图解http阅读笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CA/">CA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E4%B9%A6/">杂书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CA/" style="font-size: 10px;">CA</a> <a href="/tags/DAO/" style="font-size: 12.5px;">DAO</a> <a href="/tags/DevOps/" style="font-size: 15px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/HyperLedger/" style="font-size: 10px;">HyperLedger</a> <a href="/tags/K8S/" style="font-size: 10px;">K8S</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/did/" style="font-size: 17.5px;">did</a> <a href="/tags/mathchain/" style="font-size: 10px;">mathchain</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E8%B5%84%E4%BA%A7/" style="font-size: 10px;">加密资产</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 20px;">区块链</a> <a href="/tags/%E5%AE%B9%E5%99%A8/" style="font-size: 10px;">容器</a> <a href="/tags/%E6%9D%82%E4%B9%A6/" style="font-size: 10px;">杂书</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 12.5px;">架构</a> <a href="/tags/%E7%9B%91%E6%8E%A7/" style="font-size: 10px;">监控</a> <a href="/tags/%E7%BD%91%E5%85%B3/" style="font-size: 10px;">网关</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">证书</a> <a href="/tags/%E9%93%BE%E7%A0%81/" style="font-size: 10px;">链码</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/30/hexo/config/">博客配置</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/">《架构修炼之道-亿级网关...》阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/CA/PKI-CA/">PKI/CA与数字证书技术大全</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/">图解http阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/">《成为极少数》阅读笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 MGintoki<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

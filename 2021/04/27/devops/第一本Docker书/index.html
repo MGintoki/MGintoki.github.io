@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>《第一本Docker书》学习笔记 | MGintoki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="待解决 Docker 相关概念 容器 安装Docker Docker 的存储引擎 纵观Docker 源码地址：   Docker 环境配置 Docker 常用命令 Docker 镜像和仓库 Docker镜像是什么 镜像操作 Dockerfile指令 将自己的镜像推送到docker hub     Docker 编排应用 1、Docker-compose 单引擎模式 docker-comp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《第一本Docker书》学习笔记">
+<meta property="og:url" content="https://mgintoki.github.io/2021/04/27/devops/%E7%AC%AC%E4%B8%80%E6%9C%ACDocker%E4%B9%A6/index.html">
+<meta property="og:site_name" content="MGintoki">
+<meta property="og:description" content="待解决 Docker 相关概念 容器 安装Docker Docker 的存储引擎 纵观Docker 源码地址：   Docker 环境配置 Docker 常用命令 Docker 镜像和仓库 Docker镜像是什么 镜像操作 Dockerfile指令 将自己的镜像推送到docker hub     Docker 编排应用 1、Docker-compose 单引擎模式 docker-comp">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB9427bd55d2aa538b3fa92dfc751fa1ac?method=download&shareKey=3fe37afac22eee234ce47e17c3afc585">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBefd66b05e26c71212cc1d478759548ff?method=download&shareKey=5de2c8ce09eef68e5e6a0282c702936c">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBd9bc74bf4807fa7110ee1b4c5d574dfb?method=download&shareKey=b580f65f669c18447cd64bb43ef54976">
+<meta property="article:published_time" content="2021-04-27T12:34:46.000Z">
+<meta property="article:modified_time" content="2021-04-30T04:07:37.455Z">
+<meta property="article:author" content="MGintoki">
+<meta property="article:tag" content="DevOps">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="容器">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/api/personal/file/WEB9427bd55d2aa538b3fa92dfc751fa1ac?method=download&shareKey=3fe37afac22eee234ce47e17c3afc585">
+  
+    <link rel="alternate" href="/atom.xml" title="MGintoki" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon-32x32.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MGintoki</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mgintoki.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-devops/第一本Docker书" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/27/devops/%E7%AC%AC%E4%B8%80%E6%9C%ACDocker%E4%B9%A6/" class="article-date">
+  <time class="dt-published" datetime="2021-04-27T12:34:46.000Z" itemprop="datePublished">2021-04-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/DevOps/">DevOps</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      《第一本Docker书》学习笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#dai-jie-jue">待解决</a></li>
+<li><a href="#docker-xiang-guan-gai-nian">Docker 相关概念</a><ul>
+<li><a href="#rong-qi">容器</a></li>
+<li><a href="#an-zhuang-docker">安装Docker</a></li>
+<li><a href="#docker-de-cun-chu-yin-qing">Docker 的存储引擎</a></li>
+<li><a href="#zong-guan-docker">纵观Docker</a><ul>
+<li><a href="#yuan-ma-di-zhi">源码地址：</a></li>
+</ul>
+</li>
+<li><a href="#docker-huan-jing-pei-zhi">Docker 环境配置</a></li>
+<li><a href="#docker-chang-yong-ming-ling">Docker 常用命令</a></li>
+<li><a href="#docker-jing-xiang-he-cang-ku">Docker 镜像和仓库</a><ul>
+<li><a href="#docker-jing-xiang-shi-shi-me">Docker镜像是什么</a></li>
+<li><a href="#jing-xiang-cao-zuo">镜像操作</a></li>
+<li><a href="#dockerfile-zhi-ling">Dockerfile指令</a></li>
+<li><a href="#jiang-zi-ji-de-jing-xiang-tui-song-dao-docker-hub">将自己的镜像推送到docker hub</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#docker-bian-pai-ying-yong">Docker 编排应用</a><ul>
+<li><a href="#1-docker-compose-dan-yin-qing-mo-shi">1、Docker-compose 单引擎模式</a><ul>
+<li><a href="#docker-compose-yml">docker-compose.yml</a></li>
+<li><a href="#ming-ling">命令</a></li>
+</ul>
+</li>
+<li><a href="#2-swarm-mo-shi">2、Swarm模式</a></li>
+</ul>
+</li>
+<li><a href="#kai-fa-he-ce-shi-zhong-shi-yong-docker">开发和测试中使用Docker</a><ul>
+<li><a href="#1-docker-ce-shi-yi-ge-jing-tai-wang-zhan">1、Docker测试一个静态网站</a></li>
+<li><a href="#2-docker-gou-jian-ce-shi-web-ying-yong-cheng-xu">2、Docker构建测试web应用程序</a><ul>
+<li><a href="#gou-jian-webapp-jing-xiang-bing-qi-dong-rong-qi">构建webapp镜像并启动容器</a></li>
+<li><a href="#gou-jian-redis-jing-xiang-bing-qi-dong-rong-qi">构建redis镜像并启动容器：</a></li>
+<li><a href="#webapp-lian-jie-redis">webapp连接redis</a></li>
+</ul>
+</li>
+<li><a href="#3-docker-ji-cheng-ce-shi-huan-jing-da-jian">3、Docker集成测试环境搭建</a></li>
+</ul>
+</li>
+<li><a href="#shi-yong-docker-gou-jian-fu-wu">使用Docker构建服务</a><ul>
+<li><a href="#jekyll-da-jian-ri-zhi-fu-wu">jekyll 搭建日志服务</a></li>
+<li><a href="#docker-da-jian-yi-ge-javaweb">Docker搭建一个javaweb</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
+<span id="more"></span>
+
+<p>[toc] </p>
+<h1><span id="dai-jie-jue">待解决</span></h1><p>1、p106内容<br><del>2、5.10 docker build 的指令</del><br>3、p115-p136 jenkins 内容<br>4、p147 javaweb tprov</p>
+<hr>
+<p>公司Docker用处 by 何应生</p>
+<blockquote>
+<p>看完 docker 和 docker-compose  就好了，我们公司用 k8s</p>
+</blockquote>
+<blockquote>
+<p>我们公司主要用 k8s，你的项目目前是用 docker-compose 启动的，也没啥复杂度</p>
+</blockquote>
+<blockquote>
+<p>只要知道怎么启动 docker，也就是那些常用的命令行参数。然后这些命令行参数如何转换成 docker-compose 中的 yaml 文件</p>
+</blockquote>
+<blockquote>
+<p>常用的就是 端口映射，存储卷挂载，启动停命令</p>
+</blockquote>
+<hr>
+<h1><span id="docker-xiang-guan-gai-nian">Docker 相关概念</span></h1><h2><span id="rong-qi">容器</span></h2><p>虚拟机的产生：windows和linux无法保证，在同一台服务器上能稳定安全的运行多个应用</p>
+<p>虚拟机的不足：因为虚拟机铺在硬件资源上，是对硬件资源的抽象，需要付出额外的os开销。</p>
+<p>容器是应用程序的沙盒式运行环境，具有轻量隔离的贴点。容器铺在宿主机os上，相同宿主机的不同容器共享os上的资源，相比于虚拟机减少了很多开销。</p>
+<p>OCI ： The Open Container Initiative 开放容器计划 -&gt;旨在标准化镜像规范和容器规范</p>
+<h2><span id="an-zhuang-docker">安装Docker</span></h2><p>mac： </p>
+<blockquote>
+<p>brew cask install docker</p>
+</blockquote>
+<p>linux</p>
+<blockquote>
+<p>wget -qO- <a target="_blank" rel="noopener" href="https://get.docker.com/">https://get.docker.com/</a> | sh</p>
+</blockquote>
+<h2><span id="docker-de-cun-chu-yin-qing">Docker 的存储引擎</span></h2><p>容器的所有读写操作，都发生在一层层镜像堆叠的最上层镜像，或者是挂载的文件系统。</p>
+<h2><span id="zong-guan-docker">纵观Docker</span></h2><p>运维视角： 镜像通过实例化形成容器</p>
+<p>开发视角： 容器=应用</p>
+<p>Docker 是 CS架构，客户端和服务端通过/var/run/docker.sock 通信</p>
+<p>镜像包含了基础的os系统、程序代码以及相关的依赖。</p>
+<p>容器是实例化的镜像，一般只运行一个进程。</p>
+<blockquote>
+<p>Ctrl-PQ 退出容器的时候，保持容器运行</p>
+</blockquote>
+<hr>
+<p><strong>守护进程</strong></p>
+<blockquote>
+<p>在一个多任务的电脑操作系统中，守护进程（英语：daemon，/ˈdiːmən/或/ˈdeɪmən/）是一种在后台执行的电脑程序。此类程序会被以进程的形式初始化。守护进程程序的名称通常以字母“d”结尾：例如，syslogd就是指管理系统日志的守护进程。</p>
+</blockquote>
+<blockquote>
+<p>通常，守护进程没有任何存在的父进程（即PPID=1），且在UNIX系统进程层级中直接位于init之下。守护进程程序通常通过如下方法使自己成为守护进程：对一个子进程运行fork，然后使其父进程立即终止，使得这个子进程能在init下运行。这种方法通常被称为“脱壳”。</p>
+</blockquote>
+<blockquote>
+<p>系统通常在启动时一同引导守护进程。守护进程为对网络请求，硬件活动等进行响应，或其他通过某些任务对其他应用程序的请求进行回应提供支持。守护进程也能够对硬件进行配置（如在某些Linux系统上的devfsd），运行计划任务（例如cron），以及运行其他任务</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>守护进程是在后台运行不受终端控制的进程（如输入、输出等），一般的网络服务都是以守护进程的方式运行。守护进程脱离终端的主要原因有两点：（1）用来启动守护进程的终端在启动守护进程之后，需要执行其他任务。（2）（如其他用户登录该终端后，以前的守护进程的错误信息不应出现）由终端上的一些键所产生的信号（如中断信号），不应对以前从该终端上启动的任何守护进程造成影响。要注意守护进程与后台运行程序（即加＆启动的程序）的区别。</p>
+</blockquote>
+<hr>
+<p><strong>守护进程和后台进程的区别</strong></p>
+<blockquote>
+<p>(a)守护进程已经完全脱离终端控制台了，而后台程序并未完全脱离终端，在终端未关闭前还是会往终端输出结果<br>(b)守护进程在关闭终端控制台时不会受影响，而后台程序会随用户退出而停止，需要在以nohup command &amp; 格式运行才能避免影响<br>(c)守护进程的会话组和当前目录，文件描述符都是独立的。后台运行只是终端进行了一次fork，让程序在后台执行，这些都没改变。</p>
+</blockquote>
+<hr>
+<p><strong>NFS</strong></p>
+<blockquote>
+<p>NFS 是Network File System的缩写，即网络文件系统。功能是通过网络让不同的机器、不同的操作系统能够彼此分享文件，让应用程序在客户端通过网络访问位于服务器磁盘中的数据，是在类Unix系统间实现磁盘文件共享的一种方法。</p>
+</blockquote>
+<blockquote>
+<p>NFS使用RPC协议进行通信，也就是说NFS系统只是一组RPC程序。RPC是远程过程调用 (Remote Procedure Call) 的英文缩写，它是能使客户端执行其他系统中程序的一种机制。NFS可以看作是一个RPC Server，主要功能是管理需要分享的目录和文件。它不负责通信和信息传输，而是把这部分工作交给RPC协议来完成。即NFS在文件传送或信息传送过程中依赖于RPC协议。所以只要用到NFS的地方都要启动RPC服务，不论是NFS SERVER或者NFS CLIENT。这样SERVER和CLIENT才能通过RPC来实现PROGRAM PORT的对应。可以这么理解RPC和NFS的关系：NFS是一个文件系统，而RPC是负责负责信息的传输。</p>
+</blockquote>
+<blockquote>
+<p>NFS 的基本原则是“容许不同的客户端及服务端通过一组RPC分享相同的文件系统”，它是独立于操作系统，容许不同硬件及操作系统的系统共同进行文件的分享。</p>
+</blockquote>
+<hr>
+<p><strong>注意</strong> 示例用的ubuntu基础镜像，请选择18.04版本</p>
+<h3><span id="yuan-ma-di-zhi">源码地址：</span></h3><p><a target="_blank" rel="noopener" href="https://github.com/turnbullpress/dockerbook-code.git">https://github.com/turnbullpress/dockerbook-code.git</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/guanwei/dockerbook-code">https://github.com/guanwei/dockerbook-code</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/guanwei/dockerbook-code.git">https://github.com/guanwei/dockerbook-code.git</a></p>
+<h2><span id="docker-huan-jing-pei-zhi">Docker 环境配置</span></h2><p>Docker启动时，守护进程监听/var/run/docker.sock 的Unix套接字文件，来获取客户端的Docker请求。</p>
+<p>可以通过设置Docker host 环境变量的方式来讲Docker 守护进程方式来指定服务器的地址。</p>
+<blockquote>
+<p>export DOCKER_HOST=”tcp://0.0.0.0:2375”</p>
+</blockquote>
+<p>或是在运行的时候指定</p>
+<blockquote>
+<p>/usr/bindocker -d -H tcp://0.0.0.0:2375</p>
+</blockquote>
+<hr>
+<h2><span id="docker-chang-yong-ming-ling">Docker 常用命令</span></h2><h4><span id="docker-run">docker run</span></h4><p>命令行参数:<br>– name 指定由该镜像产生的容器的名字</p>
+<ul>
+<li>-i 保证容器中STDIN是开启的</li>
+<li>-t为创建的容器非配一个伪tty终端，新创建的容器可以提供一个交互式shell</li>
+<li>-d 指定以守护进程的方式运行</li>
+<li>-p 指定Docker在运行的时候，公开哪些端口给宿主机。</li>
+<li>-h 设置容器的主机名，覆盖默认行为（默认将主机名设置为容器id）</li>
+</ul>
+<p>运行ubuntu镜像（没有的话去registry里拉取），同时提供一个/bin/bash的终端：</p>
+<blockquote>
+<p>docker run -i -t ubuntu bash</p>
+</blockquote>
+<p>基于ubuntu镜像，以守护进程的方式，开启一个demon_test镜像，并给镜像里的终端赋予指令，每秒打印一次hello world</p>
+<blockquote>
+<p>docker run –name demon_test -d ubuntu /bin/bash -c “while true; do echo hello world ; sleep 1 ;done”</p>
+</blockquote>
+<h4><span id="docker-exec-container-name-zai-rong-qi-zhong-kai-qi-yi-ge-xin-jin-cheng">docker exec {container_name} 在容器中开启一个新进程</span></h4><p>以一个后台进程的方式，在demon_test容器中，新建一个文件：</p>
+<blockquote>
+<p>docker exec -d demon_test touch /etc/test_file</p>
+</blockquote>
+<p>在demon_test容器中，开启一个新的终端：</p>
+<blockquote>
+<p>docker exec -t -i demon_test /bin/bash</p>
+</blockquote>
+<p>上述指令完成后，可使用docker logs {container_name}指令查看指定容器日志</p>
+<p>如果容器因为某种错误停止运行，将自动重启</p>
+<blockquote>
+<p>docker run –restart=always –name demon_test -d ubuntu /bin/bash -c “while true; do echo hello world ; sleep 1 ;done”</p>
+</blockquote>
+<p>更新apt-get 并安装vim</p>
+<blockquote>
+<p>apt-get update &amp;&amp; apt-get install vim</p>
+</blockquote>
+<h4><span id="docker-ps-lie-chu-zheng-zai-yun-xing-de-rong-qi">docker ps 列出正在运行的容器</span></h4><p>docker ps -a 列出所有容器，包括不在运行的</p>
+<h4><span id="docker-images-lie-chu-suo-you-jing-xiang">docker images 列出所有镜像</span></h4><h4><span id="docker-start-container-name-qi-dong-yi-ge-rong-qi">docker start {container_name} 启动一个容器</span></h4><p>docker start 会延续docker run时的参数，通过 <code>docker attach &#123;container_name&#125;</code> 指令可以重新附着到容器的回话上。</p>
+<h4><span id="docker-stop-container-name-guan-bi-yi-ge-rong-qi">docker stop {container_name} 关闭一个容器</span></h4><h4><span id="docker-rm-shan-chu-rong-qi">docker rm 删除容器</span></h4><p>docker rm {container_id/container_name}</p>
+<p>docker 移除所欲容器列表，docker ps 列出容器，-a参数代表列出所有容器，-q参数代表只列出id，形成一个列表。<br>docker rm `docker ps -a -q`</p>
+<hr>
+<h2><span id="docker-jing-xiang-he-cang-ku">Docker 镜像和仓库</span></h2><h3><span id="docker-jing-xiang-shi-shi-me">Docker镜像是什么</span></h3><ul>
+<li>docker 镜像是由文件系统叠加而成。</li>
+<li>docker 文件系统是一层一层的，对源文件的修改，体现在复制一份源文件到他的上层，在上层对这份拷贝进行修改。所有初始的文件系统都是只读的。</li>
+<li>docker所有的镜像，都要基于一个已有的基础镜像来构建，在这个基础镜像上构建一层又一层父镜像，知道最顶层的满足需求的镜像。<br><img src="https://note.youdao.com/yws/api/personal/file/WEB9427bd55d2aa538b3fa92dfc751fa1ac?method=download&shareKey=3fe37afac22eee234ce47e17c3afc585" alt="50"></li>
+</ul>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBefd66b05e26c71212cc1d478759548ff?method=download&shareKey=5de2c8ce09eef68e5e6a0282c702936c" alt="51"></p>
+<blockquote>
+<p>Docker 镜像存在仓库里，仓库存在registry里，默认的registry是官方运营的registry，即docker hub。个人也可以运营自己私有的registry</p>
+</blockquote>
+<blockquote>
+<p>Docker hub 中，个人的镜像以{个人标识符}/{镜像名}的方式标识，官方的镜像或是可信团体/机构的镜像，直接以{镜像名}的方式标识。</p>
+</blockquote>
+<hr>
+<h3><span id="jing-xiang-cao-zuo">镜像操作</span></h3><h4><span id="docker-pull-la-qu-jing-xiang">docker pull 拉取镜像</span></h4><p>拉取14.04版本的ubuntu镜像：</p>
+<blockquote>
+<p>docker pull ubuntu:14.04</p>
+</blockquote>
+<p>其中ubuntu：后面的14.04为该镜像的tag，即同一个镜像标识符下可能有多个tag（版本）`如果不指定pull的tag，默认拉取最新版。</p>
+<p>如何指定一个镜像版本：</p>
+<ul>
+<li>ubuntu:14.04</li>
+<li>ubuntu:{tag_name}</li>
+<li>ubuntu:latest</li>
+</ul>
+<h4><span id="docker-search-image-name-cha-zhao-jing-xiang">docker search {image_name} 查找镜像</span></h4><h4><span id="docker-rmi-image-yi-chu-jing-xiang">docker rmi {image} 移除镜像</span></h4><hr>
+<h4><span id="gou-jian-docker-jing-xiang">构建docker镜像</span></h4><p>1、通过commit 方式构建</p>
+<p>2、通过dockerfile方式构建</p>
+<p>Dockerfile 所在的文件夹，被称为Dockerfile的上下文(context)或是构建上下文，Docker会在构建镜像的时候，将该文件夹下的目录和文件上传到Docker的守护进程，这个Docker进程可以访问这个文件夹里的任何资源。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBd9bc74bf4807fa7110ee1b4c5d574dfb?method=download&shareKey=b580f65f669c18447cd64bb43ef54976" alt="63"></p>
+<h4><span id="dcokerfile-nei-rong">Dcokerfile内容：</span></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Version: 0.0.1</span><br><span class="line">FROM ubuntu:14.04</span><br><span class="line">MAINTAINER my &quot;my@exemple.com&quot;</span><br><span class="line">RUN apt-get update</span><br><span class="line">RUN apt-get install -y nginx</span><br><span class="line">RUN echo &#39;hello world&#39;&gt;&#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html&#x2F;index.html</span><br><span class="line">EXPOSE 80</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Dockerfile的构建过程，每一步都会将上一步的镜像视作缓存，如果构建过程中，某一步骤发生了异常退出，再次构建时，将会从上一次成功的那一层镜像（缓存）中起始。如果需要忽视缓存，命令：<code>--no-cache</code></p>
+<p>在Dockerfile目录下，通过Dockerfile构建一个镜像：</p>
+<blockquote>
+<p>mayuan@mayuandeMacBook-Pro:~/workspace/dockerTest/static_web|⇒  docker build -t=”my/static_web” .</p>
+</blockquote>
+<p>注意上线命令中最后的.，意思是在当前目录下查找Dockerfile，也可以指定一个Git仓库的地址来指定Dockerfile的位置，（docker假设路径下会有Dockerfile）例：</p>
+<blockquote>
+<p>docker build -t=”my/static_web:v1.0.0” <a href="mailto:&#103;&#105;&#116;&#x40;&#103;&#105;&#116;&#x68;&#117;&#x62;&#46;&#x63;&#111;&#109;">&#103;&#105;&#116;&#x40;&#103;&#105;&#116;&#x68;&#117;&#x62;&#46;&#x63;&#111;&#109;</a>:jamtur01/docker-static_web</p>
+</blockquote>
+<p>Dockerfile构建环境中可以使用.dockerignore : .dockerignore 文件类似于 .gitignore,文件里的每一行是一条文件过滤匹配模式，用来设置哪些文件不会传到构建上下文里去。</p>
+<p>基于该镜像启动一个一个新容器：</p>
+<blockquote>
+<p>docker run -d -p 80  –name static_web my/static_web nginx -g “daemon off;”</p>
+</blockquote>
+<p>Dockerfile中 <code>EXPOSE</code>关键字和docker run 参数-p -P的区别：<br>EXPOSE关键字是镜像开发者和镜像使用者（容器运行者）之间的一份说明书，表述哪些端口适合暴露给外界，-p 参数实际暴露端口，-P暴露所有端口。</p>
+<blockquote>
+<p>The EXPOSE instruction does not actually publish the port. It functions as a type of documentation between the person who builds the image and the person who runs the container, about which ports are intended to be published. To actually publish the port when running the container, use the -p flag on docker run to publish and map one or more ports, or the -P flag to publish all exposed ports and map them to high-order ports.</p>
+</blockquote>
+<p>上面的命令，会从宿主机端口中随机绑定一个到docker容器的80端口。其他的绑定方式：</p>
+<ul>
+<li>-p 80:80 将宿主机80端口和容器80端口绑定，不具备灵活性</li>
+<li>-p 127.0.0.1:80:80 将本宿主机127.0.0.1:80 与容器80端口绑定</li>
+<li>-P 暴露Dockerfile中，EXPOSE字段设置的所有端口。</li>
+</ul>
+<h4><span id="docker-history-container-name-cha-kan-jing-xiang-de-gou-jian-guo-cheng">docker history {container_name} 查看镜像的构建过程</span></h4><blockquote>
+<p>docker history my/static_web</p>
+</blockquote>
+<h4><span id="docker-port-container-name-cha-kan-rong-qi-duan-kou-bang-ding-qing-kuang">docker port {container_name}查看容器端口绑定情况</span></h4><h3><span id="dockerfile-zhi-ling">Dockerfile指令</span></h3><h3><span id="jiang-zi-ji-de-jing-xiang-tui-song-dao-docker-hub">将自己的镜像推送到docker hub</span></h3><p>docker push {userId}（docker hub注册过的）/{image_name} </p>
+<blockquote>
+<p>docker push my/static_web</p>
+</blockquote>
+<p>其中“my”为用户id，必须在docker hub 上注册过才能推送成功。</p>
+<h4><span id="zi-dong-gou-jian">自动构建</span></h4><p>在github中，可以设置，当你向一个存在Dockerfile的库推送代码后，会自动更新一个镜像，推送到docker hub</p>
+<h4><span id="yun-xing-zi-ji-de-docker-registry">运行自己的Docker Registry</span></h4><p>可以维护docker hub上自己的私有库，或者自己运行一个库</p>
+<ul>
+<li><p>1、从容器运行registry</p>
+<blockquote>
+<p>docker run -p 5000:5000 registry<br>运行一个registry容器，并绑定到主机的5000端口</p>
+</blockquote>
+</li>
+<li><p>2、Docker iamges 列出该镜像的id</p>
+<blockquote>
+<p>docker images my/static_web</p>
+</blockquote>
+</li>
+<li><p>3、使用新的Registry给该镜像打上标签，新的Registry打标签时需要制定Registry主机名+端口，因为是运行在本地，所以主机名是localhost。</p>
+<blockquote>
+<p>docker tag fee851a5072f localhost:5000/my/static_web</p>
+</blockquote>
+</li>
+<li><p>4、推送到私有库</p>
+<blockquote>
+<p>docker push localhost:5000/my/static_web</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h1><span id="docker-bian-pai-ying-yong">Docker 编排应用</span></h1><p>含义： 对多容器应用进行方便的部署和管理</p>
+<h2><span id="1-docker-compose-dan-yin-qing-mo-shi">1、Docker-compose 单引擎模式</span></h2><p>通过声明式的配置文件，描述整个应用，组织、部署并管理应用</p>
+<p>Docker-compase 前身是Fig</p>
+<h3><span id="docker-compose-yml">docker-compose.yml</span></h3><p>示例：</p>
+<blockquote>
+<p>cd counter-app</p>
+</blockquote>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.5&quot;</span> <span class="string">//版本，服务，网络，卷为4个一级标签</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web-fe:</span> <span class="string">//这里定义了一个服务的名称</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span> <span class="string">//build命令指定通过当前目录下Dockerfile构建镜像(文件名会叫/</span></span><br><span class="line">    <span class="string">//</span> <span class="string">做&#123;当前所在的目录名字&#125;_&#123;服务的名字&#125;)</span> <span class="string">例如</span> <span class="string">counter-web_web-fe</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">python</span> <span class="string">app.py</span> <span class="string">//指定了命令行指令</span></span><br><span class="line">    <span class="attr">ports:</span> </span><br><span class="line">      <span class="bullet">-</span> <span class="attr">target:</span> <span class="number">5000</span> <span class="string">//等同于-p</span></span><br><span class="line">        <span class="attr">published:</span> <span class="number">5000</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">counter-net</span> <span class="string">//指定到networks里的一个网络，这里web-fe服务和redis服务共同引用</span></span><br><span class="line">      <span class="string">//一个counter-net网络，他们互相可以通过名称解析到对方的地址</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line"><span class="comment">#      - type: volume //注释掉的，是直接定义一个挂载卷（不挂宿主机）</span></span><br><span class="line"><span class="comment">#        source: counter-vol</span></span><br><span class="line"><span class="comment">#        target: /code</span></span><br><span class="line">       <span class="bullet">-</span> <span class="string">$PWD:/code</span> <span class="string">//直接将当前目录挂载到/code下</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">&quot;redis:alpine&quot;</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="attr">counter-net:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">counter-net:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">counter-vol:</span> <span class="string">多个服务可以挂在同一个卷，实现数据互通。</span></span><br></pre></td></tr></table></figure>
+
+<p>对应的Dockerfile：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM python:3.4-alpine</span><br><span class="line">ADD . &#x2F;code</span><br><span class="line">WORKDIR &#x2F;code</span><br><span class="line">RUN pip install -r requirements.txt</span><br><span class="line">CMD [&quot;python&quot;, &quot;app.py&quot;</span><br></pre></td></tr></table></figure>
+
+<p>如需参考：</p>
+<p>Docker-compose.yml 文件详解：包括指定容器名等等</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2217cfed29d7">https://www.jianshu.com/p/2217cfed29d7</a></p>
+</blockquote>
+<p>挂载卷可能遇到的问题（我目前没遇到）</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000015769131">https://segmentfault.com/q/1010000015769131</a></p>
+</blockquote>
+<h3><span id="ming-ling">命令</span></h3><p>执行docker-compose大多数命令式，默认在docker-compose.yml目录下</p>
+<p>docker-compose 启动命令（如果后面跟一个-&amp;参数，表示启动后开启终端，此处为-d，守护进程运行）</p>
+<blockquote>
+<p>docker-compose up -d</p>
+</blockquote>
+<blockquote>
+<p>localhost:5000 测试有无成功</p>
+</blockquote>
+<blockquote>
+<p>在counter-app目录下，修改app.py里的内容，如果是上文的docker-compose配置，指定了挂载卷，同时app.py在挂载卷里，name对app.py的修改会实时生效。</p>
+</blockquote>
+<blockquote>
+<p>docker-compose down 停止和关闭应用</p>
+</blockquote>
+<blockquote>
+<p>docker-compose ps</p>
+</blockquote>
+<blockquote>
+<p>docker-compose top</p>
+</blockquote>
+<blockquote>
+<p>docker-compose stop 停止命令，但不删除资源</p>
+</blockquote>
+<blockquote>
+<p>docker-compose restart</p>
+</blockquote>
+<h2><span id="2-swarm-mo-shi">2、Swarm模式</span></h2><h1><span id="kai-fa-he-ce-shi-zhong-shi-yong-docker">开发和测试中使用Docker</span></h1><h2><span id="1-docker-ce-shi-yi-ge-jing-tai-wang-zhan">1、Docker测试一个静态网站</span></h2><p>参考sample 文件夹</p>
+<blockquote>
+<p>docker 构建nginx镜像的时候，要在Docker中，添加file share，且添加时指定了一个绝对路径之后，docker run时，-v 参数也要指定一个绝对路径 </p>
+</blockquote>
+<p>示例网站采用nginx作为服务器</p>
+<ul>
+<li>1、创建Dockerfile</li>
+</ul>
+<blockquote>
+<p>mkdir sample &amp;&amp; cd sample</p>
+</blockquote>
+<blockquote>
+<p>mkdir Dockerfile</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:14.04</span><br><span class="line">LABEL maintainer&#x3D;&quot;james@example.com&quot;</span><br><span class="line">ENV REFRESHED_AT 2014-06-01</span><br><span class="line"></span><br><span class="line">RUN apt-get update &amp;&amp; apt-get -y -q install nginx</span><br><span class="line"></span><br><span class="line">RUN mkdir -p &#x2F;var&#x2F;www&#x2F;html&#x2F;website</span><br><span class="line">ADD nginx&#x2F;global.conf &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;</span><br><span class="line">ADD nginx&#x2F;nginx.conf &#x2F;etc&#x2F;nginx&#x2F;</span><br><span class="line"></span><br><span class="line">EXPOSE 80</span><br></pre></td></tr></table></figure>
+
+<p>ADD 命令将宿主机文件添加到容器的指定位置</p>
+<ul>
+<li>2、进行nginx 配置<blockquote>
+<p>mkdir nginx &amp;&amp; cd nginx</p>
+</blockquote>
+</li>
+</ul>
+<p>创建global.conf 以及 nginx.conf</p>
+<ul>
+<li><p>3、构建示例网站镜像</p>
+<blockquote>
+<p>docker build -t jamtur01/nginx .</p>
+</blockquote>
+</li>
+<li><p>4、获取html文件</p>
+</li>
+</ul>
+<blockquote>
+<p>cd sample </p>
+</blockquote>
+<blockquote>
+<p>mkdir website &amp;&amp; cd website</p>
+</blockquote>
+<blockquote>
+<p>vim index.html</p>
+</blockquote>
+<ul>
+<li>5、启动容器</li>
+</ul>
+<blockquote>
+<p>docker run -d -p 8082:80 –name website -v /Users/mayuan/workspace/dockerTest/sample/website:/var/www/html/website jamtur01/nginx nginx </p>
+</blockquote>
+<p>-p参数指定了宿主机的8082端口绑定到容器的80端口，-v参数将宿主机的website目录挂载到容器的website目录下。</p>
+<p><strong>Docker 中的卷</strong></p>
+<blockquote>
+<p>Docker 中的卷，是在一个或者多个容器中被选中的目录，卷会绕过分层文件系统，直接给容器提供持久化、共享的数据。对卷的修改会立即生效，并绕过镜像。提交或者创建镜像时，不会包括卷。</p>
+</blockquote>
+<p>卷的作用：</p>
+<blockquote>
+<ul>
+<li>希望在多个容器中共享数据</li>
+<li>希望同时对程序进行开发和测试</li>
+<li>卷内代码、数据改动频繁，不希望频繁重启容器</li>
+</ul>
+</blockquote>
+<ul>
+<li>6、测试<br>浏览器访问localhost:8082</li>
+</ul>
+<hr>
+<h2><span id="2-docker-gou-jian-ce-shi-web-ying-yong-cheng-xu">2、Docker构建测试web应用程序</span></h2><p>目的：掌握两个容器之间的链接（link参数），构建webapp-redis的应用程序到数据库的程序栈</p>
+<h4><span id="chong-ming-ming-docker-jing-xiang">重命名Docker 镜像 ：</span></h4><blockquote>
+<p>docker  tag {image_id} {registry}:{tag}<br>docker tag a9a1ce04bf5a jamtur01/sinatra</p>
+</blockquote>
+<h4><span id="p116-nei-rong-zan-shi-mei-kan-dong">p116内容暂时没看懂</span></h4><p>是Docker容器链接相关。属于老旧方案，作对照，下面给出Docker的简单方案：</p>
+<blockquote>
+<p>mkdir sinatra &amp;&amp; cd sinatra</p>
+</blockquote>
+<blockquote>
+<p>mkdir webapp &amp;&amp; cd webapp</p>
+</blockquote>
+<blockquote>
+<p>vim Dockerfile</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:18.04</span><br><span class="line">LABEL maintainer&#x3D;&quot;james@example.com&quot;</span><br><span class="line">ENV REFRESHED_AT 2014-06-01</span><br><span class="line"></span><br><span class="line">RUN apt-get -qq update &amp;&amp; apt-get -qq install ruby ruby-dev build-essential redis-tools</span><br><span class="line">RUN gem install --no-rdoc --no-ri sinatra json redis</span><br><span class="line"></span><br><span class="line">RUN mkdir -p &#x2F;opt&#x2F;webapp</span><br><span class="line"></span><br><span class="line">EXPOSE 4567</span><br><span class="line"></span><br><span class="line">CMD [ &quot;&#x2F;opt&#x2F;webapp&#x2F;bin&#x2F;webapp&quot; ]</span><br></pre></td></tr></table></figure>
+<p>该镜像启动的容器，会创建一个/opt/webapp目录，里面会放外节通过-v参数挂载的可执行文件。CMD命令会执行这个可执行文件</p>
+<p>获取webapp（参考附带文件夹）<br>包括/sinatra/webapp/bin/webapp 的可执行文件以及/sinatra/webapp/lib/app.rb</p>
+<p>构建不链接redis的webapp镜像并启动容器：<strong>注意</strong>：前两个镜像并不涉及到容器互联，第三部分会告知怎么用webapp连接到redis容器</p>
+<blockquote>
+<p>docker build -t jamtur01/sinatra .</p>
+</blockquote>
+<h3><span id="gou-jian-webapp-jing-xiang-bing-qi-dong-rong-qi">构建webapp镜像并启动容器</span></h3><blockquote>
+<p>docker run -d -p 4567:4567 –name webapp -v $PWD/webapp:/opt/webapp jamtur01/sinatra</p>
+</blockquote>
+<blockquote>
+<p>curl -i -H ‘Accept:application/json’ -d ‘name=sss&amp;status=Bar’ <a target="_blank" rel="noopener" href="http://localhost:4567/json">http://localhost:4567/json</a></p>
+</blockquote>
+<h3><span id="gou-jian-redis-jing-xiang-bing-qi-dong-rong-qi">构建redis镜像并启动容器：</span></h3><p>Dockerfile:</p>
+<blockquote>
+<p>FROM ubuntu:18.04<br>LABEL maintainer=”<a href="mailto:&#x6a;&#97;&#109;&#101;&#x73;&#x40;&#101;&#120;&#x61;&#109;&#x70;&#108;&#101;&#x2e;&#x63;&#x6f;&#x6d;">&#x6a;&#97;&#109;&#101;&#x73;&#x40;&#101;&#120;&#x61;&#109;&#x70;&#108;&#101;&#x2e;&#x63;&#x6f;&#x6d;</a>“<br>ENV REFRESHED_AT 2014-06-01</p>
+</blockquote>
+<p>RUN apt-get -qq update &amp;&amp; apt-get -qq install redis-server redis-tools</p>
+<p>EXPOSE 6379</p>
+<p>ENTRYPOINT [“/usr/bin/redis-server” ]<br>CMD []</p>
+<blockquote>
+<p>docker build -t jamtur01/redis .</p>
+</blockquote>
+<blockquote>
+<p>docker run -d -p 6379 –name redis jamtur01/redis</p>
+</blockquote>
+<p>至此，不进行连接的webapp和redis已经构建完成</p>
+<h3><span id="webapp-lian-jie-redis">webapp连接redis</span></h3><p>如果docker中某个名字已经有了对应的容器，需要先用<code>docker rm &#123;container_name&#125;</code> 删除掉对应的容器</p>
+<p>启动redis容器：</p>
+<blockquote>
+<p>docker run -d –name redis jamtur01/redis</p>
+</blockquote>
+<p>注意此处redis没有暴露出任何端口，而是别的容器直接通过“redis”这个容器名连接，通过–link，父容器连接到子容器，父容器可以直接访问到子容器的<strong>任意</strong>端口</p>
+<blockquote>
+<p>docker run -p 4567:4567 –name webapp –link redis:db -t -i -v $PWD/webapp:/opt/webapp jamtur01/sinatra /bin/bash</p>
+</blockquote>
+<p>–link参数指定了webapp容器连接到redis容器的同时，为redis容器指定了一个“db”的别名，父容器中可以直接通过db 访问子容器，例如ping db</p>
+<h4><span id="ping-ming-ling-bu-cun-zai">ping命令不存在</span></h4><p>apt-get update</p>
+<p>apt install iputils-ping</p>
+<p>apt install net-tools</p>
+<p>在父容器中可以查看/etc/hosts看到子容器的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@1508b745189a:&#x2F;# cat &#x2F;etc&#x2F;hosts</span><br><span class="line">127.0.0.1	localhost</span><br><span class="line">::1	localhost ip6-localhost ip6-loopback</span><br><span class="line">fe00::0	ip6-localnet</span><br><span class="line">ff00::0	ip6-mcastprefix</span><br><span class="line">ff02::1	ip6-allnodes</span><br><span class="line">ff02::2	ip6-allrouters</span><br><span class="line">172.17.0.2	db 6a59a6b98406 redis</span><br><span class="line">172.17.0.3	1508b745189a</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ping db</p>
+</blockquote>
+<p>启动webapp程序：</p>
+<blockquote>
+<p>/opt/webapp/bin/webapp</p>
+</blockquote>
+<p>访问</p>
+<blockquote>
+<p>curl -i -H ‘Accept: application/json’ -d ‘param=”test’ <a target="_blank" rel="noopener" href="http://127.0.0.1/json">http://127.0.0.1/json</a></p>
+</blockquote>
+<h4><span id="redis-commanderror-at-json">Redis::CommandError at /json</span></h4><blockquote>
+<p>DENIED Redis is running in protected mode because protected mode is enabled, no bind address was specified, no authentication password is requested to clients. In this mode connections are only accepted from the loopback interface. If you want to connect from external computers to Redis you may adopt one of the following solutions: 1) Just disable protected mode sending the command ‘CONFIG SET protected-mode no’ from the loopback interface by connecting to Redis from the same host the server is running, however MAKE SURE Redis is not publicly accessible from internet if you do so. Use CONFIG REWRITE to make this change permanent. 2) Alternatively you can just disable the protected mode by editing the Redis configuration file, and setting the protected mode option to ‘no’, and then restarting the server. 3) If you started the server manually just for testing, restart it with the ‘–protected-mode no’ option. 4) Setup a bind address or an authentication password. NOTE: You only need to do one of the above things in order for the server to start accepting connections from the outside.</p>
+</blockquote>
+<p>解决办法：<br>进入到redis容器里,<code>redis-cli CONFIG SET protected-mode no</code></p>
+<p>在redis容器中开启一个控制台：</p>
+<blockquote>
+<p>docker exec -t -i redis /bin/bash</p>
+</blockquote>
+<p>进入redis命令行界面</p>
+<blockquote>
+<p>redis-cli</p>
+</blockquote>
+<p>查看所有key</p>
+<blockquote>
+<p>keys * </p>
+</blockquote>
+<p>获取key对应的数据</p>
+<blockquote>
+<p>get param</p>
+</blockquote>
+<hr>
+<h2><span id="3-docker-ji-cheng-ce-shi-huan-jing-da-jian">3、Docker集成测试环境搭建</span></h2><h4><span id="ji-cheng-ce-shi">集成测试：</span></h4><blockquote>
+<p>集成测试（也叫组装测试，联合测试）是单元测试的逻辑扩展。它最简单的形式是：把两个已经测试过的单元组合成一个组件，测试它们之间的接口。从这一层意义上讲，组件是指多个单元的集成聚合。在现实方案中，许多单元组合成组件，而这些组件又聚合为程序的更大部分。方法是测试片段的组合，并最终扩展成进程，将模块与其他组的模块一起测试。最后，将构成进程的所有模块一起测试。此外，如果程序由多个进程组成，应该成对测试它们，而不是同时测试所有进程。</p>
+</blockquote>
+<hr>
+<h1><span id="shi-yong-docker-gou-jian-fu-wu">使用Docker构建服务</span></h1><h2><span id="jekyll-da-jian-ri-zhi-fu-wu">jekyll 搭建日志服务</span></h2><h4><span id="jekyll">jekyll</span></h4><blockquote>
+<p>jekyll是一个简单的免费的Blog生成工具，类似WordPress。但是和WordPress又有很大的不同，原因是jekyll只是一个生成静态网页的工具，不需要数据库支持。但是可以配合第三方服务,例如Disqus。最关键的是jekyll可以免费部署在Github上，而且可以绑定自己的域名。</p>
+</blockquote>
+<p>1、构建jekyll镜像<br>Dockerfile:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:16.04</span><br><span class="line">MAINTAINER James Turnbull &lt;james@example.com&gt;</span><br><span class="line">ENV REFRESHED_AT 2016-06-01</span><br><span class="line"></span><br><span class="line">RUN apt-get -qq update</span><br><span class="line">RUN apt-get -qq install ruby ruby-dev build-essential nodejs</span><br><span class="line">RUN gem install --no-rdoc --no-ri jekyll -v 2.5.3</span><br><span class="line"></span><br><span class="line">VOLUME [ &quot;&#x2F;data&quot;, &quot;&#x2F;var&#x2F;www&#x2F;html&quot; ]</span><br><span class="line">WORKDIR &#x2F;data</span><br><span class="line"></span><br><span class="line">ENTRYPOINT [ &quot;jekyll&quot;, &quot;build&quot;, &quot;--destination&#x3D;&#x2F;var&#x2F;www&#x2F;html&quot;, &quot;--watch&quot; ]</span><br></pre></td></tr></table></figure>
+<p>指定了/data 以及 /var/www/html 作为宿主机下所有容器可通用的挂载卷。（可通过docker run时 -v参数指定宿主机上，也可以不指定挂载宿主机上的卷，只用于容器间的共享）</p>
+<blockquote>
+<p>docker build -t jamtur01/jekyll .</p>
+</blockquote>
+<p>2、构建apache镜像</p>
+<p>Dockfile:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:16.04</span><br><span class="line">MAINTAINER James Turnbull &lt;james@example.com&gt;</span><br><span class="line"></span><br><span class="line">RUN apt-get -qq update</span><br><span class="line">RUN apt-get -qq install apache2</span><br><span class="line"></span><br><span class="line">VOLUME [ &quot;&#x2F;var&#x2F;www&#x2F;html&quot; ]</span><br><span class="line">WORKDIR &#x2F;var&#x2F;www&#x2F;html</span><br><span class="line"></span><br><span class="line">ENV APACHE_RUN_USER www-data</span><br><span class="line">ENV APACHE_RUN_GROUP www-data</span><br><span class="line">ENV APACHE_LOG_DIR &#x2F;var&#x2F;log&#x2F;apache2</span><br><span class="line">ENV APACHE_PID_FILE &#x2F;var&#x2F;run&#x2F;apache2.pid</span><br><span class="line">ENV APACHE_RUN_DIR &#x2F;var&#x2F;run&#x2F;apache2</span><br><span class="line">ENV APACHE_LOCK_DIR &#x2F;var&#x2F;lock&#x2F;apache2</span><br><span class="line"></span><br><span class="line">RUN mkdir -p $APACHE_LOG_DIR $APACHE_RUN_DIR $APACHE_LOCK_DIR</span><br><span class="line"></span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line">ENTRYPOINT [ &quot;&#x2F;usr&#x2F;sbin&#x2F;apache2&quot; ]</span><br><span class="line">CMD [ &quot;-D&quot;, &quot;FOREGROUND&quot; ]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>docker build -t jamtur01/apache .</p>
+</blockquote>
+<p>3、启动容器</p>
+<p>获取james_blog内容(参考源码文件夹)</p>
+<p>以jamtur01/jekyll镜像为基础，构建一个james_blog镜像，并且把本地的james_blog文件夹挂载到容器的/data/下。（因为jekyll镜像的Dockerfile里指定了，将/data/作为Volume，所以所有容器都可以访问这个卷）</p>
+<blockquote>
+<p>docker run -v …/james_blog:/data/ –name james_blog jamtur01/jekyll</p>
+</blockquote>
+<p>启动apache容器，同时指定挂载卷为james_blog中指定的所有挂载卷</p>
+<blockquote>
+<p>docker run -d -P –name apache –volumes-from james_blog jametur01/apache</p>
+</blockquote>
+<blockquote>
+<p>docker port apache -&gt; {port}</p>
+</blockquote>
+<blockquote>
+<p>浏览器打开localhost:{port}</p>
+</blockquote>
+<p>4、修改博客内容</p>
+<blockquote>
+<p>vim …/james_blog/_config.yml</p>
+</blockquote>
+<p>修改内容后，需要重启james_blog容器</p>
+<blockquote>
+<p>ctrl+c -&gt; docker start james_blog</p>
+</blockquote>
+<p>可对卷内容进行备份：</p>
+<blockquote>
+<p>sudo docker run –rm –volumes-from james_blog -v $(pwd):/backup ubuntu tar zcvf /backup/james_blog_backup.tar.gz /var/www/html</p>
+</blockquote>
+<p>上述命令对james_blog 里的volumes内容进行了备份。备份到了新开的容器ubuntu的/backup目录下。</p>
+<p>–rm标志表示只用一次的容器，带有这个标志的容器，会在容器的进程运行完毕后，自动删除容器</p>
+<hr>
+<h2><span id="docker-da-jian-yi-ge-javaweb">Docker搭建一个javaweb</span></h2><p>1、war文件获取器<br>Dockerfile :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:16.04</span><br><span class="line">MAINTAINER James Turnbull &lt;james@example.com&gt;</span><br><span class="line">ENV REFRESHED_AT 2016-06-01</span><br><span class="line"></span><br><span class="line">RUN apt-get -qq update</span><br><span class="line">RUN apt-get -qq install wget</span><br><span class="line"></span><br><span class="line">VOLUME [ &quot;&#x2F;var&#x2F;lib&#x2F;tomcat8&#x2F;webapps&quot; ]</span><br><span class="line">WORKDIR &#x2F;var&#x2F;lib&#x2F;tomcat8&#x2F;webapps</span><br><span class="line"></span><br><span class="line">ENTRYPOINT [ &quot;wget&quot; ]</span><br><span class="line">CMD [ &quot;--help&quot; ]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>docker build -t jamtur01/fetcher .</p>
+</blockquote>
+<p>获取tomcat8示例文件</p>
+<blockquote>
+<p>docker run -t -i –name sample jamtur01/fetcher <a target="_blank" rel="noopener" href="https://tomcat.apache.org/tomcat-8.0-doc/appdev/sample/sample.war">https://tomcat.apache.org/tomcat-8.0-doc/appdev/sample/sample.war</a></p>
+</blockquote>
+<p>2、tomcat8应用服务器<br>Dockfile:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:16.04</span><br><span class="line">MAINTAINER James Turnbull &lt;james@example.com&gt;</span><br><span class="line">ENV REFRESHED_AT 2016-06-01</span><br><span class="line"></span><br><span class="line">RUN apt-get -qq update</span><br><span class="line">RUN apt-get -qq install tomcat8 default-jdk</span><br><span class="line"></span><br><span class="line">ENV CATALINA_HOME &#x2F;usr&#x2F;share&#x2F;tomcat8</span><br><span class="line">ENV CATALINA_BASE &#x2F;var&#x2F;lib&#x2F;tomcat8</span><br><span class="line">ENV CATALINA_PID &#x2F;var&#x2F;run&#x2F;tomcat8.pid</span><br><span class="line">ENV CATALINA_SH &#x2F;usr&#x2F;share&#x2F;tomcat8&#x2F;bin&#x2F;catalina.sh</span><br><span class="line">ENV CATALINA_TMPDIR &#x2F;tmp&#x2F;tomcat8-tomcat8-tmp</span><br><span class="line"></span><br><span class="line">RUN mkdir -p $CATALINA_TMPDIR</span><br><span class="line"></span><br><span class="line">VOLUME [ &quot;&#x2F;var&#x2F;lib&#x2F;tomcat8&#x2F;webapps&quot; ]</span><br><span class="line"></span><br><span class="line">EXPOSE 8080</span><br><span class="line"></span><br><span class="line">ENTRYPOINT [ &quot;&#x2F;usr&#x2F;share&#x2F;tomcat8&#x2F;bin&#x2F;catalina.sh&quot;, &quot;run&quot; ]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>docker build -t jamtur01/tomcat8 .</p>
+</blockquote>
+<blockquote>
+<p>docker run –name sample_app –volumes-from sample -d -P  jamtur01/tomcat8</p>
+</blockquote>
+<blockquote>
+<p>docker port sample_app</p>
+</blockquote>
+<blockquote>
+<p>浏览器访问测试</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/27/devops/%E7%AC%AC%E4%B8%80%E6%9C%ACDocker%E4%B9%A6/" data-id="cko3t66z7002brsxg9397gwe0" data-title="《第一本Docker书》学习笔记" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%B9%E5%99%A8/" rel="tag">容器</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/27/devops/prometheus%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          prometheus学习笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/27/did/DID%20Resolution/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">DID解析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CA/">CA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E4%B9%A6/">杂书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CA/" style="font-size: 10px;">CA</a> <a href="/tags/DAO/" style="font-size: 12.5px;">DAO</a> <a href="/tags/DevOps/" style="font-size: 15px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/HyperLedger/" style="font-size: 10px;">HyperLedger</a> <a href="/tags/K8S/" style="font-size: 10px;">K8S</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/did/" style="font-size: 17.5px;">did</a> <a href="/tags/mathchain/" style="font-size: 10px;">mathchain</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E8%B5%84%E4%BA%A7/" style="font-size: 10px;">加密资产</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 20px;">区块链</a> <a href="/tags/%E5%AE%B9%E5%99%A8/" style="font-size: 10px;">容器</a> <a href="/tags/%E6%9D%82%E4%B9%A6/" style="font-size: 10px;">杂书</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 12.5px;">架构</a> <a href="/tags/%E7%9B%91%E6%8E%A7/" style="font-size: 10px;">监控</a> <a href="/tags/%E7%BD%91%E5%85%B3/" style="font-size: 10px;">网关</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">证书</a> <a href="/tags/%E9%93%BE%E7%A0%81/" style="font-size: 10px;">链码</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/30/hexo/config/">博客配置</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/">《架构修炼之道-亿级网关...》阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/CA/PKI-CA/">PKI/CA与数字证书技术大全</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/">图解http阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/">《成为极少数》阅读笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 MGintoki<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

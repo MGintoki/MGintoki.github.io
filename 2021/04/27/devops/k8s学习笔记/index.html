@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>K8S学习笔记 | MGintoki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="参考资料： 一 基础概念 总览 基本概念和术语 Master Node Pod Label Replication Controller Deployment Horizontal Pod Autoscaler StatefulSet Todo Service JOB Volume PV Namespace Annotation ConfigMap     安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K8S学习笔记">
+<meta property="og:url" content="https://mgintoki.github.io/2021/04/27/devops/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="MGintoki">
+<meta property="og:description" content="参考资料： 一 基础概念 总览 基本概念和术语 Master Node Pod Label Replication Controller Deployment Horizontal Pod Autoscaler StatefulSet Todo Service JOB Volume PV Namespace Annotation ConfigMap     安装">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB6abd658ec2bee4f902b06332b5d9e9d0?method=download&shareKey=73bfeb2d679779a18837d3dd04568a18">
+<meta property="article:published_time" content="2021-04-27T12:34:46.000Z">
+<meta property="article:modified_time" content="2021-04-30T04:07:37.453Z">
+<meta property="article:author" content="MGintoki">
+<meta property="article:tag" content="架构">
+<meta property="article:tag" content="DevOps">
+<meta property="article:tag" content="K8S">
+<meta property="article:tag" content="集群">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/api/personal/file/WEB6abd658ec2bee4f902b06332b5d9e9d0?method=download&shareKey=73bfeb2d679779a18837d3dd04568a18">
+  
+    <link rel="alternate" href="/atom.xml" title="MGintoki" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon-32x32.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MGintoki</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mgintoki.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-devops/k8s学习笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/27/devops/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-04-27T12:34:46.000Z" itemprop="datePublished">2021-04-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/DevOps/">DevOps</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      K8S学习笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#can-kao-zi-liao">参考资料：</a></li>
+<li><a href="#yi-ji-chu-gai-nian">一 基础概念</a><ul>
+<li><a href="#zong-lan">总览</a></li>
+<li><a href="#ji-ben-gai-nian-he-zhu-yu">基本概念和术语</a><ul>
+<li><a href="#master">Master</a></li>
+<li><a href="#node">Node</a></li>
+<li><a href="#pod">Pod</a></li>
+<li><a href="#label">Label</a></li>
+<li><a href="#replication-controller">Replication Controller</a></li>
+<li><a href="#deployment">Deployment</a></li>
+<li><a href="#horizontal-pod-autoscaler">Horizontal Pod Autoscaler</a></li>
+<li><a href="#statefulset-todo">StatefulSet Todo</a></li>
+<li><a href="#service">Service</a></li>
+<li><a href="#job">JOB</a></li>
+<li><a href="#volume">Volume</a></li>
+<li><a href="#pv">PV</a></li>
+<li><a href="#namespace">Namespace</a></li>
+<li><a href="#annotation">Annotation</a></li>
+<li><a href="#configmap">ConfigMap</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#an-zhuang">安装</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
+<span id="more"></span>
+[toc]
+# 参考资料：
+《k8s权威指南》https://weread.qq.com/web/reader/9fc329507191463c9fcee6d
+# 一 基础概念
+
+<h2><span id="zong-lan">总览</span></h2><p>k8s 由谷歌开发</p>
+<p>k8s是一个基于容器技术的分布式架构方案，是一个强大的分布式系统支撑平台</p>
+<p>使用好处：</p>
+<ul>
+<li><p>降低运维难度和运维成本</p>
+</li>
+<li><p>便于迁移（不局限于任何语言，任何接口）</p>
+</li>
+<li><p>完备的集群管理能力。</p>
+</li>
+<li><p>便于扩容</p>
+</li>
+<li><p>service概念</p>
+<ul>
+<li>拥有唯一指定名称</li>
+<li><strong>拥有一个虚拟ip和端口</strong></li>
+<li>能够提供某种远程能力并且被映射到提供这种服务能力的一组容器上</li>
+<li>一旦创建，其本身就不在变化。通过k8s内置的负载均衡、故障恢复等，保证了其稳定使用。</li>
+</ul>
+</li>
+<li><p>Pod：k8s把为service提供服务的这组进程放入容器中进行隔离，每个服务进程作为在pod中运行的一个容器。每个pod都会有一个标签，例如（name=mysql）service可以根据标签来选择pod</p>
+</li>
+<li><p>Node（节点）：节点可以使物理机，也可以是虚拟机，一个节点上可以运行上百个pod，这些业务容器共享pause容器的网络栈和挂载卷。</p>
+</li>
+<li><p>k8s将机器划分成master和一些node，master集群管理，k8s的最小管理单元是pod。</p>
+</li>
+</ul>
+<h2><span id="ji-ben-gai-nian-he-zhu-yu">基本概念和术语</span></h2><blockquote>
+<p>总览：k8s通过跟踪对比etcd库里保存的“资源期望状态”与当前环境中的“实际资源状态”的差异来实现自动控制和自动纠错的高级功能</p>
+</blockquote>
+<h3><span id="master">Master</span></h3><p>master是集群控制节点，执行的所有命令都交给master，通常master独占一台机器或多台机器。</p>
+<ul>
+<li>master上运行着<ul>
+<li>k8s API server（提供http rest 接口，是k8s所有资源增删查改的唯一入口），</li>
+<li>k8s controller manager（资源对象自动化控制中心），</li>
+<li>k8s scheduler（资源调度/pod调度）</li>
+</ul>
+</li>
+</ul>
+<h3><span id="node">Node</span></h3><p>k8s集群中除了 Master的所有机器都叫做Node。Node可以是一台物理机，也可以是一台虚拟机。每个Node上会跑着Master分配的工作负载（Docker容器），一个Node宕机时，他的负载会被交给别的机器</p>
+<ul>
+<li>Node的进程    <ul>
+<li>kubelet 负责pod对应容器的创建、启停， 参与集群管理</li>
+<li>kube-proxy k8s service通信和负载均衡 组件</li>
+<li>Docker Engine 本机容器的创建管理</li>
+</ul>
+</li>
+</ul>
+<p>Node可以动态加入k8s集群，向master节点注册自己，汇报自身信息（pod运行信息，机器自身信息等）</p>
+<h3><span id="pod">Pod</span></h3><p>图1.4 pod 示意图</p>
+<ul>
+<li>Pod的结构：根容器（pause容器）+ 业务容器<ul>
+<li>Pod的pause容器的状态，代表了整个容器组的状态（可用/不可用）</li>
+<li>Pod里的容器组共享pause容器的ip和volume</li>
+<li>任意两个Pod可以通过Tcp/Ip通信</li>
+</ul>
+</li>
+</ul>
+<p>Pod包括</p>
+<ul>
+<li><p>普通pod，创建之后，1放入etcd存储，2会被k8s master调度到某个Node绑定3被node上的kubelet实例化成一组docker容器并启动</p>
+<ul>
+<li>pod所在的node不可用，会把这个node上的所有pod调度到另一个可用node</li>
+</ul>
+</li>
+<li><p>静态pod 不放在etcd，只定义在某个node上，纯供这个node使用。</p>
+</li>
+<li><p>pod中的每个容器可以定义一个容器端口（container endpoint），访问这个容器可以通过pod的ip+容器的端口（=endpoint）进行访问</p>
+</li>
+<li><p>Pod可以拥有Volume ，被各个容器挂载到自己的文件系统里</p>
+</li>
+<li><p>Node和Pod都有 k8s Event（事件记录）</p>
+</li>
+<li><p>Pod的container可以通过Request设置资源最小申请量和Limie设置资源最大允许量，当资源（Cpu，内存）在这两个区间时，可以运行。</p>
+</li>
+</ul>
+<h3><span id="label">Label</span></h3><p>Label是一个标签，可以通过不同的Label实现多维度的分组管理功能。</p>
+<p>管理对象如RC、Service可以设置Pod的Label（set apptype=app），Job等消费者可以通过标签（select apptype=app)来分组筛选对象。</p>
+<ul>
+<li>场景<ul>
+<li>资源对象RC通过RC上定义的label selector标签筛选要监控的Pod副本数量，使Pod副本数量始终满足需求</li>
+<li>kube-proxy通过Serice上的Label Selector选择Pod，建立每个service到对应pod的请求路由表，实现负载均衡。</li>
+<li>k8s Scheduler通过标签实现Pod的定向调度</li>
+</ul>
+</li>
+</ul>
+<h3><span id="replication-controller">Replication Controller</span></h3><p>RC定义了一个期望场景，即某种Pod副本数量在任何时候都满足某个预期值。</p>
+<p>RC 目前逐渐被deployment和Replica Set 取代</p>
+<ul>
+<li>RC作用    <ul>
+<li>定义一个RC实现Pod的创建和Pod副本数量自动控制</li>
+<li>RC里包含完整的Pod定义模板</li>
+<li>RC通过Label Selector实现对Pod副本的自动控制</li>
+<li>改变RC Pod副本数量，实现Pod的扩容缩容</li>
+<li>改变RC里Pod模板的镜像版本，实现Pod滚动升级</li>
+</ul>
+</li>
+</ul>
+<h3><span id="deployment">Deployment</span></h3><blockquote>
+<p>一个pod的创建、调度、绑定节点以及在目标Node上启动对应的容器这一过程需要时间。”启动N个Pod副本“是一个连续变化的”部署过程“。</p>
+</blockquote>
+<ul>
+<li>场景：<ul>
+<li>创建一个deployment对象生成对应的replica set ，完成pod的创建</li>
+<li>检查deployment的状态查看部署是否完成（副本数量是否达到预期）</li>
+<li>更新deployment来升级pod</li>
+<li>扩展deployment应对高负载</li>
+<li>。。。</li>
+</ul>
+</li>
+</ul>
+<p>示例代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#chapter 1.4.6, 1.4.11</span><br><span class="line">apiVersion: apps&#x2F;v1</span><br><span class="line">#书中extensions&#x2F;v1beta1的API版本不再提供Deployment，使用apps&#x2F;v1</span><br><span class="line">#https:&#x2F;&#x2F;kubernetes.io&#x2F;blog&#x2F;2019&#x2F;07&#x2F;18&#x2F;api-deprecations-in-1-16&#x2F;</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: frontend</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      tier: frontend</span><br><span class="line">    matchExpressions:</span><br><span class="line">      - &#123;key: tier, operator: In, values: [frontend]&#125;</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: app-demo</span><br><span class="line">        tier: frontend</span><br><span class="line">    spec:</span><br><span class="line">      volumes: #为Pod增加Volume</span><br><span class="line">      - name: datavol</span><br><span class="line">        emptyDir: &#123;&#125; #emptyDir类型的Volume，跟随Pod生命周期</span><br><span class="line">      - name: &quot;presistent-storage&quot;</span><br><span class="line">        hostPath: #hostPath类型的Volume，可在Pod上挂载宿主机上的文件或目录</span><br><span class="line">          path: &quot;&#x2F;data&quot; #例如挂载宿主机的&#x2F;data目录</span><br><span class="line">      containers:</span><br><span class="line">      - name: tomcat-demo</span><br><span class="line">        image: tomcat</span><br><span class="line">        volumeMounts: #挂在到&#x2F;mydata-data目录</span><br><span class="line">        - mountPath: &#x2F;mydata-data</span><br><span class="line">          name: datavol</span><br><span class="line">        imagePullPolicy: IfNotPresent</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 8080</span><br></pre></td></tr></table></figure>
+
+
+<h3><span id="horizontal-pod-autoscaler">Horizontal Pod Autoscaler</span></h3><ul>
+<li>自动Pod扩容缩容资源<ul>
+<li>缩扩容触发<ul>
+<li>通过 CPUUtilizationPercentage（目标Pod每分钟Cpu使用量）来计算是否需要缩容扩容</li>
+<li>通过程序自定义的度量指标，例如服务每秒钟的请求数</li>
+<li>通过内置的metrics.k8s.io/v1beta1接口获取CPU监控指标<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#chapter 1.4.7</span><br><span class="line">apiVersion: autoscaling&#x2F;v1</span><br><span class="line">kind: HorizontalPodAutoscaler</span><br><span class="line">metadata:</span><br><span class="line">  name: php-apache</span><br><span class="line">  namespace: default</span><br><span class="line">spec:</span><br><span class="line">  maxReplicas: 10</span><br><span class="line">  minReplicas: 1</span><br><span class="line">  scaleTargetRef:</span><br><span class="line">    kind: Deployment</span><br><span class="line">    name: php-apache</span><br><span class="line">  targetCPUUtilizationPercentage: 90 &#x2F;&#x2F;当平均Cpu使用率达到90%，开始扩容</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3><span id="statefulset-todo">StatefulSet Todo</span></h3><h3><span id="service">Service</span></h3><blockquote>
+<p>k8s中的每个Service实际上就是微服务架构里的一个微服务</p>
+</blockquote>
+<ul>
+<li>一个 service 对应一个负载均衡器，后端是一堆被service标签选择器选中的pod</li>
+<li>service 可以通过 clusterip 访问，可以通过nodeport访问</li>
+</ul>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB6abd658ec2bee4f902b06332b5d9e9d0?method=download&shareKey=73bfeb2d679779a18837d3dd04568a18"></p>
+<p>每个pod都会被分配一个IP地址，每个Pod可以提供多个Endpoint（Pod ip + containerPort）被访问。所以当多个Pod副本组成了一个集群提供服务时，k8s采用<strong>kube-proxy</strong>作为负载均衡器，为这组pod开启一个对外服务的接口。</p>
+<p>service一旦被创建，k8s会为它非配一个可用的cluster IP，在service的整个生命周期里，他的cluster ip不会变。在服务发现时，会用service的name和service的cluster ip做一个dns映射。</p>
+<ul>
+<li><p>service的多端口问题</p>
+<ul>
+<li>很多服务可能存在多个端口，在此情况下每个端口会需要定义一个名称来进行区分。</li>
+</ul>
+</li>
+<li><p>k8s的服务发现机制</p>
+<ul>
+<li>k8s把服务名作为dns域名，程序可以使用服务名来建立通信连接。</li>
+</ul>
+</li>
+</ul>
+<h4><span id="wai-bu-fang-wen-service-fang-an-1">外部访问service方案1</span></h4><ul>
+<li>Node IP <pre><code>  - node ip 是k8s集群中每个节点的物理网卡的ip地址，是一个真实存在的物理网络。
+  - 在k8s集群之外的节点访问k8s集群之内的节点需要通过Node IP通信
+</code></pre>
+</li>
+<li>Pod IP <pre><code>  - pod ip是一个虚拟的二层网络
+  - k8s两个pod之间的流量，实际上是走的node ip
+</code></pre>
+</li>
+<li>Cluster IP<pre><code>  - 仅对k8s service 对象生效，由k8s管理和分配ip地址
+  - cluster ip只能结合service port 组成一个具体的通信端口。单独的cluster ip不具备tcp/ip通信的基础。
+  - 无法集群外使用cluster ip
+</code></pre>
+</li>
+<li>采用NodePort的方式，使service具备集群外访问的能力<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#chapter 1.4.9</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: tomcat-service</span><br><span class="line">spec:</span><br><span class="line">  type: NodePort #定义使用NodePort，使集群外可以访问此Service</span><br><span class="line">  ports:</span><br><span class="line">  - port: 8080 #Service服务端口</span><br><span class="line">    name: service-port</span><br><span class="line">    nodePort: 31002 #指定NodePort，使集群外可以访问此Service</span><br><span class="line">  - port: 8005 #多端口示例</span><br><span class="line">    name: shutdown-port #每个端口都需要命名</span><br><span class="line">  selector:</span><br><span class="line">    tier: frontend #所有拥有“tier&#x3D;frontend”这个Label的Pod都属于此Service</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4><span id="wai-bu-fang-wen-service-fang-an-2-fu-zai-jun-heng-zu-jian">外部访问service方案2-负载均衡组件</span></h4><p>NodePort不具备负载均衡能力<br>可以将service的type修改成LoadBalance，k8s会创建一个LoadBalance实例并返回它的IP地址供外部客户端使用。</p>
+<h3><span id="job">JOB</span></h3><blockquote>
+<p>批处理任务通常并行（或者串行）启动多个计算进程去处理一批工作项（work item），在处理完成后</p>
+</blockquote>
+<p>Job控制一组pod容器。Job控制的Pod容器是短暂运行的，可视为一组Docker容器，每个Docker容器仅运行一次，Job控制的所有Pod副本运行结束时，对应的Job视作结束</p>
+<p>Job控制的Pod副本能够多实例并行计算</p>
+<h3><span id="volume">Volume</span></h3><p>Volume（存储卷）是Pod中能够被多个容器访问的共享目录</p>
+<ul>
+<li><p>k8s Volume和Docker Volume的区别</p>
+</li>
+<li><p>Kubernetes中的Volume被定义在Pod上，然后被一个Pod里的多个容器挂载到具体的文件目录下</p>
+</li>
+<li><p>Kubernetes中的Volume与Pod的生命周期相同，但与容器的生命周期不相关，当容器终止或者重启时，Volume中的数据也不会丢失。</p>
+</li>
+<li><p>Kubernetes支持多种类型的Volume，例如GlusterFS、Ceph等先进的分布式文件系统。</p>
+</li>
+<li><p>Volumes支持多种类型</p>
+<ul>
+<li>emptyDir <ul>
+<li>初始内容为空，无需指定宿主机上的目录文件。</li>
+<li>Pod从Node移除时，emptyDir的内容会被清除</li>
+<li>适用于作为临时空间、多容器共享目录适用</li>
+</ul>
+</li>
+<li>hostPath<ul>
+<li>将宿主机的某个目录文件挂载到Pod</li>
+</ul>
+</li>
+<li>gcePersistentDisk <ul>
+<li>谷歌云提供的永久磁盘（Persistent Disk，PD）</li>
+<li>该Volume（PD）的内容会永久保存</li>
+<li>Pod被删除时，PD被unmount，不会被删除</li>
+<li>同亚马逊提供的awsElasticBlockStore</li>
+</ul>
+</li>
+<li>NFS <ul>
+<li>网络文件系统</li>
+<li>需要现在系统中部署一个NFS Server<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#chapter 1.4.6, 1.4.11</span><br><span class="line">apiVersion: apps&#x2F;v1</span><br><span class="line">#书中extensions&#x2F;v1beta1的API版本不再提供Deployment，使用apps&#x2F;v1</span><br><span class="line">#https:&#x2F;&#x2F;kubernetes.io&#x2F;blog&#x2F;2019&#x2F;07&#x2F;18&#x2F;api-deprecations-in-1-16&#x2F;</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: frontend</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      tier: frontend</span><br><span class="line">    matchExpressions:</span><br><span class="line">      - &#123;key: tier, operator: In, values: [frontend]&#125;</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: app-demo</span><br><span class="line">        tier: frontend</span><br><span class="line">    spec:</span><br><span class="line">      volumes: #为Pod增加Volume</span><br><span class="line">      - name: datavol</span><br><span class="line">        emptyDir: &#123;&#125; #emptyDir类型的Volume，跟随Pod生命周期</span><br><span class="line">      - name: &quot;presistent-storage&quot;</span><br><span class="line">        hostPath: #hostPath类型的Volume，可在Pod上挂载宿主机上的文件或目录</span><br><span class="line">          path: &quot;&#x2F;data&quot; #例如挂载宿主机的&#x2F;data目录</span><br><span class="line">      - name: test-volume</span><br><span class="line">        gcePersistentDisk</span><br><span class="line">          pdName:my-data&#x3D;disk</span><br><span class="line">          fsType:ext4</span><br><span class="line">      - name : nfs</span><br><span class="line">        nfs:</span><br><span class="line">            #自己部署的NFS server地址</span><br><span class="line">            server:nfs-server.localhost</span><br><span class="line">            path:&quot;&#x2F;&quot;</span><br><span class="line">      containers:</span><br><span class="line">      - name: tomcat-demo</span><br><span class="line">        image: tomcat</span><br><span class="line">        volumeMounts: #挂在到&#x2F;mydata-data目录</span><br><span class="line">        - mountPath: &#x2F;mydata-data</span><br><span class="line">          name: datavol</span><br><span class="line">        imagePullPolicy: IfNotPresent</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 8080</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3><span id="pv">PV</span></h3><blockquote>
+<p>Volume是被定义在Pod上的，属于计算资源的一部分;网络存储是相对独立于计算资源而存在的一种实体资源;我们通常会先定义一个网络存储，然后从中划出一个“网盘”并挂接到虚拟机上。Persistent Volume（PV）和与之相关联的PersistentVolume Claim（PVC）也起到了类似的作用。</p>
+</blockquote>
+<p>PV只能是网络存储，不属于任何Node，但可以在每个Node上访问。</p>
+<p>PV不是在Pod上定义的，是独立于Pod定义</p>
+<p>支持的类型：gcePersistentDisk、AWSElasticBlockStore、AzureFile。。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#chapter 1.4.12</span><br><span class="line">#PV定义yaml文件</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: PersistentVolume</span><br><span class="line">metadata:</span><br><span class="line">  name: pv0003</span><br><span class="line">spec:</span><br><span class="line">  capacity:</span><br><span class="line">    storage: 5Gi</span><br><span class="line">  accessModes: #定义PV权限</span><br><span class="line">    - ReadWriteOnce </span><br><span class="line">    #ReadWriteOnce：读写权限，只能被单个Node挂载</span><br><span class="line">    #ReadOnlyMany：只读权限，允许被多个Node挂载</span><br><span class="line">    #ReadWriteMany：读写权限，允许被多个Node挂载</span><br><span class="line">  nfs:</span><br><span class="line">    path: &#x2F;somepath</span><br><span class="line">    server: 172.17.0.2</span><br></pre></td></tr></table></figure>
+
+<p>如果某个Pod想申请某种某种类型的PV，需要定义一个PVC（PersistentVolumeClaim）对象后，在Pod的Volume定义中引用定义的PVC</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#chapter 1.4.12</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: PersistentVolumeClaim #PVC用于某个Pod想要申请某种类型的PV</span><br><span class="line">metadata:</span><br><span class="line">  name: myclaim</span><br><span class="line">spec:</span><br><span class="line">  accessModes:</span><br><span class="line">    - ReadWriteOnce</span><br><span class="line">  reources:</span><br><span class="line">    requests:</span><br><span class="line">      storage: 8Gi</span><br><span class="line">#定义PVC对象后，在Pod的Volume定义中引用PVC</span><br><span class="line">#volumes:</span><br><span class="line">#  - name: mypd</span><br><span class="line">#    PersistentVolumeClaim：</span><br><span class="line">#      claimName: myclaim</span><br></pre></td></tr></table></figure>
+
+<h3><span id="namespace">Namespace</span></h3><blockquote>
+<p>Namespace在很多情况下用于实现多租户的资源隔离。Namespace通过将集群内部的资源对象“分配”到不同的Namespace中，形成逻辑上分组的不同项目、小组或用户组，便于不同的分组在共享使用整个集群的资源的同时还能被分别管理</p>
+</blockquote>
+<ul>
+<li>k8s集群会默认创建一个名为default的namespace</li>
+<li>如果不特别指定namespace，用户创建的Pod，RC，Service会被系统默认分配到default的Namespace</li>
+</ul>
+<blockquote>
+<p>当给每个租户创建一个Namespace来实现多租户的资源隔离时，还能结合Kubernetes的资源配额管理，限定不同租户能占用的资源，例如CPU使用量、内存使用量等</p>
+</blockquote>
+<h3><span id="annotation">Annotation</span></h3><p>Annotation（注解）类似Label。区别是注解的命名规则并不严格，由用户定义，便于外部工具查找。<br>可能用注解记录build信息、release信息、docker镜像信息。。。</p>
+<h3><span id="configmap">ConfigMap</span></h3><p>ConfigMap 理解成 是一个key-value形式存储了配置信息（环境变量）的map，这个map存放在etcd里，可以由k8s以Volume映射的方式 变成pod里的配置文件。当configMap的数据修改时，映射到pod里的”配置文件“也会随之更新。</p>
+<h1><span id="an-zhuang">安装</span></h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/27/devops/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="cko3t66yg000arsxg6xmn08n9" data-title="K8S学习笔记" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/K8S/" rel="tag">K8S</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/27/blockchain/%E5%8C%BA%E5%9D%97%E9%93%BE%EF%BC%9A%E5%AE%9A%E4%B9%89%E6%9C%AA%E6%9D%A5%E9%87%91%E8%9E%8D%E4%B8%8E%E7%BB%8F%E6%B5%8E%E6%96%B0%E6%A0%BC%E5%B1%80/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          《区块链：定义未来金融与经济新格局》阅读笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/27/did/DID%20core%20data%20model%20and%20syntaxes/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">DID 模型与语法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CA/">CA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E4%B9%A6/">杂书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CA/" style="font-size: 10px;">CA</a> <a href="/tags/DAO/" style="font-size: 12.5px;">DAO</a> <a href="/tags/DevOps/" style="font-size: 15px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/HyperLedger/" style="font-size: 10px;">HyperLedger</a> <a href="/tags/K8S/" style="font-size: 10px;">K8S</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/did/" style="font-size: 17.5px;">did</a> <a href="/tags/mathchain/" style="font-size: 10px;">mathchain</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E8%B5%84%E4%BA%A7/" style="font-size: 10px;">加密资产</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 20px;">区块链</a> <a href="/tags/%E5%AE%B9%E5%99%A8/" style="font-size: 10px;">容器</a> <a href="/tags/%E6%9D%82%E4%B9%A6/" style="font-size: 10px;">杂书</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 12.5px;">架构</a> <a href="/tags/%E7%9B%91%E6%8E%A7/" style="font-size: 10px;">监控</a> <a href="/tags/%E7%BD%91%E5%85%B3/" style="font-size: 10px;">网关</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">证书</a> <a href="/tags/%E9%93%BE%E7%A0%81/" style="font-size: 10px;">链码</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/30/hexo/config/">博客配置</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/">《架构修炼之道-亿级网关...》阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/CA/PKI-CA/">PKI/CA与数字证书技术大全</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/">图解http阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/">《成为极少数》阅读笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 MGintoki<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

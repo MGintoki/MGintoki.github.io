@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>《架构修炼之道-亿级网关...》阅读笔记 | MGintoki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1 API网关 1.1 基本概念 1.2 网关注册中心： 1.3 网关管道处理 1.4 同步网关系统容易GG的点 1.5 异步网关 1.6 脱库与多级缓存   2 OAuth 2.1 基本概念 2.2 开放平台 2.3 越权 2.4 API治理 2.5 API经济   3 分布式 3.1 基本概念 3.2 分布式事务 3.3 分布式锁 3.4 分布式限流 3.5 性能指标   4 MQ（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《架构修炼之道-亿级网关...》阅读笔记">
+<meta property="og:url" content="https://mgintoki.github.io/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/index.html">
+<meta property="og:site_name" content="MGintoki">
+<meta property="og:description" content="1 API网关 1.1 基本概念 1.2 网关注册中心： 1.3 网关管道处理 1.4 同步网关系统容易GG的点 1.5 异步网关 1.6 脱库与多级缓存   2 OAuth 2.1 基本概念 2.2 开放平台 2.3 越权 2.4 API治理 2.5 API经济   3 分布式 3.1 基本概念 3.2 分布式事务 3.3 分布式锁 3.4 分布式限流 3.5 性能指标   4 MQ（">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/img/9561618291439_.pic.jpg">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/img/9571618301032_.pic.jpg">
+<meta property="og:image" content="https://mgintoki.github.io/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/img/9581618302342_.pic.jpg">
+<meta property="article:published_time" content="2021-04-29T12:34:46.000Z">
+<meta property="article:modified_time" content="2021-04-30T04:07:37.445Z">
+<meta property="article:author" content="MGintoki">
+<meta property="article:tag" content="架构">
+<meta property="article:tag" content="网关">
+<meta property="article:tag" content="分布式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mgintoki.github.io/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/img/9561618291439_.pic.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="MGintoki" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon-32x32.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MGintoki</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mgintoki.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-architecture/架构修炼之道" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/" class="article-date">
+  <time class="dt-published" datetime="2021-04-29T12:34:46.000Z" itemprop="datePublished">2021-04-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      《架构修炼之道-亿级网关...》阅读笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#1-api-wang-guan">1 API网关</a><ul>
+<li><a href="#1-1-ji-ben-gai-nian">1.1 基本概念</a></li>
+<li><a href="#1-2-wang-guan-zhu-ce-zhong-xin">1.2 网关注册中心：</a></li>
+<li><a href="#1-3-wang-guan-guan-dao-chu-li">1.3 网关管道处理</a></li>
+<li><a href="#1-4-tong-bu-wang-guan-xi-tong-rong-yi-gg-de-dian">1.4 同步网关系统容易GG的点</a></li>
+<li><a href="#1-5-yi-bu-wang-guan">1.5 异步网关</a></li>
+<li><a href="#1-6-tuo-ku-yu-duo-ji-huan-cun">1.6 脱库与多级缓存</a></li>
+</ul>
+</li>
+<li><a href="#2-oauth">2 OAuth</a><ul>
+<li><a href="#2-1-ji-ben-gai-nian">2.1 基本概念</a></li>
+<li><a href="#2-2-kai-fang-ping-tai">2.2 开放平台</a></li>
+<li><a href="#2-3-yue-quan">2.3 越权</a></li>
+<li><a href="#2-4-api-zhi-li">2.4 API治理</a></li>
+<li><a href="#2-5-api-jing-ji">2.5 API经济</a></li>
+</ul>
+</li>
+<li><a href="#3-fen-bu-shi">3 分布式</a><ul>
+<li><a href="#3-1-ji-ben-gai-nian">3.1 基本概念</a></li>
+<li><a href="#3-2-fen-bu-shi-shi-wu">3.2 分布式事务</a></li>
+<li><a href="#3-3-fen-bu-shi-suo">3.3 分布式锁</a></li>
+<li><a href="#3-4-fen-bu-shi-xian-liu">3.4 分布式限流</a></li>
+<li><a href="#3-5-xing-neng-zhi-biao">3.5 性能指标</a></li>
+</ul>
+</li>
+<li><a href="#4-mq-xiao-xi-dui-lie">4 MQ（消息队列）</a><ul>
+<li><a href="#4-1-ji-ben-gai-nian">4.1 基本概念</a></li>
+<li><a href="#4-2-fa-bu-ding-yue-mo-shi-yu-guan-cha-zhe-mo-shi">4.2 发布/订阅模式与观察者模式</a></li>
+<li><a href="#4-3-xiao-fei-mi-deng">4.3 消费幂等</a></li>
+<li><a href="#4-4-mq-de-you-shi">4.4 MQ的优势</a></li>
+<li><a href="#4-5-mq-de-qi-ta-dian">4.5 MQ的其他点</a></li>
+</ul>
+</li>
+<li><a href="#5-xiao-xi-tui-song">5 消息推送</a><ul>
+<li><a href="#5-1-ji-ben-gai-nian">5.1 基本概念</a></li>
+<li><a href="#5-2-http-chang-lian-jie">5.2 http长连接</a></li>
+</ul>
+</li>
+<li><a href="#6-rpc">6 RPC</a><ul>
+<li><a href="#6-1-ji-ben-gai-nian">6.1 基本概念</a></li>
+<li><a href="#6-2-rpc-tong-xin-ji-zhi">6.2 RPC通信机制</a></li>
+<li><a href="#6-3-rpc-diao-yong-shi-jian">6.3 RPC调用时间</a></li>
+<li><a href="#6-4-yi-bu-rpc">6.4 异步RPC</a></li>
+</ul>
+</li>
+<li><a href="#7-io-zan-shi-kan-bu-dong">7 IO 暂时看不懂</a></li>
+<li><a href="#8-wei-fu-wu">8 微服务</a><ul>
+<li><a href="#8-1-ji-ben-gai-nian">8.1 基本概念</a></li>
+<li><a href="#8-2-wei-fu-wu-gai-zao-zhi-qian-de-xi-tong-shu-li">8.2 微服务改造之前的系统梳理</a></li>
+<li><a href="#8-3-wei-fu-wu-gai-zao-de-shu-ju-ku-chai-fen">8.3 微服务改造的数据库拆分</a></li>
+</ul>
+</li>
+<li><a href="#9-rong-cuo">9 容错</a><ul>
+<li><a href="#9-1-ji-ben-gai-nian">9.1 基本概念</a></li>
+<li><a href="#9-2-jiang-ji-he-xian-liu">9.2 降级和限流</a></li>
+<li><a href="#9-3-xian-cheng-chi-ge-chi">9.3 线程池隔离</a></li>
+<li><a href="#9-4-kuai-su-shi-bai">9.4 快速失败</a></li>
+<li><a href="#9-5-rong-duan">9.5 熔断</a></li>
+<li><a href="#9-6-chang-yong-you-hua-dian">9.6 常用优化点</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
+<span id="more"></span>
+# 1 API网关
+
+<h2><span id="1-1-ji-ben-gai-nian">1.1 基本概念</span></h2><p>单体应用满足不了增长的业务需求-&gt;微服务化-&gt;多个服务端/多个URL-&gt;调用子服务模块加一层封装，统一调度网关</p>
+<ul>
+<li>对于业务团队来说，专心做业务</li>
+<li>对于网关团队，专注流量、服务注册、服务发现、安全、性能、审计等</li>
+</ul>
+<p>网关系统的特点：</p>
+<ul>
+<li>访问量大</li>
+<li>依赖系统多</li>
+</ul>
+<p>网关的基本功能</p>
+<ul>
+<li>统一接入</li>
+<li>协议适配</li>
+<li>流量管控与容错</li>
+<li>安全防护</li>
+</ul>
+<p>网关和代理的区别：</p>
+<ul>
+<li>代理只是透传数据，不改变协议。网关会改变协议。</li>
+</ul>
+<p>API的生命周期<br>设计-构建-测试-文档-分享-运行-下线</p>
+<h2><span id="1-2-wang-guan-zhu-ce-zhong-xin">1.2 网关注册中心：</span></h2><ul>
+<li>采用redis缓存，将API注册(发布）到网关</li>
+<li>网关系统知道服务的标识和方法</li>
+</ul>
+<h2><span id="1-3-wang-guan-guan-dao-chu-li">1.3 网关管道处理</span></h2><ul>
+<li><p>基础网关构建业务的时候，通过管道的方式，进行各种对接口调用请求的处理<br>包括 参数校验、黑白名单、限流控制等等，封装成管道按照顺序执行</p>
+</li>
+<li><p>实现类似于包装器模式，一层套一层的包装，形如管道。同时类似于责任链模式</p>
+<ul>
+<li>责任链模式中，一个类包括一个handle方法，和一个nextHandle方法，根据条件判断执行路径。</li>
+</ul>
+</li>
+<li><p>管道的数据传递是单向的，并且管道的不同模块之间应该是可插拔的<br><img src="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/img/9561618291439_.pic.jpg"></p>
+</li>
+</ul>
+<h2><span id="1-4-tong-bu-wang-guan-xi-tong-rong-yi-gg-de-dian">1.4 同步网关系统容易GG的点</span></h2><p>1、CPU 资源</p>
+<ul>
+<li>CPU利用率（程序运行期间实时占用的CPU百分比）</li>
+<li>CPU负载（在一段时间内，正在使用CPU和等待使用CPU的<strong>平均</strong>任务数）<br>需要隔离开某些API突然占用CPU资源过多，耗尽CPU资源从而拖垮集群<br>2、磁盘<br>容易引起问题的点：</li>
+<li>不合理的日志打印</li>
+<li>API返回错误，导致连锁错误，使得IO压力变大。<br>3、网络<br>网络资源耗尽</li>
+</ul>
+<h2><span id="1-5-yi-bu-wang-guan">1.5 异步网关</span></h2><p>异步网关的好处：</p>
+<ul>
+<li>解耦网络、CPU、IO资源的相互依赖。一个请求不需要同时阻塞这三种资源</li>
+<li>线程池做隔离，阻隔业务之间崩溃蔓延的可能</li>
+</ul>
+<h2><span id="1-6-tuo-ku-yu-duo-ji-huan-cun">1.6 脱库与多级缓存</span></h2><ul>
+<li>对于网关的访问，通过数据异构的方式将数据存储到redis中</li>
+<li>可以设置多级缓存（平衡读写性能开销与价格）来提高可用性</li>
+<li>支持热更新，以不需要重启服务器的方式可以做到修改网关的某个配置</li>
+</ul>
+<h1><span id="2-oauth">2 OAuth</span></h1><h2><span id="2-1-ji-ben-gai-nian">2.1 基本概念</span></h2><blockquote>
+<p>OAuth(Open Auth)是一个开发标准，在这种标准下，允许用户授权某个第三方应用访问用户在某个服务器上的私密资源数据。</p>
+</blockquote>
+<p>角色包括 资源所有者、第三方应用、授权服务器、资源服务器</p>
+<ul>
+<li>授权服务器单拉出来便于解耦，统一管理授权</li>
+</ul>
+<p>基本流程：<br>应用申请用户授权-用户授权引用访问资源-应用向授权服务器申请令牌-授权服务器校验后发放令牌-应用拿到令牌访问资源服务器</p>
+<p>其中在用户授权应用访问自己资源有4种处理</p>
+<ul>
+<li>1、授权码：好处用户对于token不可见，只能见到授权码<ul>
+<li>应用请求用户代理授权</li>
+<li>用户代理请求授权服务器，拿到授权码和资源重定向地址</li>
+<li>应用拿到授权码和重定向地址，请求授权服务器，拿到token</li>
+<li>用户拿token去资源服务器请求数据</li>
+</ul>
+</li>
+<li>2、隐式授权<ul>
+<li>应用请求token</li>
+<li>用户代理请求授权服务器，把token给到应用</li>
+</ul>
+</li>
+<li>3、密码授权<ul>
+<li>第三方引用拿到用户密码（例如第三方应用是操作系统的一部分）</li>
+</ul>
+</li>
+<li>4、客户端授权<ul>
+<li>第三方应用以自己的名义拿到授权</li>
+</ul>
+</li>
+</ul>
+<h2><span id="2-2-kai-fang-ping-tai">2.2 开放平台</span></h2><p>互联网企业可以把自己的服务封装成API接口开放出去，供第三方开发者使用，提供开发API的平台叫做开放平台。</p>
+<p>ISV：独立软件服务商（第三方开发者）</p>
+<p>API和SPI区别</p>
+<ul>
+<li>API：自己定义，自己实现</li>
+<li>SPI：平台定义，第三方开发者自定义实现</li>
+</ul>
+<h2><span id="2-3-yue-quan">2.3 越权</span></h2><ul>
+<li>水平越权：用户访问到不归属于这个用户的数据</li>
+<li>垂直越权：权限提升，提权</li>
+</ul>
+<h2><span id="2-4-api-zhi-li">2.4 API治理</span></h2><ul>
+<li>性能<ul>
+<li>性能数据TP：（例如TP99，指的是在一定时间内，排名99%的请求所耗费的事件）</li>
+</ul>
+</li>
+<li>可用率<ul>
+<li>可用率 = （调用总次数-调用失败次数）/调用总次数</li>
+</ul>
+</li>
+<li>文档可读性</li>
+</ul>
+<h2><span id="2-5-api-jing-ji">2.5 API经济</span></h2><ul>
+<li>免费<br>ISV调试不收费，当ISV把开发API集成之后，按照调用次数付费或是收入分成</li>
+<li>付费<br>对于包时包月付费</li>
+<li>API市场 通过开放平台的网关，聚合第三方成熟的业务能力。</li>
+</ul>
+<h1><span id="3-fen-bu-shi">3 分布式</span></h1><h2><span id="3-1-ji-ben-gai-nian">3.1 基本概念</span></h2><blockquote>
+<p>分布式：随着业务规模的扩展，应用采用单一服务器无法满足业务需求。此时可以对应用服务器进行水平扩展，将一个应用部署在多个服务器上，同时加上一层负载均衡，来构建一个集群。<br>分布式集群中，不同的节点之间可以进行通信<br><img src="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/img/9571618301032_.pic.jpg"></p>
+</blockquote>
+<h2><span id="3-2-fen-bu-shi-shi-wu">3.2 分布式事务</span></h2><p>CAP理论 三者不可兼得</p>
+<ul>
+<li>一致性 所有节点访问的都是同一份最新的数据副本</li>
+<li>可用性 所有请求得到的相应都是正确的（不保证是最新的）</li>
+<li>分区容错性</li>
+</ul>
+<p>CAP方案-BASE理论</p>
+<ul>
+<li>基本可用：分布式系统故障时，允许损失部分可用性，拿响应时间和功能损失（降级）来换取可用性</li>
+<li>软状态：别名弱状态。可以允许系统存在不影响整体可用行的中间状态。（例如显示 ”支付中“，”下单中“等）</li>
+<li>最终一致性：在允许中间状态的情况下，各项数据最终能够达到一致性。</li>
+</ul>
+<h2><span id="3-3-fen-bu-shi-suo">3.3 分布式锁</span></h2><p>多个进程（多台机器）要访问同一个共享资源，需要对其加锁，保证资源的可用性。</p>
+<h2><span id="3-4-fen-bu-shi-xian-liu">3.4 分布式限流</span></h2><p>针对分布式集群的限流：</p>
+<p>计数器：</p>
+<ul>
+<li>多个服务器拥有一个共享的存储（Redis集群），可以再Redis集群启用计数器来限制单位时间的访问数目。</li>
+<li>缺点是无法平滑流量，请求可能不是以一个平稳的速率过来，而是波动过来的<br>限速器</li>
+<li>可以针对请求数目，做分段限制<br>限流维度<ul>
+<li>限制某个用户</li>
+<li>限制某个API</li>
+<li>限制访问IP<br>流量包</li>
+</ul>
+</li>
+</ul>
+<p>令牌桶模式：<br>    - 针对单机应用层<br>    - 令牌桶是一个桶容器，包括桶容量、放入令牌速度、消耗令牌速度三个要素<br>    - 把令牌放入到桶，可以兼顾平滑流量和不平滑流量</p>
+<h2><span id="3-5-xing-neng-zhi-biao">3.5 性能指标</span></h2><ul>
+<li>QPS Queries Per Second （对服务器每秒查询量）一台服务器每秒能够响应多少查询。</li>
+<li>TPS Transaction Per Second （对服务器每秒事务处理数）一台服务器每秒能处理多少事务。<br>一个TPS可能包含了多个QPS。</li>
+<li>RT 响应时间</li>
+<li>并发数 系统能够同时处理的查询请求或事务数量<ul>
+<li>QPS = 查询并发数/平均响应时间</li>
+<li>TPS = 事务并发数/平均响应时间<br><img src="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/img/9581618302342_.pic.jpg"></li>
+</ul>
+</li>
+</ul>
+<p>系统流量峰值：<br>遵循二八定律，20%的时间承载80%的流量。<br>那么</p>
+<ul>
+<li>（总PV数 * 80%）/(每天秒数 * 20%) = 峰值时间每秒请求数（QPS）</li>
+<li>峰值时间每秒请求数（QPS）/单台机器的QPS = 需要的机器。 </li>
+</ul>
+<h1><span id="4-mq-xiao-xi-dui-lie">4 MQ（消息队列）</span></h1><h2><span id="4-1-ji-ben-gai-nian">4.1 基本概念</span></h2><p>生产者-消费者模型</p>
+<ul>
+<li>生产者往缓冲区放物料，消费者从缓冲区取物料</li>
+<li>生产者和消费者可以互相不知晓对方存在</li>
+<li>生产者和消费者不必同时开展工作，采用队列存储数据，生产者和消费者有各自的生命周期。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th>时间耦合</th>
+<th>时间解耦</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空间耦合</td>
+<td>发送者向确定的接收者通道，接收者必须在通信的时刻存在（RPC调用）</td>
+<td>与确定的接收者通信，接收者不需要在通信时刻存在（安卓厂商推送升级</td>
+</tr>
+<tr>
+<td>空间解耦</td>
+<td>发送者不需要知晓接收者，但是接收者必须在那个时刻存在（代理，网关）</td>
+<td>发布/订阅系统，消息队列</td>
+</tr>
+</tbody></table>
+<h2><span id="4-2-fa-bu-ding-yue-mo-shi-yu-guan-cha-zhe-mo-shi">4.2 发布/订阅模式与观察者模式</span></h2><ul>
+<li>发布订阅是广义上的观察者模式。</li>
+<li>在观察者模式中，主题维护了订阅者列表，向订阅者发布事件。</li>
+<li>在发布/订阅模式中，<ul>
+<li>订阅者订阅某个消息</li>
+<li>队列发布者发布事件到消息队列</li>
+<li>消息队列向订阅者发布事件</li>
+</ul>
+</li>
+</ul>
+<h2><span id="4-3-xiao-fei-mi-deng">4.3 消费幂等</span></h2><p>分布式系统下，对于队列，宁愿重复投递，也要避免消息缺失。</p>
+<ul>
+<li>为了保证发送成功，发送方会检测接收方对于某个已发送消息的回执，如果拿不到回执就认为发送失败，根据策略重复发送。</li>
+<li>发布者向队列发送事件重复</li>
+<li>队列向消费者发送事件重复<br>所以对于分布式系统，要对于业务做唯一ID幂等处理（中台from_id, form_type)<h2><span id="4-4-mq-de-you-shi">4.4 MQ的优势</span></h2>1、解耦：<br>将两个系统在时间和空间上解耦</li>
+</ul>
+<p>2、平滑负载<br>请求存在高峰和低谷期，通过消息队列使得消费者可以始终平滑消费消息。</p>
+<p>3、便于最终一致性</p>
+<ul>
+<li>通过MQ可以确保消息发送到消费者。</li>
+<li>对于生产者可以将发送动作和本地其他动作放入同一个事务处理。当发送动作异常时可进行补偿机制重发消息</li>
+<li>发送者通过确保消息发送到消息队列，简化了事务模型</li>
+</ul>
+<p>4、广播消费<br>MQ两种消息模式</p>
+<ul>
+<li>点对点模式：MQ发送一条消息，只会被一台服务器消费</li>
+<li>广播消费：MQ发送一条消息，集群中的所有服务器至少消费一次。<ul>
+<li>广播消费不支持顺序消息</li>
+<li>消费更容易产生重复</li>
+</ul>
+</li>
+</ul>
+<h2><span id="4-5-mq-de-qi-ta-dian">4.5 MQ的其他点</span></h2><p>1、消息过滤<br>对于消息打tag，消费者可以不需要解析消息体，解析tag获取到自己感兴趣的内容</p>
+<p>2、过期消息处理<br>对于消息队列里积压的消息，可以先迁移到另外的存储中，然后留置期间判断有无访问，如果无访问可以判断为过期。</p>
+<p>3、消息无序<br>同一时间可能存在多个消息队列，接受同一个生产者的的消息，同时向多个消费者发送消息，所以消息可能会无序。</p>
+<h1><span id="5-xiao-xi-tui-song">5 消息推送</span></h1><p><code>个人觉得，这章写的不知所云，跳过</code></p>
+<h2><span id="5-1-ji-ben-gai-nian">5.1 基本概念</span></h2><p>消息推送机制，是服务端向客户端发送消息通知，包括自建消息推送机制，第三方消息推送机制。</p>
+<h2><span id="5-2-http-chang-lian-jie">5.2 http长连接</span></h2><p>HTTP 短连接：</p>
+<ul>
+<li>一个ruquest 一个response，然后关闭连接</li>
+<li>三次握手操作，占用资源</li>
+</ul>
+<p>HTTP 1.1 以后支持keepalive字段，浏览器和服务器建立连接之后可以保持一段时间，可以支持连接复用。</p>
+<h1><span id="6-rpc">6 RPC</span></h1><p>todo：理清微服务使用RPC和HTTP的优劣</p>
+<h2><span id="6-1-ji-ben-gai-nian">6.1 基本概念</span></h2><blockquote>
+<p>RPC（Remote Procedure Call）远程过程调用。通过网络在跨进程的两个服务器之间传输消息，使用的时候不需要关心底层的网络实现。</p>
+</blockquote>
+<p>RPC过程：客户端请求序列化-客户端socket发送网络请求-服务端反序列化请求-服务端处理请求并相应</p>
+<h2><span id="6-2-rpc-tong-xin-ji-zhi">6.2 RPC通信机制</span></h2><ul>
+<li>动态代理<br>通过一个动态代理接口，实现RPC实现方法和业务代码的解耦合</li>
+<li>反射<ul>
+<li>反射指在程序运行过程可以访问、检测、修改它本身的状态和行为。</li>
+<li>通过反射机制，定位到需要被调用的方法，放入到RPC的入参中</li>
+</ul>
+</li>
+<li>序列化<ul>
+<li>序列化指的是，将消息转换成字节流，从而可进行网络传输</li>
+<li>反序列化指的是将字节流转化会消息，从而进行业务处理</li>
+</ul>
+</li>
+<li>网络编程<br>RPC框架一般以TCP为底层（可靠）<h2><span id="6-3-rpc-diao-yong-shi-jian">6.3 RPC调用时间</span></h2></li>
+</ul>
+<p>一次RPC调用时间 = 客户端调用RPC框架时间（包括序列化时间）+ 网络传输时间 + 服务端RCP框架执行时间（包括反序列化时间） + 服务端业务代码处理时间</p>
+<ul>
+<li>RPC请求的时候，RPC框架会拦截请求，将对象序列化，同时在收到相应的时候，进行反序列化</li>
+<li>网络时间是数据包在网络传输过程的时间，包括请求+相应</li>
+<li>服务端包括队列等待时间，以及请求拦截+反序列化时间+响应的序列化时间</li>
+<li>服务端的业务处理时间</li>
+</ul>
+<p>对于异常请求（服务端线程池满，客户端超时重试）服务端不会记录这些耗时，但是客户端会记录。</p>
+<h2><span id="6-4-yi-bu-rpc">6.4 异步RPC</span></h2><ul>
+<li>异步调用：对于需要并行进行的多个请求，需要RPC框架支持并行执行</li>
+<li>异步监听：客户端对于消息的相应结果，并不需要直接接收到，而是需要RPC框架将返回值注入到某个地方</li>
+<li>callback调用：客户端可以在调用RPC框架的时候，注入一个callback对象实例，看起来像是“服务端调用了客户端”</li>
+</ul>
+<h1><span id="7-io-zan-shi-kan-bu-dong">7 IO 暂时看不懂</span></h1><h1><span id="8-wei-fu-wu">8 微服务</span></h1><h2><span id="8-1-ji-ben-gai-nian">8.1 基本概念</span></h2><p>微服务特点：</p>
+<ul>
+<li>是一套小型的服务，这些服务有自己的生命周期</li>
+<li>每个服务以自己的独立的进程运行</li>
+<li>轻量级通信（相较于传统SOA业务总线而言）</li>
+<li>围绕业务能力去构建</li>
+<li>可以独立自动部署</li>
+<li>可以使用不同的平台、语言</li>
+</ul>
+<h2><span id="8-2-wei-fu-wu-gai-zao-zhi-qian-de-xi-tong-shu-li">8.2 微服务改造之前的系统梳理</span></h2><p>一个系统包含三类功能</p>
+<ul>
+<li>接口服务类：向外部提供服务<ul>
+<li>找出关键接口，确保关键接口可用，不可降级。</li>
+<li>采用灾备等手段</li>
+</ul>
+</li>
+<li>网页类：<ul>
+<li>对于关键页面（如首页）做好多级缓存，托底数据，确保页面上有数据</li>
+</ul>
+</li>
+<li>任务类系统：例如统计、数据同步等功能的系统<ul>
+<li>考虑任务是热备、冷备</li>
+<li>考虑资源调度<h2><span id="8-3-wei-fu-wu-gai-zao-de-shu-ju-ku-chai-fen">8.3 微服务改造的数据库拆分</span></h2></li>
+</ul>
+</li>
+<li>现有单集群A</li>
+<li>创建集群BC，将BC数据库作为集群A的数据库从库</li>
+<li>观察数据，按需清掉不需要的表</li>
+</ul>
+<h1><span id="9-rong-cuo">9 容错</span></h1><h2><span id="9-1-ji-ben-gai-nian">9.1 基本概念</span></h2><p>在软件架构领域里，认为局部错误客观存在，容错的作用是为了避免局部错误蔓延到整体。</p>
+<h2><span id="9-2-jiang-ji-he-xian-liu">9.2 降级和限流</span></h2><p>降级操作一般是由统一配置的降级开关来实现的<br>降级操作的实现方法</p>
+<ul>
+<li>快速失败</li>
+<li>无声失败（返回null， 空map，空list等）</li>
+<li>返回默认值</li>
+<li>自己组装值返回</li>
+<li><code>利用远程缓存（托底数据）</code></li>
+</ul>
+<p>对于写操作，需要将错误信息返回给调用者，对于读操作，可以返回缓存的值或是默认值。</p>
+<h2><span id="9-3-xian-cheng-chi-ge-chi">9.3 线程池隔离</span></h2><p>线程池隔离可以防止单一服务占用线程资源过高拖垮整个应用。缺点是增加了CPU开销（业务执行时增加了请求排队，调度，上下文切换操作）</p>
+<p>线程池的分配方法：</p>
+<ul>
+<li>1、固定大小的线程池，通过权重的方法为某个方法分配一个固定大小的线程数</li>
+<li>2、设置一个公用的线程池，所有的方法去瓜分它</li>
+</ul>
+<h2><span id="9-4-kuai-su-shi-bai">9.4 快速失败</span></h2><p>可以为调用操作设置超时时间，如果被调用方异常，调用方将尽早结束这次请求</p>
+<h2><span id="9-5-rong-duan">9.5 熔断</span></h2><p>熔断三个状态：这三个状态的转化可以根据业务规则自行设置</p>
+<ul>
+<li>打开：</li>
+<li>半开：</li>
+<li>关闭：</li>
+</ul>
+<h2><span id="9-6-chang-yong-you-hua-dian">9.6 常用优化点</span></h2><ul>
+<li>分离<ul>
+<li>数据库分库</li>
+<li>线程池隔离</li>
+<li>微服务拆分</li>
+</ul>
+</li>
+<li>缓存<ul>
+<li>拆分高访问量key，避免全访问同一个缓存服务器节点</li>
+<li>三级缓存</li>
+<li>托底数据</li>
+</ul>
+</li>
+<li>SQL优化<ul>
+<li>慢SQL优化查询优化</li>
+<li>索引</li>
+<li>优化select字段，对于字段很多的表，减少select优化性能</li>
+<li>join操作等</li>
+</ul>
+</li>
+<li>快速失败</li>
+<li>降级限流<ul>
+<li>对于非核心功能，如（公用资源）的资源耗尽，可以进行屏蔽降级，返回空或异常</li>
+<li>对于核心功能，资源耗尽使用托底数据或是本地缓存数据（线上需要降级时应该做到快速切换）</li>
+</ul>
+</li>
+<li>性能压测</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/" data-id="cko3t66y20000rsxg919wgguk" data-title="《架构修炼之道-亿级网关...》阅读笔记" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E5%85%B3/" rel="tag">网关</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/30/hexo/config/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          博客配置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/29/CA/PKI-CA/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">PKI/CA与数字证书技术大全</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CA/">CA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E4%B9%A6/">杂书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CA/" style="font-size: 10px;">CA</a> <a href="/tags/DAO/" style="font-size: 12.5px;">DAO</a> <a href="/tags/DevOps/" style="font-size: 15px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/HyperLedger/" style="font-size: 10px;">HyperLedger</a> <a href="/tags/K8S/" style="font-size: 10px;">K8S</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/did/" style="font-size: 17.5px;">did</a> <a href="/tags/mathchain/" style="font-size: 10px;">mathchain</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E8%B5%84%E4%BA%A7/" style="font-size: 10px;">加密资产</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 20px;">区块链</a> <a href="/tags/%E5%AE%B9%E5%99%A8/" style="font-size: 10px;">容器</a> <a href="/tags/%E6%9D%82%E4%B9%A6/" style="font-size: 10px;">杂书</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 12.5px;">架构</a> <a href="/tags/%E7%9B%91%E6%8E%A7/" style="font-size: 10px;">监控</a> <a href="/tags/%E7%BD%91%E5%85%B3/" style="font-size: 10px;">网关</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">证书</a> <a href="/tags/%E9%93%BE%E7%A0%81/" style="font-size: 10px;">链码</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/30/hexo/config/">博客配置</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/">《架构修炼之道-亿级网关...》阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/CA/PKI-CA/">PKI/CA与数字证书技术大全</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/">图解http阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/">《成为极少数》阅读笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 MGintoki<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

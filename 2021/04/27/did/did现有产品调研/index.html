@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>DID现有产品调研 | MGintoki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="参考文档 DID 三篇规范： 百度 DID实现 微众银行WeIdentity   DID相关概念 DID概念、规范 DID Resolver VC 基本概念 标准VC 标准VP 百度企业认证VC实现 微众银行DID Weelink DID VC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DID现有产品调研">
+<meta property="og:url" content="https://mgintoki.github.io/2021/04/27/did/did%E7%8E%B0%E6%9C%89%E4%BA%A7%E5%93%81%E8%B0%83%E7%A0%94/index.html">
+<meta property="og:site_name" content="MGintoki">
+<meta property="og:description" content="参考文档 DID 三篇规范： 百度 DID实现 微众银行WeIdentity   DID相关概念 DID概念、规范 DID Resolver VC 基本概念 标准VC 标准VP 百度企业认证VC实现 微众银行DID Weelink DID VC">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://note.youdao.com/yws/res/3963/WEBRESOURCEd6e73391845ab6fbcbe36ff80854fac0">
+<meta property="article:published_time" content="2021-04-27T12:34:46.000Z">
+<meta property="article:modified_time" content="2021-04-30T04:07:37.460Z">
+<meta property="article:author" content="MGintoki">
+<meta property="article:tag" content="区块链">
+<meta property="article:tag" content="did">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://note.youdao.com/yws/res/3963/WEBRESOURCEd6e73391845ab6fbcbe36ff80854fac0">
+  
+    <link rel="alternate" href="/atom.xml" title="MGintoki" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon-32x32.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MGintoki</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mgintoki.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-did/did现有产品调研" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/27/did/did%E7%8E%B0%E6%9C%89%E4%BA%A7%E5%93%81%E8%B0%83%E7%A0%94/" class="article-date">
+  <time class="dt-published" datetime="2021-04-27T12:34:46.000Z" itemprop="datePublished">2021-04-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      DID现有产品调研
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#can-kao-wen-dang">参考文档</a><ul>
+<li><a href="#did-san-pian-gui-fan">DID 三篇规范：</a></li>
+<li><a href="#bai-du-did-shi-xian">百度 DID实现</a></li>
+<li><a href="#wei-zhong-yin-xing-weidentity">微众银行WeIdentity</a></li>
+</ul>
+</li>
+<li><a href="#did-xiang-guan-gai-nian">DID相关概念</a><ul>
+<li><a href="#did-gai-nian-gui-fan">DID概念、规范</a></li>
+<li><a href="#did-resolver">DID Resolver</a></li>
+<li><a href="#vc">VC</a><ul>
+<li><a href="#ji-ben-gai-nian">基本概念</a></li>
+<li><a href="#biao-zhun-vc">标准VC</a></li>
+<li><a href="#biao-zhun-vp">标准VP</a></li>
+<li><a href="#bai-du-qi-ye-ren-zheng-vc-shi-xian">百度企业认证VC实现</a></li>
+<li><a href="#wei-zhong-yin-xing-did">微众银行DID</a></li>
+<li><a href="#weelink-did-vc">Weelink DID VC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
+<span id="more"></span>
+
+<h1><span id="can-kao-wen-dang">参考文档</span></h1><h2><span id="did-san-pian-gui-fan">DID 三篇规范：</span></h2><p><a target="_blank" rel="noopener" href="https://w3c.github.io/did-core/">https://w3c.github.io/did-core/</a></p>
+<p><a target="_blank" rel="noopener" href="https://w3c-ccg.github.io/did-resolution/">https://w3c-ccg.github.io/did-resolution/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.w3.org/TR/vc-data-model/">https://www.w3.org/TR/vc-data-model/</a></p>
+<h2><span id="bai-du-did-shi-xian">百度 DID实现</span></h2><p><a target="_blank" rel="noopener" href="http://did.baidu.com/">http://did.baidu.com/</a></p>
+<h2><span id="wei-zhong-yin-xing-weidentity">微众银行WeIdentity</span></h2><p><a target="_blank" rel="noopener" href="https://weidentity.readthedocs.io/zh_CN/latest/docs/weidentity-spec.html">https://weidentity.readthedocs.io/zh_CN/latest/docs/weidentity-spec.html</a></p>
+<h1><span id="did-xiang-guan-gai-nian">DID相关概念</span></h1><h2><span id="did-gai-nian-gui-fan">DID概念、规范</span></h2><blockquote>
+<p>身份相关数据锚定在区块链上，认证的过程不需要依赖于提供身份的应用方。 </p>
+</blockquote>
+<ul>
+<li>如何不依赖身份提供方来验证身份？ </li>
+<li><blockquote>
+<p> DID是由用户自己生成的，用户生成DID的同时会生成一对秘钥，DID和公钥的绑定关系写入分布式数据库，达到了去中心化身份的目的</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>可验证声明（Verifyable Claim）</strong><br>是一个 DID 给另一个 DID 的某些属性做背书而发出的描述性声明，并附加自己的数字签名，用以证明这些属性的真实性，可以认为是一种数字证书。</p>
+<ul>
+<li><strong>分布式信任网</strong><br>holder持有DID， Issuer针对Holder的某个DID颁发VC， Verifier可以验证Holder自身的DID，以及Issuer颁发给Holder的VC<br>（例如某网站可以指定，验证某个用户的DID即可登录，或者需要验证用户的DID，并且需要一个针对该DID的声明（例如该DID持有者年龄大于18岁））</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;@context&quot;: &quot;https:&#x2F;&#x2F;w3id.org&#x2F;did&#x2F;v1&quot;,</span><br><span class="line">  &quot;id&quot;: &quot;did:ccp:7f8ca8982f6cc6e8ea087bd9457ab8024bd2&quot;,</span><br><span class="line">  &quot;version&quot;: 1,</span><br><span class="line">  &quot;created&quot;: &quot;2016-02-08T16:02:20Z&quot;,</span><br><span class="line">  &quot;updated&quot;: &quot;2016-02-08T16:02:20Z&quot;,</span><br><span class="line">  &quot;publicKey&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;id&quot;: &quot;did:ccp:7f8ca8982f6cc6e8ea087bd9457ab8024bd2#keys-1&quot;,</span><br><span class="line">      &quot;type&quot;: &quot;Secp256k1&quot;,</span><br><span class="line">      &quot;publicKeyHex&quot;: &quot;02b97c30de767f084ce3080168ee293053ba33b235d7116a3263d29f1450936b71&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;id&quot;: &quot;did:ccp:7f8ca8982f6cc6e8ea087bd9457ab8024bd2#keys-2&quot;,</span><br><span class="line">      &quot;type&quot;: &quot;Secp256k1&quot;,</span><br><span class="line">      &quot;publicKeyHex&quot;: &quot;e3080168ee293053ba33b235d7116a3263d29f1450936b71&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;authentication&quot;: [&quot;did:ccp:7f8ca8982f6cc6e8ea087bd9457ab8024bd2#key-1&quot;],</span><br><span class="line">  &quot;recovery&quot;: [&quot;did:ccp:7f8ca8982f6cc6e8ea087bd9457ab8024bd2#key-2&quot;],</span><br><span class="line">  &quot;service&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;id&quot;: &quot;did:ccp:7f8ca8982f6cc6e8ea087bd9457ab8024bd2#resolver&quot;,</span><br><span class="line">      &quot;type&quot;: &quot;DIDResolve&quot;,</span><br><span class="line">      &quot;serviceEndpoint&quot;: &quot;https:&#x2F;&#x2F;did.baidu.com&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;proof&quot;: &#123;</span><br><span class="line">    &quot;type&quot;: &quot;Secp256k1&quot;,</span><br><span class="line">    &quot;creator&quot;: &quot;did:ccp:7f8ca8982f6cc6e8ea087bd9457ab8024bd2#keys-1&quot;,</span><br><span class="line">    &quot;signatureValue&quot;: &quot;QNB13Y7Q9...1tzjn4w&#x3D;&#x3D;&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>serviceEndPoint 标识，能够使用该DID的某个EndPoint，例如type为DIDResolver的serviceEndPoint 存放了DIDResolve服务的地址</p>
+<p> DID resolve 和 DID dereference</p>
+<blockquote>
+<p>resolve：通过DID获取DID document ； dereference：通过DID URL 获取所需资源<br><img src="http://note.youdao.com/yws/res/3963/WEBRESOURCEd6e73391845ab6fbcbe36ff80854fac0" alt="image.png"></p>
+</blockquote>
+<h2><span id="did-resolver">DID Resolver</span></h2><h2><span id="vc">VC</span></h2><h3><span id="ji-ben-gai-nian">基本概念</span></h3><blockquote>
+<p>可验证声明(Verifiable Claim，简称Claim)，是发证方使用自己的 DID 给用户的 DID 的某些属性做背书而签发的描述性声明，并附加自己的数字签名，可以认为是一种数字证书。</p>
+</blockquote>
+<blockquote>
+<p>发证方的 DID 是做背书的，签发出来的Claim我们称之为：Proof Claim;<br>如果发证方就是用户自己，即一个 DID 对自己签发Claim，我们称之为：Profile Claim。</p>
+</blockquote>
+<blockquote>
+<p>VC的整个生命周期包括用户申请-发证方签发-吊销-第三方请求-验证</p>
+</blockquote>
+<p>对于可吊销的 claim 所保存的信息里需要包括吊销方式的字段，里面需要有查询 claim 吊销状态的 endpoint，验证 claim 时，需要通过该 endpoint 来验证 claim 是否吊销。如果需要支持 claim 的吊销，DID 账户所有者需要自己维护一个提供获取吊销列表的 endpoint。</p>
+<ul>
+<li><p>访问吊销列表的时候，如何保证访问可信？证书？吊销列表自己是个DIDDocument</p>
+</li>
+<li><p>VC存在哪里？百度是存在一个Identity Hub里，用户持一个VC id，可以通过VC id去该Identity Hub里拿。</p>
+</li>
+<li><p>系统中是否只存在某个协议服务去发VC，不存在用户去申请VC的情况？ </p>
+</li>
+</ul>
+<h3><span id="biao-zhun-vc">标准VC</span></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;@context&quot;: [</span><br><span class="line">    &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;2018&#x2F;credentials&#x2F;v1&quot;,</span><br><span class="line">    &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;2018&#x2F;credentials&#x2F;examples&#x2F;v1&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;id&quot;: &quot;http:&#x2F;&#x2F;example.edu&#x2F;credentials&#x2F;3732&quot;,</span><br><span class="line">  &quot;type&quot;: [&quot;VerifiableCredential&quot;, &quot;NameAndAddress&quot;],</span><br><span class="line">  &quot;issuer&quot;: &quot;https:&#x2F;&#x2F;example.edu&#x2F;issuers&#x2F;14&quot;,</span><br><span class="line">  &quot;holder&quot;: &#123;</span><br><span class="line">    &quot;type&quot;: &quot;LawEnforcement&quot;,</span><br><span class="line">    &quot;id&quot;: &quot;did:example:ebfeb1276e12ec21f712ebc6f1c&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;issuanceDate&quot;: &quot;2010-01-01T19:73:24Z&quot;,</span><br><span class="line">  &quot;credentialSubject&quot;: &#123;</span><br><span class="line">    &quot;id&quot;: &quot;did:example:ebfeb1f712ebc6f1c276e12ec21&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;Mr John Doe&quot;,</span><br><span class="line">    &quot;address&quot;: &quot;10 Some Street, Anytown, ThisLocal, Country X&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;proof&quot;: &#123;</span><br><span class="line">    &quot;type&quot;: &quot;RsaSignature2018&quot;,</span><br><span class="line">    &quot;created&quot;: &quot;2018-06-17T10:03:48Z&quot;,</span><br><span class="line">    &quot;proofPurpose&quot;: &quot;assertionMethod&quot;,</span><br><span class="line">    &quot;verificationMethod&quot;: &quot;https:&#x2F;&#x2F;example.edu&#x2F;issuers&#x2F;14&#x2F;keys&#x2F;234&quot;,</span><br><span class="line">    &quot;jws&quot;: &quot;pY9...Cky6Ed &#x3D; &quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3><span id="biao-zhun-vp">标准VP</span></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;@context&quot;: [</span><br><span class="line">    &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;2018&#x2F;credentials&#x2F;v1&quot;,</span><br><span class="line">    &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;2018&#x2F;credentials&#x2F;examples&#x2F;v1&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;id&quot;: &quot;did:example:76e12ec21ebhyu1f712ebc6f1z2&quot;,</span><br><span class="line">  &quot;type&quot;: [&quot;VerifiablePresentation&quot;],</span><br><span class="line">  &quot;verifiableCredential&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">     &quot;@context&quot;: [</span><br><span class="line">       &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;2018&#x2F;credentials&#x2F;v1&quot;,</span><br><span class="line">       &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;2018&#x2F;credentials&#x2F;examples&#x2F;v1&quot;</span><br><span class="line">      ],</span><br><span class="line">      &quot;id&quot;: &quot;http:&#x2F;&#x2F;example.gov&#x2F;credentials&#x2F;3732&quot;,</span><br><span class="line">      &quot;type&quot;: [&quot;VerifiableCredential&quot;, &quot;PrescriptionCredential&quot;],</span><br><span class="line">      &quot;issuer&quot;: &quot;https:&#x2F;&#x2F;example.edu&quot;,</span><br><span class="line">      &quot;issuanceDate&quot;: &quot;2010-01-01T19:73:24Z&quot;,</span><br><span class="line">      &quot;credentialSubject&quot;: &#123;</span><br><span class="line">        &quot;id&quot;: &quot;did:example:ebfeb1f712ebc6f1c276e12ec21&quot;,</span><br><span class="line">        &quot;prescription&quot;: &#123;....&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;revocation&quot;: &#123;</span><br><span class="line">        &quot;id&quot;: &quot;http:&#x2F;&#x2F;example.gov&#x2F;revocations&#x2F;738&quot;,</span><br><span class="line">        &quot;type&quot;: &quot;SimpleRevocationList2017&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;proof&quot;: &#123;....&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;@context&quot;: [</span><br><span class="line">        &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;2018&#x2F;credentials&#x2F;v1&quot;,</span><br><span class="line">        &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;2018&#x2F;credentials&#x2F;examples&#x2F;v1&quot;</span><br><span class="line">      ],</span><br><span class="line">      &quot;id&quot;: &quot;https:&#x2F;&#x2F;example.com&#x2F;VC&#x2F;123456789&quot;,</span><br><span class="line">      &quot;type&quot;: [&quot;VerifiableCredential&quot;, &quot;PrescriptionCredential&quot;],</span><br><span class="line">      &quot;issuer&quot;: &quot;did:example:ebfeb1f712ebc6f1c276e12ec21&quot;,</span><br><span class="line">      &quot;issuanceDate&quot;: &quot;2010-01-03T19:73:24Z&quot;,</span><br><span class="line">      &quot;credentialSubject&quot;: &#123;</span><br><span class="line">        &quot;id&quot;: &quot;did:example:76e12ec21ebhyu1f712ebc6f1z2&quot;,</span><br><span class="line">        &quot;prescription&quot;: &#123;....&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;proof&quot;: &#123;</span><br><span class="line">        &quot;type&quot;: &quot;RsaSignature2018&quot;,</span><br><span class="line">        &quot;created&quot;: &quot;2018-06-17T10:03:48Z&quot;,</span><br><span class="line">        &quot;proofPurpose&quot;: &quot;assertionMethod&quot;,</span><br><span class="line">        &quot;jws&quot;: &quot;pYw8XNi1..Cky6Ed&#x3D;&quot;,</span><br><span class="line">        &quot;verificationMethod&quot;: &quot;did:example:ebfeb1f712ebc6f1c276e12ec21&#x2F;keys&#x2F;234&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;proof&quot;: [&#123;</span><br><span class="line">    &quot;type&quot;: &quot;RsaSignature2018&quot;,</span><br><span class="line">    &quot;created&quot;: &quot;2018-06-18T21:19:10Z&quot;,</span><br><span class="line">    &quot;proofPurpose&quot;: &quot;authentication&quot;,</span><br><span class="line">    &quot;verificationMethod&quot;: &quot;did:example:76e12ec21ebhyu1f712ebc6f1z2&#x2F;keys&#x2F;2&quot;,</span><br><span class="line">    &quot;challenge&quot;: &quot;c0ae1c8e-c7e7-469f-b252-86e6a0e7387e&quot;,</span><br><span class="line">    &quot;jws&quot;: &quot;BavEll0&#x2F;I1..W3JT24&#x3D;&quot;</span><br><span class="line">  &#125;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3><span id="bai-du-qi-ye-ren-zheng-vc-shi-xian">百度企业认证VC实现</span></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;@context&quot;: [</span><br><span class="line">        &quot;https:&#x2F;&#x2F;www.w3.org&#x2F;2018&#x2F;credentials&#x2F;v1&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;id&quot;: &quot;9a2abb48-20d6-4308-bf52-61c868a8b090&quot;,</span><br><span class="line">    &quot;type&quot;: [</span><br><span class="line">        &quot;ProofClaim&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;issuer&quot;: &quot;did:ccp:4GQRdctGMEwueArfykURe8rkNyRw&quot;,</span><br><span class="line">    &quot;issuanceDate&quot;: &quot;2019-09-02T05:34:46.586Z&quot;,</span><br><span class="line">    &quot;expirationDate&quot;: &quot;2066-01-02T15:04:05.999Z&quot;,</span><br><span class="line">    &quot;credentialSubject&quot;: &#123;</span><br><span class="line">        &quot;id&quot;: &quot;did:ccp:raMWmi1LEpCeoxzb7atmSNbkozc&quot;,</span><br><span class="line">        &quot;shortDescription&quot;: &quot;百度云企业认证&quot;,</span><br><span class="line">        &quot;longDescription&quot;: &quot;本DID已通过百度云企业认证。&quot;,</span><br><span class="line">        &quot;type&quot;: &quot;EnterpriseAuthentication&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;revocation&quot;: &#123;</span><br><span class="line">        &quot;id&quot;: &quot;https:&#x2F;&#x2F;did.baidu.com&#x2F;v1&#x2F;claim&#x2F;revocations&quot;,</span><br><span class="line">        &quot;type&quot;: &quot;SimpleRevocationListV1&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;proof&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;creator&quot;: &quot;did:ccp:4GQRdctGMEwueArfykURe8rkNyRw&#x2F;1&quot;,</span><br><span class="line">            &quot;type&quot;: &quot;Secp256k1&quot;,</span><br><span class="line">            &quot;signatureValue&quot;: &quot;3044022051757c2de7032a0c887c3fcef02ca3812fede7ca748254771b9513d8e2bb&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3><span id="wei-zhong-yin-xing-did">微众银行DID</span></h3><h4><span id="lian-shang-ge-shi">链上格式</span></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;@context&quot;:&quot;https:&#x2F;&#x2F;weidentity.webank.com&#x2F;vc&#x2F;v1&quot;,</span><br><span class="line">    &quot;id&quot;:&quot;dsfewr23sdcsdfeqeddadfd&quot;,</span><br><span class="line">    &quot;type&quot;:[</span><br><span class="line">        &quot;Credential&quot;,</span><br><span class="line">        &quot;cpt100&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;issuer&quot;:&quot;did:weid:1:2323e3e3dweweewew2&quot;,</span><br><span class="line">    &quot;issued&quot;:&quot;2010-01-01T21:19:10Z&quot;,</span><br><span class="line">    &quot;claim&quot;:&#123;</span><br><span class="line">        &quot;primeNumberIdx&quot;:&quot;1234&quot;,</span><br><span class="line">        &quot;other properties key&quot;:&quot;other properties value&quot;,</span><br><span class="line">        &quot;...&quot;:&quot;...&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;revocation&quot;:&#123;</span><br><span class="line">        &quot;id&quot;:&quot;did:weid:1:2323e3e3dweweewew2&quot;,</span><br><span class="line">        &quot;type&quot;:&quot;SimpleRevocationList2017&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;signature&quot;:[</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;type&quot;:&quot;LinkedDataSignature2015&quot;,</span><br><span class="line">            &quot;created&quot;:&quot;2016-06-18T21:19:10Z&quot;,</span><br><span class="line">            &quot;creator&quot;:&quot;did:weid:1:2323e3e3dweweewew2&quot;,</span><br><span class="line">            &quot;domain&quot;:&quot;www.diriving_card.com&quot;,</span><br><span class="line">            &quot;nonce&quot;:&quot;598c63d6&quot;,</span><br><span class="line">            &quot;signatureValue&quot;:&quot;xxx&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4><span id="sheng-ming-ge-shi">声明格式</span></h4><p>1 驾照VC</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;Claim&quot;:&#123;</span><br><span class="line">        &quot;@context&quot;:&quot;https:&#x2F;&#x2F;weidentity.webank.com&#x2F;cpt100&#x2F;v1&quot;,</span><br><span class="line">        &quot;version&quot;:&quot;v1&quot;,</span><br><span class="line">        &quot;id&quot;:&quot;CPT100&quot;,</span><br><span class="line">        &quot;publisher&quot;:&quot;did:weid:1:2323e3e3dweweewew2&quot;,</span><br><span class="line">        &quot;signature&quot;:&quot;xxx&quot;,</span><br><span class="line">        &quot;claim&quot;:&quot;&quot;,</span><br><span class="line">        &quot;address&quot;:&quot;重庆&quot;,</span><br><span class="line">        &quot;class&quot;:&quot;C1&quot;,</span><br><span class="line">        &quot;created&quot;:&quot;2010-06-20T21:19:10Z&quot;,</span><br><span class="line">        &quot;updated&quot;:&quot;2016-06-20T21:19:10Z&quot;,</span><br><span class="line">        &quot;description&quot;:&quot;中国内地驾照&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;Claim&quot;: &#123;</span><br><span class="line">  &quot;@context&quot; : &quot;https:&#x2F;&#x2F;weidentity.webank.com&#x2F;cpt100&#x2F;v1&quot;,</span><br><span class="line">  &quot;version&quot; : &quot;v1&quot;,</span><br><span class="line">  &quot;id&quot; : &quot;&quot;,</span><br><span class="line">  &quot;weid&quot; : &quot;did:weid:1:0xdfsdf....&quot;,</span><br><span class="line">  &quot;name&quot; : &quot;张小明&quot;,</span><br><span class="line">  &quot;sex&quot; : &quot;男&quot;,</span><br><span class="line">  &quot;nationality&quot; : &quot;中国&quot;,</span><br><span class="line">  &quot;address&quot; : &quot;重庆&quot;,</span><br><span class="line">  &quot;class&quot; : &quot;C1&quot;,</span><br><span class="line">  &quot;issueDate&quot; : &quot;2010-06-20T21:19:10Z&quot;,</span><br><span class="line">  &quot;validDate&quot; : &quot;2016-06-20T21:19:10Z&quot;,</span><br><span class="line">  &quot;expireDate&quot; : &quot;2026-06-20T21:19:10Z&quot;,</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2 单词文件转移VC</p>
+<blockquote>
+<p>适用场景：用户授权后，用户的数据由一个机构给到另外一个机构。credential的ID用于标识本次文件转移。这一类Claim一般用户是issuer</p>
+</blockquote>
+<h3><span id="weelink-did-vc">Weelink DID VC</span></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;alg&quot;: &quot;Ed25519&quot;,</span><br><span class="line">   &quot;typ&quot;: &quot;JWT&quot;</span><br><span class="line"> &#125;</span><br><span class="line"> &#123;</span><br><span class="line">   &quot;iss&quot;: &quot;userDid&quot;,</span><br><span class="line">   &quot;iat&quot;: &quot;1548713422&quot;,</span><br><span class="line">   &quot;nbf&quot;: &quot;1548713422&quot;,</span><br><span class="line">   &quot;exp&quot;: &quot;1548813422&quot;,</span><br><span class="line">   &quot;requestedClaims&quot;: [</span><br><span class="line">     &#123;</span><br><span class="line">       &quot;type&quot;: &quot;profile&quot;,</span><br><span class="line">       &quot;fullName&quot;: &quot;Alice Bean&quot;,</span><br><span class="line">       &quot;mobilePhone&quot;: &quot;123456789&quot;,</span><br><span class="line">       &quot;mailingAddress&quot;: &#123;</span><br><span class="line">         &quot;addressLine1&quot;: &quot;456 123th AVE&quot;,</span><br><span class="line">         &quot;addressLine2&quot;: &quot;Apt 106&quot;,</span><br><span class="line">         &quot;city&quot;: &quot;Redmond&quot;,</span><br><span class="line">         &quot;state&quot;: &quot;WA&quot;,</span><br><span class="line">         &quot;postalCode&quot;: &quot;98052&quot;,</span><br><span class="line">         &quot;country&quot;: &quot;USA&quot;</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;,</span><br><span class="line">     &#123;</span><br><span class="line">       &quot;type&quot;: &quot;agreement&quot;,</span><br><span class="line">       &quot;uri&quot;: &quot;https:&#x2F;&#x2F;document-1.io&quot;,</span><br><span class="line">       &quot;hash&quot;: &#123;</span><br><span class="line">         &quot;method&quot;: &quot;sha256&quot;,</span><br><span class="line">         &quot;digest&quot;: &quot;The hash result of the document&#39;s content&quot;</span><br><span class="line">       &#125;,</span><br><span class="line">       &quot;agreed&quot;: true,</span><br><span class="line">       &quot;sig&quot;: &quot;user&#39;s signature against the doc hash plus AGREED.&quot;</span><br><span class="line">     &#125;,</span><br><span class="line">     &#123;</span><br><span class="line">       &quot;type&quot;: &quot;agreement&quot;,</span><br><span class="line">       &quot;uri&quot;: &quot;ipfs:&#x2F;&#x2F;document-2&quot;,</span><br><span class="line">       &quot;hash&quot;: &#123;</span><br><span class="line">         &quot;method&quot;: &quot;sha3&quot;,</span><br><span class="line">         &quot;digest&quot;: &quot;The hash result of the document&#39;s content&quot;</span><br><span class="line">       &#125;,</span><br><span class="line">       &quot;agreed&quot;: false</span><br><span class="line">     &#125;</span><br><span class="line">   ]</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>VC结构</p>
+<ul>
+<li><p>three kinds of verifiable claims：</p>
+<ul>
+<li>profile：This can contain multiple universally-known predefined claim items, such as firstName and birthday.<ul>
+<li>type：fixed to “profile”.</li>
+<li>meta：an optional field.</li>
+<li>items：a list of predefined profile items. </li>
+</ul>
+</li>
+<li>agreement：A peer may ask users to sign agreements.<ul>
+<li>type：fixed to “agreement”.</li>
+<li>meta：optional field.</li>
+<li>uri：points to the content of agreement.</li>
+<li>hash：an object where the method subfield specifies the algorithm (sha3, sha256, etc) used and the digest subfield is the hash result.</li>
+<li>agreed：a boolean value added by Wallet to represent whether the user accepts the agreement.</li>
+<li>sig：the DSA signature of hash.</li>
+</ul>
+</li>
+<li>proofOfHolding： A peer may ask users to prove that they have either a  certain amount of tokens or a certificate issued by a third party.</li>
+</ul>
+</li>
+<li><p>meta is an optional field which may contain, but not limited to, the following field:</p>
+</li>
+<li><p>description: This is used for describing claim. Wallet can shown users this field.</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/27/did/did%E7%8E%B0%E6%9C%89%E4%BA%A7%E5%93%81%E8%B0%83%E7%A0%94/" data-id="cko3t66ym000jrsxg8o5c9l6p" data-title="DID现有产品调研" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/did/" rel="tag">did</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/27/did/VC%20data%20modal/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          DID可信凭证
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/27/network/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">《计算机网络-自顶向下方法》阅读笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CA/">CA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E4%B9%A6/">杂书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CA/" style="font-size: 10px;">CA</a> <a href="/tags/DAO/" style="font-size: 12.5px;">DAO</a> <a href="/tags/DevOps/" style="font-size: 15px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/HyperLedger/" style="font-size: 10px;">HyperLedger</a> <a href="/tags/K8S/" style="font-size: 10px;">K8S</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/did/" style="font-size: 17.5px;">did</a> <a href="/tags/mathchain/" style="font-size: 10px;">mathchain</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E8%B5%84%E4%BA%A7/" style="font-size: 10px;">加密资产</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 20px;">区块链</a> <a href="/tags/%E5%AE%B9%E5%99%A8/" style="font-size: 10px;">容器</a> <a href="/tags/%E6%9D%82%E4%B9%A6/" style="font-size: 10px;">杂书</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 12.5px;">架构</a> <a href="/tags/%E7%9B%91%E6%8E%A7/" style="font-size: 10px;">监控</a> <a href="/tags/%E7%BD%91%E5%85%B3/" style="font-size: 10px;">网关</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">证书</a> <a href="/tags/%E9%93%BE%E7%A0%81/" style="font-size: 10px;">链码</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/30/hexo/config/">博客配置</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/">《架构修炼之道-亿级网关...》阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/CA/PKI-CA/">PKI/CA与数字证书技术大全</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/">图解http阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/">《成为极少数》阅读笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 MGintoki<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

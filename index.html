@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>MGintoki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="随便写点东西吧">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MGintoki">
+<meta property="og:url" content="https://mgintoki.github.io/index.html">
+<meta property="og:site_name" content="MGintoki">
+<meta property="og:description" content="随便写点东西吧">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="MGintoki">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="MGintoki" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon-32x32.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MGintoki</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mgintoki.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-hexo/config" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/30/hexo/config/" class="article-date">
+  <time class="dt-published" datetime="2021-04-30T04:17:18.000Z" itemprop="datePublished">2021-04-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/30/hexo/config/">博客配置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="tocStart"></div>
+
+<!-- toc -->
+
+
+
+<!-- tocstop -->
+
+<div class="tocEnd"></div>
+        
+          <p class="article-more-link">
+            <a href="/2021/04/30/hexo/config/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/30/hexo/config/" data-id="cko3t66yn000mrsxg7qtp70yw" data-title="博客配置" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-architecture/架构修炼之道" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/" class="article-date">
+  <time class="dt-published" datetime="2021-04-29T12:34:46.000Z" itemprop="datePublished">2021-04-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/">《架构修炼之道-亿级网关...》阅读笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="tocStart"></div>
+
+<!-- toc -->
+
+<ul>
+<li><a href="#1-api-wang-guan">1 API网关</a><ul>
+<li><a href="#1-1-ji-ben-gai-nian">1.1 基本概念</a></li>
+<li><a href="#1-2-wang-guan-zhu-ce-zhong-xin">1.2 网关注册中心：</a></li>
+<li><a href="#1-3-wang-guan-guan-dao-chu-li">1.3 网关管道处理</a></li>
+<li><a href="#1-4-tong-bu-wang-guan-xi-tong-rong-yi-gg-de-dian">1.4 同步网关系统容易GG的点</a></li>
+<li><a href="#1-5-yi-bu-wang-guan">1.5 异步网关</a></li>
+<li><a href="#1-6-tuo-ku-yu-duo-ji-huan-cun">1.6 脱库与多级缓存</a></li>
+</ul>
+</li>
+<li><a href="#2-oauth">2 OAuth</a><ul>
+<li><a href="#2-1-ji-ben-gai-nian">2.1 基本概念</a></li>
+<li><a href="#2-2-kai-fang-ping-tai">2.2 开放平台</a></li>
+<li><a href="#2-3-yue-quan">2.3 越权</a></li>
+<li><a href="#2-4-api-zhi-li">2.4 API治理</a></li>
+<li><a href="#2-5-api-jing-ji">2.5 API经济</a></li>
+</ul>
+</li>
+<li><a href="#3-fen-bu-shi">3 分布式</a><ul>
+<li><a href="#3-1-ji-ben-gai-nian">3.1 基本概念</a></li>
+<li><a href="#3-2-fen-bu-shi-shi-wu">3.2 分布式事务</a></li>
+<li><a href="#3-3-fen-bu-shi-suo">3.3 分布式锁</a></li>
+<li><a href="#3-4-fen-bu-shi-xian-liu">3.4 分布式限流</a></li>
+<li><a href="#3-5-xing-neng-zhi-biao">3.5 性能指标</a></li>
+</ul>
+</li>
+<li><a href="#4-mq-xiao-xi-dui-lie">4 MQ（消息队列）</a><ul>
+<li><a href="#4-1-ji-ben-gai-nian">4.1 基本概念</a></li>
+<li><a href="#4-2-fa-bu-ding-yue-mo-shi-yu-guan-cha-zhe-mo-shi">4.2 发布/订阅模式与观察者模式</a></li>
+<li><a href="#4-3-xiao-fei-mi-deng">4.3 消费幂等</a></li>
+<li><a href="#4-4-mq-de-you-shi">4.4 MQ的优势</a></li>
+<li><a href="#4-5-mq-de-qi-ta-dian">4.5 MQ的其他点</a></li>
+</ul>
+</li>
+<li><a href="#5-xiao-xi-tui-song">5 消息推送</a><ul>
+<li><a href="#5-1-ji-ben-gai-nian">5.1 基本概念</a></li>
+<li><a href="#5-2-http-chang-lian-jie">5.2 http长连接</a></li>
+</ul>
+</li>
+<li><a href="#6-rpc">6 RPC</a><ul>
+<li><a href="#6-1-ji-ben-gai-nian">6.1 基本概念</a></li>
+<li><a href="#6-2-rpc-tong-xin-ji-zhi">6.2 RPC通信机制</a></li>
+<li><a href="#6-3-rpc-diao-yong-shi-jian">6.3 RPC调用时间</a></li>
+<li><a href="#6-4-yi-bu-rpc">6.4 异步RPC</a></li>
+</ul>
+</li>
+<li><a href="#7-io-zan-shi-kan-bu-dong">7 IO 暂时看不懂</a></li>
+<li><a href="#8-wei-fu-wu">8 微服务</a><ul>
+<li><a href="#8-1-ji-ben-gai-nian">8.1 基本概念</a></li>
+<li><a href="#8-2-wei-fu-wu-gai-zao-zhi-qian-de-xi-tong-shu-li">8.2 微服务改造之前的系统梳理</a></li>
+<li><a href="#8-3-wei-fu-wu-gai-zao-de-shu-ju-ku-chai-fen">8.3 微服务改造的数据库拆分</a></li>
+</ul>
+</li>
+<li><a href="#9-rong-cuo">9 容错</a><ul>
+<li><a href="#9-1-ji-ben-gai-nian">9.1 基本概念</a></li>
+<li><a href="#9-2-jiang-ji-he-xian-liu">9.2 降级和限流</a></li>
+<li><a href="#9-3-xian-cheng-chi-ge-chi">9.3 线程池隔离</a></li>
+<li><a href="#9-4-kuai-su-shi-bai">9.4 快速失败</a></li>
+<li><a href="#9-5-rong-duan">9.5 熔断</a></li>
+<li><a href="#9-6-chang-yong-you-hua-dian">9.6 常用优化点</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<div class="tocEnd"></div>
+        
+          <p class="article-more-link">
+            <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/" data-id="cko3t66y20000rsxg919wgguk" data-title="《架构修炼之道-亿级网关...》阅读笔记" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E5%85%B3/" rel="tag">网关</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-CA/PKI-CA" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/29/CA/PKI-CA/" class="article-date">
+  <time class="dt-published" datetime="2021-04-29T12:34:46.000Z" itemprop="datePublished">2021-04-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CA/">CA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/29/CA/PKI-CA/">PKI/CA与数字证书技术大全</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="tocStart"></div>
+
+<!-- toc -->
+
+<ul>
+<li><a href="#can-kao-lian-jie">参考链接：</a></li>
+<li><a href="#yue-du-jie-gou">阅读结构</a></li>
+<li><a href="#1-pki-zong-lan">1 PKI总览</a><ul>
+<li><a href="#1-1-ji-ben-gai-nian-pki-he-xin-biao-zhun">1.1 基本概念（PKI核心标准）</a></li>
+<li><a href="#1-2-xiang-guan-pki-biao-zhun">1.2 相关PKI标准</a></li>
+<li><a href="#1-3-xiang-guan-fa-lu">1.3相关法律</a></li>
+</ul>
+</li>
+<li><a href="#2-pki-ti-xi-nei-rong">2 PKI体系内容</a><ul>
+<li><a href="#2-1-shu-zi-zheng-shu-yu-si-yao">2.1 数字证书与私钥</a></li>
+<li><a href="#2-2-pki-ca-yu-kmc">2.2 PKI/CA与KMC</a></li>
+<li><a href="#2-3-pki-ying-yong-ti-xi">2.3 PKI应用体系</a></li>
+<li><a href="#2-4-pki-xiang-guan-biao-zhun-he-fa-gui">2.4 PKI相关标准和法规</a></li>
+<li><a href="#2-5-gen-ca-xin-ren-mo-xing">2.5 根CA信任模型</a></li>
+</ul>
+</li>
+<li><a href="#3-pki-ji-ben-ji-zhu">3 PKI基本技术</a><ul>
+<li><a href="#3-1-asn-1-bian-ma">3.1 ASN.1 编码</a></li>
+<li><a href="#3-2-mi-ma-ji-zhu">3.2 密码技术</a><ul>
+<li><a href="#dui-cheng-jia-mi-suan-fa">对称加密算法</a></li>
+<li><a href="#fei-dui-cheng-jia-mi-suan-fa">非对称加密算法</a></li>
+<li><a href="#ha-xi-suan-fa">哈希算法</a></li>
+<li><a href="#mac">MAC</a></li>
+<li><a href="#otp">OTP</a></li>
+</ul>
+</li>
+<li><a href="#3-3-shu-zi-qian-ming-he-shu-zi-xin-feng">3.3 数字签名和数字信封</a></li>
+<li><a href="#3-4-base64-bian-ma">3.4 Base64编码</a></li>
+<li><a href="#3-5-ldap-xie-yi">3.5 LDAP协议</a></li>
+</ul>
+</li>
+<li><a href="#4-zheng-shu-yu-si-yao">4 证书与私钥</a><ul>
+<li><a href="#4-1-rsa">4.1 RSA</a></li>
+<li><a href="#4-2-zheng-shu-zi-duan">4.2 证书字段</a></li>
+<li><a href="#4-3-zheng-shu-guo-nei-yong-kuo-zhan-xiang">4.3 证书国内用扩展项</a></li>
+<li><a href="#4-4-zheng-shu-fen-lei">4.4 证书分类</a></li>
+<li><a href="#4-5-zheng-shu-he-si-yao-de-cun-chu">4.5 证书和私钥的存储</a></li>
+<li><a href="#4-5-si-yao-he-zheng-shu-fang-wen-fang-shi">4.5 私钥和证书访问方式</a></li>
+</ul>
+</li>
+<li><a href="#5-ca-yu-kmc-xi-tong-she-ji">5 CA与KMC 系统设计</a><ul>
+<li><a href="#5-1-xi-tong-jie-gou">5.1 系统结构</a></li>
+<li><a href="#5-2-xi-tong-she-ji">5.2 系统设计</a><ul>
+<li><a href="#5-2-1-ca-xi-tong-she-ji">5.2.1 CA系统设计</a></li>
+<li><a href="#5-2-2-kmc-xi-tong-she-ji">5.2.2 KMC系统设计</a></li>
+<li><a href="#5-2-3-qi-ye-ji-ca-she-ji-shi-li">5.2.3 企业级CA设计示例</a></li>
+<li><a href="#5-2-4-shuang-zheng-shu-ji-zhu-liu-cheng-she-ji">5.2.4 双证书技术流程设计</a></li>
+</ul>
+</li>
+<li><a href="#5-3-ocsp-socsp-fu-wu">5.3 OCSP/SOCSP服务</a><ul>
+<li><a href="#5-3-1-ocsp-socsp-fu-wu">5.3.1 OCSP/SOCSP服务</a></li>
+<li><a href="#5-3-2-crl-fu-wu">5.3.2 CRL服务</a></li>
+<li><a href="#5-3-3-ldap-fu-wu">5.3.3 LDAP服务</a></li>
+</ul>
+</li>
+<li><a href="#5-4-ca-bu-shu-jie-gou">5.4 CA 部署结构</a></li>
+</ul>
+</li>
+<li><a href="#6-ca-ying-yong-shi-li">6 CA应用实例</a><ul>
+<li><a href="#6-1-ca-ji-ben-yong-fa">6.1 CA基本用法</a></li>
+<li><a href="#6-2-tong-yong-ying-yong-ji-zhu">6.2 通用应用技术</a></li>
+<li><a href="#6-3-dai-ma-zheng-shu">6.3 代码证书</a></li>
+<li><a href="#6-4-wang-shang-yin-xing-xi-tong">6.4 网上银行系统</a></li>
+<li><a href="#6-5-wang-shang-bao-shui-xi-tong">6.5 网上报税系统</a></li>
+<li><a href="#6-5-dian-zi-bing-li-xi-tong">6.5 电子病历系统</a></li>
+</ul>
+</li>
+<li><a href="#7-ca-zhong-xin-yun-ying">7 CA中心运营</a></li>
+<li><a href="#8-xiang-guan-fa-lu-fa-gui">8 相关法律法规</a></li>
+</ul>
+<!-- tocstop -->
+
+<div class="tocEnd"></div>
+        
+          <p class="article-more-link">
+            <a href="/2021/04/29/CA/PKI-CA/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/" data-id="cko3t66z20027rsxgd6mp489w" data-title="PKI/CA与数字证书技术大全" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CA/" rel="tag">CA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%81%E4%B9%A6/" rel="tag">证书</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-network/图解http" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/" class="article-date">
+  <time class="dt-published" datetime="2021-04-29T11:44:38.000Z" itemprop="datePublished">2021-04-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/">图解http阅读笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="tocStart"></div>
+
+<!-- toc -->
+
+<ul>
+<li><a href="#1-ji-ben-gai-nian">1、基本概念</a><ul>
+<li><a href="#1-1-tcp-ip-xie-yi-zu">1.1 TCP/IP协议族</a></li>
+<li><a href="#1-2-ip-xie-yi">1.2 IP协议</a></li>
+<li><a href="#1-3-tcp">1.3 TCP</a></li>
+<li><a href="#1-4-dns">1.4 DNS</a></li>
+<li><a href="#1-5-uri-he-url-de-qu-bie">1.5 URI和URL的区别</a></li>
+</ul>
+</li>
+<li><a href="#2-http-shi-yi-ge-she-ji-jian-dan-de-xie-yi">2 HTTP是一个设计简单的协议</a></li>
+<li><a href="#3-http-bao-wen-jie-gou">3 HTTP报文结构</a></li>
+</ul>
+<!-- tocstop -->
+
+<div class="tocEnd"></div>
+        
+          <p class="article-more-link">
+            <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/" data-id="cko3t66yp000rrsxg1kjobwx0" data-title="图解http阅读笔记" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-life/成为极少数" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-04-27T12:51:46.000Z" itemprop="datePublished">2021-04-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9D%82%E4%B9%A6/">杂书</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/">《成为极少数》阅读笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="tocStart"></div>
+
+<!-- toc -->
+
+<ul>
+<li><a href="#gu-du-de-pan-deng-zhe">孤独的攀登者</a></li>
+<li><a href="#chi-jiu-de-zi-qu-li">持久的自驱力</a><ul>
+<li><a href="#jue-xing-zi-wo-qu-dong-de-ren-bu-jiao-lu">觉醒：自我驱动的人不焦虑</a></li>
+<li><a href="#shang-jin-tu-po-zi-wo-cai-suan-shang-jin">上进：突破自我才算上进</a></li>
+<li><a href="#ren-ke-zi-wo">认可自我</a></li>
+<li><a href="#zi-lu-wei-rao-mu-biao-de-zi-wo-yue-shu">自律：围绕目标的自我约束</a></li>
+<li><a href="#zhuan-zhu-zhi-shi-dan-chun-de-qin-fen-hen-rong-yi-nan-de-shi-qin-fen-de-jiu-jing-you-mei-you-xiao-guo">专注 只是单纯的勤奋很容易，难得是勤奋的究竟有没有效果</a></li>
+<li><a href="#qing-xu-fen-nu-shi-ke-yi-li-yong-de-wu-qi">情绪：愤怒是可以利用的武器</a></li>
+<li><a href="#li-shen-zai-30-sui-xiang-ming-bai-huo-qing-chu">立身：在30岁想明白，活清楚</a></li>
+</ul>
+</li>
+<li><a href="#san-shi-jian-yu-ping-tai">三、时间与平台</a><ul>
+<li><a href="#shi-jian-bai-mang-zhi-zhong-chou-chu-shi-jian-xue-xi">时间：百忙之中抽出时间学习</a></li>
+<li><a href="#shi-jian-ye-shi-zi-ben">时间也是资本</a></li>
+<li><a href="#gao-bie-duan-shi-de-mang">告别短视的忙</a></li>
+<li><a href="#zhi-chang-sheng-cun">职场生存</a></li>
+<li><a href="#guan-yu-ling-dao">关于领导</a></li>
+<li><a href="#ren-ji-guan-yu-xin-ji-chong-dian-ren">人际： 关于心机重点人</a></li>
+<li><a href="#xie-gang-hao-de-xie-gang-shi-you-shi-xiang-cheng">斜杠：好的斜杠是优势相乘。</a></li>
+<li><a href="#shi-jian-zai-bian-you-xie-dao-li-bu-bian">时间在变，有些道理不变。</a></li>
+</ul>
+</li>
+<li><a href="#si-shi-ye-yu-ge-ju">四、视野与格局</a><ul>
+<li><a href="#guan-dian-yu-guan-dian-bu-tong-zhe-de-xiang-chu">观点：与观点不同者的相处</a></li>
+<li><a href="#xiao-fei-bei-xiao-fei-zhu-yi-tao-kong-de-nian-qing-ren">消费：被消费主义掏空的年轻人</a></li>
+<li><a href="#shi-jiao-pin-fu-chai-ju">视角：贫富差距</a></li>
+<li><a href="#geng-xin-bao-chi-si-wei-geng-xin-ti-sheng-ceng-ci">更新：保持思维更新，提升层次</a></li>
+<li><a href="#zi-you-you-quan-li-xuan-ze-bu-zuo">自由：有权利选择不做</a></li>
+<li><a href="#yun-qi-ru-he-cheng-wei-yun-qi-hao-de-ren">运气：如何成为运气好的人？</a></li>
+<li><a href="#quan-zi-duan-she-chi">圈子：断舍离</a></li>
+<li><a href="#ge-ju-bu-duan-fan-si-ling-wu-zheng-li-cai-neng-xing-cheng-zi-ji-de-da-ge-ju">格局：不断反思、领悟、整理才能形成自己的大格局</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<div class="tocEnd"></div>
+        
+          <p class="article-more-link">
+            <a href="/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/" data-id="cko3t66z9002drsxghh0o5nvf" data-title="《成为极少数》阅读笔记" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E4%B9%A6/" rel="tag">杂书</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CA/">CA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E4%B9%A6/">杂书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CA/" style="font-size: 10px;">CA</a> <a href="/tags/DAO/" style="font-size: 12.5px;">DAO</a> <a href="/tags/DevOps/" style="font-size: 15px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/HyperLedger/" style="font-size: 10px;">HyperLedger</a> <a href="/tags/K8S/" style="font-size: 10px;">K8S</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/did/" style="font-size: 17.5px;">did</a> <a href="/tags/mathchain/" style="font-size: 10px;">mathchain</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E8%B5%84%E4%BA%A7/" style="font-size: 10px;">加密资产</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 20px;">区块链</a> <a href="/tags/%E5%AE%B9%E5%99%A8/" style="font-size: 10px;">容器</a> <a href="/tags/%E6%9D%82%E4%B9%A6/" style="font-size: 10px;">杂书</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 12.5px;">架构</a> <a href="/tags/%E7%9B%91%E6%8E%A7/" style="font-size: 10px;">监控</a> <a href="/tags/%E7%BD%91%E5%85%B3/" style="font-size: 10px;">网关</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">证书</a> <a href="/tags/%E9%93%BE%E7%A0%81/" style="font-size: 10px;">链码</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/30/hexo/config/">博客配置</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/">《架构修炼之道-亿级网关...》阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/CA/PKI-CA/">PKI/CA与数字证书技术大全</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/">图解http阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/27/life/%E6%88%90%E4%B8%BA%E6%9E%81%E5%B0%91%E6%95%B0/">《成为极少数》阅读笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 MGintoki<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
