@@ -6,17 +6,17 @@
   
   <title>图解http阅读笔记 | MGintoki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="1、基本概念 1.1 TCP&#x2F;IP协议族 1.2 IP协议 1.3 TCP 1.4 DNS 1.5 URI和URL的区别   2 HTTP是一个设计简单的协议 3 HTTP报文结构">
+  <meta name="description" content="1、基本概念 1.1 TCP&#x2F;IP协议族 1.2 IP协议 1.3 TCP 1.4 DNS 1.5 URI和URL的区别   2 HTTP是一个设计简单的协议 3 HTTP报文结构 4、HTTP状态码 1xx 请求正在处理 2xx 请求正常处理完毕 3xx 请求需要重定向附加操作 4xx 客户端错误 5xx 服务器错误   5 HTTP首部 通用首部 请求首部 响应首部 实体首部 Coo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图解http阅读笔记">
 <meta property="og:url" content="https://mgintoki.github.io/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/index.html">
 <meta property="og:site_name" content="MGintoki">
-<meta property="og:description" content="1、基本概念 1.1 TCP&#x2F;IP协议族 1.2 IP协议 1.3 TCP 1.4 DNS 1.5 URI和URL的区别   2 HTTP是一个设计简单的协议 3 HTTP报文结构">
+<meta property="og:description" content="1、基本概念 1.1 TCP&#x2F;IP协议族 1.2 IP协议 1.3 TCP 1.4 DNS 1.5 URI和URL的区别   2 HTTP是一个设计简单的协议 3 HTTP报文结构 4、HTTP状态码 1xx 请求正在处理 2xx 请求正常处理完毕 3xx 请求需要重定向附加操作 4xx 客户端错误 5xx 服务器错误   5 HTTP首部 通用首部 请求首部 响应首部 实体首部 Coo">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://mgintoki.github.io/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/img/FireShotCapture055weread.jpg">
 <meta property="og:image" content="https://mgintoki.github.io/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/img/10141619748707_.pic_hd.jpg">
 <meta property="article:published_time" content="2021-04-29T11:44:38.000Z">
-<meta property="article:modified_time" content="2021-04-30T07:45:49.129Z">
+<meta property="article:modified_time" content="2021-04-30T10:02:22.172Z">
 <meta property="article:author" content="MGintoki">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://mgintoki.github.io/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/img/FireShotCapture055weread.jpg">
@@ -113,12 +113,38 @@
 </li>
 <li><a href="#2-http-shi-yi-ge-she-ji-jian-dan-de-xie-yi">2 HTTP是一个设计简单的协议</a></li>
 <li><a href="#3-http-bao-wen-jie-gou">3 HTTP报文结构</a></li>
+<li><a href="#4-http-zhuang-tai-ma">4、HTTP状态码</a><ul>
+<li><a href="#1xx-qing-qiu-zheng-zai-chu-li">1xx 请求正在处理</a></li>
+<li><a href="#2xx-qing-qiu-zheng-chang-chu-li-wan-bi">2xx 请求正常处理完毕</a></li>
+<li><a href="#3xx-qing-qiu-xu-yao-chong-ding-xiang-fu-jia-cao-zuo">3xx 请求需要重定向附加操作</a></li>
+<li><a href="#4xx-ke-hu-duan-cuo-wu">4xx 客户端错误</a></li>
+<li><a href="#5xx-fu-wu-qi-cuo-wu">5xx 服务器错误</a></li>
+</ul>
+</li>
+<li><a href="#5-http-shou-bu">5 HTTP首部</a><ul>
+<li><a href="#tong-yong-shou-bu">通用首部</a></li>
+<li><a href="#qing-qiu-shou-bu">请求首部</a></li>
+<li><a href="#xiang-ying-shou-bu">响应首部</a></li>
+<li><a href="#shi-ti-shou-bu">实体首部</a></li>
+<li><a href="#cookie-shou-bu-zi-duan">Cookie首部字段</a></li>
+</ul>
+</li>
+<li><a href="#6-http-fu-wu-qi">6 HTTP服务器</a><ul>
+<li><a href="#shu-ju-zhuan-fa-cheng-xu">数据转发程序</a></li>
+</ul>
+</li>
+<li><a href="#7-https">7 HTTPS</a></li>
+<li><a href="#8-fang-wen-ren-zheng">8 访问认证</a></li>
+<li><a href="#9-ji-yu-http-de-xie-yi">9 基于HTTP的协议</a></li>
+<li><a href="#10-http-an-quan">10 HTTP安全</a></li>
 </ul>
 <!-- tocstop -->
 
 </div>
 <span id="more"></span>
+[toc]
 
+<hr>
 <p>书籍链接：<a target="_blank" rel="noopener" href="https://weread.qq.com/web/reader/3da32b505dd9f43da9a1acakc81322c012c81e728d9d180">https://weread.qq.com/web/reader/3da32b505dd9f43da9a1acakc81322c012c81e728d9d180</a></p>
 <hr>
 <h1><span id="1-ji-ben-gai-nian">1、基本概念</span></h1><p><img src="./img/FireShotCapture055weread.jpg"></p>
@@ -162,6 +188,182 @@
 <p>Cookie会根据从服务器端发送的响应报文内的一个叫做Set-Cookie的首部字段信息，通知客户端保存Cookie。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入Cookie值（通常是一个用户唯一id）后发送出去。服务器端发现客户端发送过来的Cookie后，会去检查究竟是从哪一个客户端发来的连接请求，然后对比服务器上的记录，最后得到之前的状态信息。</p>
 </blockquote>
 <h1><span id="3-http-bao-wen-jie-gou">3 HTTP报文结构</span></h1><p><img src="./img/10141619748707_.pic_hd.jpg"></p>
+<p>CR Carriage Return 回车<br>LF Line Feed 换行</p>
+<ul>
+<li><p>报文是HTTP通信的基本单位，实体是请求或相应的<strong>有效载荷</strong>数据（补充项）</p>
+<ul>
+<li>在传输不进行编码的时候，报文主体=实体主体，当传输进行编码的时候，将实体信息压缩，此时实体主体不等于报文主体</li>
+<li>可以将内容进行gzip，compress等压缩编码</li>
+<li>可以将实体主体分成多个块，进行分块传输。浏览器可以边解码边渲染已经解码的内容</li>
+</ul>
+</li>
+<li><p>发送多种数据类型多部分对象集合</p>
+<ul>
+<li>MIME（MultipurposeInternet Mail Extensions，多用途因特网邮件扩展</li>
+<li>在MIME扩展中会使用一种称为多部分对象集合（Multipart）的方法，来容纳多份不同类型的数据</li>
+<li>相对应的content-type为multipart/form-data</li>
+<li>相应地，HTTP协议中也采纳了多部分对象集合，发送的一份报文主体内可含有多类型实体。通常是在图片或文本文件等上传时使用</li>
+</ul>
+</li>
+<li><p>Range Request</p>
+<ul>
+<li>指定下载的实体范围</li>
+<li>Range: byte=50001-20000</li>
+<li>针对范围请求，响应会返回状态码为206 Partial Content的响应报文。</li>
+<li>对于多重范围的范围请求，响应会在首部字段Content-Type标明multipart/byteranges后返回响应报文</li>
+</ul>
+</li>
+<li><p>内容协商</p>
+<ul>
+<li>客户端和浏览器就相应的资源内容进行交涉，提供给客户端最为适合的源。基于语言、字符集、编码方式等作为判断的基准</li>
+<li>首部类型：Accept Accept-Charset Accept-Encoding Accept-Language Content-Language</li>
+<li>协商类型包括：1 服务器驱动协商 2 客户端驱动协商 3 透明协商（一起商量）</li>
+</ul>
+</li>
+</ul>
+<h1><span id="4-http-zhuang-tai-ma">4、HTTP状态码</span></h1><p>HTTP状态码由3位数字+原因短语组成</p>
+<h2><span id="1xx-qing-qiu-zheng-zai-chu-li">1xx 请求正在处理</span></h2><h2><span id="2xx-qing-qiu-zheng-chang-chu-li-wan-bi">2xx 请求正常处理完毕</span></h2><ul>
+<li><p>200 OK</p>
+</li>
+<li><p>204 No Content</p>
+</li>
+<li><p>206 Partial Content</p>
+<h2><span id="3xx-qing-qiu-xu-yao-chong-ding-xiang-fu-jia-cao-zuo">3xx 请求需要重定向附加操作</span></h2></li>
+<li><p>301 Moved Permanently 请求的资源已被分配了新的URI，以后应使用资源现在所指的URI</p>
+</li>
+<li><p>302 Found 临时性重定向。该状态码表示请求的资源已被分配了新的URI，希望用户（本次）能使用新的URI访问，而且资源URI还没有固定下来，以后可能还会变。基本上浏览器碰到了都会删掉post请求，重发个get请求。</p>
+</li>
+<li><p>303 See Other 标识客户端应当采用GET方法获取资源。浏览器解析到该访问后，会删除原post请求，替换成get 请求重发一次</p>
+</li>
+<li><p>304 Not Modified 。找到资源，但不符合（if-xxx）条件定义的资源匹配</p>
+</li>
+<li><p>305 Temporary Redirect 临时重定向，不会改变原有的post方法</p>
+</li>
+</ul>
+<h2><span id="4xx-ke-hu-duan-cuo-wu">4xx 客户端错误</span></h2><ul>
+<li>400 Bad Request 客户端请求语法错误</li>
+<li>401 Unauthorized 需要进行认证</li>
+<li>403 Forbidden 无权访问</li>
+<li>404 Not Found 服务器上没找到请求的资源</li>
+</ul>
+<h2><span id="5xx-fu-wu-qi-cuo-wu">5xx 服务器错误</span></h2><ul>
+<li>500 Internal Server Error 服务器在执行情趣时发生了错误</li>
+<li>503 Service Unavailable</li>
+</ul>
+<h1><span id="5-http-shou-bu">5 HTTP首部</span></h1><h2><span id="tong-yong-shou-bu">通用首部</span></h2><p>通用首部指，客户端和服务端共同使用的首部</p>
+<ul>
+<li>Cache-Control 控制缓存的工作机制</li>
+<li>Connection<ul>
+<li>指定部分字段，在经过代理服务器的时候要被代理服务器剔除。</li>
+<li>当Connection: close 值的时候，意味着关闭持久连接</li>
+</ul>
+</li>
+<li>Data HTTP报文的日期和时间</li>
+<li>Pragma：用于向后兼容定义，当Progma: no-cache的时候，控制HTTP1.1之前的中间服务器不使用缓存</li>
+<li>Trailer：用于分块传输，指定报文主体后记录了哪些首部字段</li>
+<li>Transfer-Encoding：指定了传输时候的编码格式</li>
+<li>Upgrade 检测HTTP协议以及其他协议是否可用更高的版本通信，参数是一个不同的通信协议</li>
+<li>Via：用于追踪客户端和服务器之间的请求和相应报文的传输路径</li>
+<li>Warning：缓存警告<h2><span id="qing-qiu-shou-bu">请求首部</span></h2></li>
+<li>Accept</li>
+<li>Accept-Charset</li>
+<li>Accept-Language</li>
+<li>Authorization 防止用户的认证信息</li>
+<li>Expect 期待服务器的特定行为</li>
+<li>From 告知服务器使用用户代理的电子邮件地址</li>
+<li>Host 请求资源所处的服务器的主机名和端口号</li>
+<li>if-xxxx 请求匹配特定条件</li>
+<li>Range：指定请求资源的范围</li>
+<li>Referer：发起请求的客户端的URI</li>
+<li>TE：传输编码设定</li>
+<li>User-Agent<h2><span id="xiang-ying-shou-bu">响应首部</span></h2></li>
+<li>Accept-Ranges。取值bytes或none，是否接受范围请求</li>
+<li>Age：相应是多久之前创建的</li>
+<li>ETag 资源实体标识</li>
+<li>Location 配合3xx响应，定义重定向的URI</li>
+<li>Retry-After 配合503响应，告知多久后再发起请求</li>
+<li>Server 服务器信息</li>
+<li>Vary 服务器可以再这里和代理服务器预定，只有Vary字段相同的值，才可以从代理服务器直接相应，否则可以代理服务器返回缓存<h2><span id="shi-ti-shou-bu">实体首部</span></h2></li>
+<li>Allow 允许的方法</li>
+<li>Content-Type</li>
+<li>Content-Encoding</li>
+<li>Content-Language</li>
+<li>Content-Length</li>
+<li>Content-Location 报文主体的URI</li>
+<li>Content-MD5</li>
+<li>Content-Range</li>
+<li>Expires</li>
+<li>Last-Modified<h2><span id="cookie-shou-bu-zi-duan">Cookie首部字段</span></h2></li>
+<li>Set-Cookie</li>
+<li>Cookie<h1><span id="6-http-fu-wu-qi">6 HTTP服务器</span></h1><blockquote>
+<p>同一台物理主机上，可以采用多种技术搭载多个Web服务，多个Web服务可能拥有多个不同域名，发送HTTP请求的时候需要在HOST首部指定完整主机名和URL。</p>
+</blockquote>
+</li>
+</ul>
+<h2><span id="shu-ju-zhuan-fa-cheng-xu">数据转发程序</span></h2><ul>
+<li><p>代理</p>
+<ul>
+<li>正向代理代理用户向服务器发送请求，隐藏客户端</li>
+<li>反向代理代替服务器响应请求，隐藏服务端</li>
+<li>缓存代理会将资源保存到代理服务器内存，提高读的效率</li>
+<li>代理转发时，不对报文进行任何加工的代理为透明代理，否则为非透明代理</li>
+</ul>
+</li>
+<li><p>网关</p>
+<ul>
+<li>网关可以提升系统安全性，统一管控，协议更换，负载均衡等等（见架构修炼之道……读书笔记）</li>
+</ul>
+</li>
+<li><p>隧道</p>
+<ul>
+<li>隧道建立起一条客户端和服务端之间的通信线路，使用SSL/TLS 等手段进行加密通信</li>
+<li>隧道不会解析HTTP请求，TLS或是SSL会在HTTP请求上包一层自己的逻辑</li>
+</ul>
+</li>
+</ul>
+<h1><span id="7-https">7 HTTPS</span></h1><p>HTTP是一个设计简单的协议，并不涉及到全面的安全验证</p>
+<ul>
+<li>通信明文，内容可能被窃听</li>
+<li>TCP/IP工作机制，是可以在通信链路上被窃听的</li>
+<li>不验证通信双方身份，可能被伪装<ul>
+<li>可以验证双方的证书</li>
+<li>避免Dos攻击</li>
+</ul>
+</li>
+<li>不验证报文的完整性<ul>
+<li>需要做MAC</li>
+</ul>
+</li>
+</ul>
+<p>可以采用TLS/SSL对于通信进行加密</p>
+<h1><span id="8-fang-wen-ren-zheng">8 访问认证</span></h1><p>服务端有可能需要确认客户端以及客户端当前使用人的身份</p>
+<ul>
+<li>BASIC认证。没人用<ul>
+<li>只防君子</li>
+<li>密码Base64编码后存储在报文里，没有加密可言</li>
+</ul>
+</li>
+<li>SSL认证<ul>
+<li>认证客户端证书</li>
+</ul>
+</li>
+<li>基于表单认证<ul>
+<li>Web应用自实现的认证方式</li>
+</ul>
+</li>
+</ul>
+<h1><span id="9-ji-yu-http-de-xie-yi">9 基于HTTP的协议</span></h1><blockquote>
+<p>HTTP协议中，服务端不具备主动推动客户端的能力，所以难以做到推送机制</p>
+</blockquote>
+<ul>
+<li>WebSocket<ul>
+<li>支持服务端向客户端推送数据</li>
+<li>减少通信量，建立起WebSocket连接后，就会一直保持通信状态。连接开销减小，WebSocket首部信息也小</li>
+<li>需要再HTTP首部字段加上Upgrade: websocket 告知服务端进行握手，服务端响应后，返回101 Switching Protocols响应</li>
+</ul>
+</li>
+</ul>
+<h1><span id="10-http-an-quan">10 HTTP安全</span></h1><p>还是先等到专门一起的安全读物里做总结吧</p>
 
       
     </div>
