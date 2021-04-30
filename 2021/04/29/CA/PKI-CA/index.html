@@ -232,7 +232,7 @@
 <li>具有社会普遍公信的电子签名，需要由满足法律法规的CA以合法合规的方式制作。</li>
 <li>对于PKI的使用和运营，如果不是内部使用而是对接公用，会有严格的限制和法律法规</li>
 </ul>
-<h1><span id="2-pki-ti-xi-nei-rong">2 PKI体系内容</span></h1><h2><span id="2-1-shu-zi-zheng-shu-yu-si-yao">2.1 数字证书与私钥</span></h2><p><img src="/2021/04/29/CA/PKI-CA/img/9631618476373_.pic_hd.jpg"></p>
+<h1><span id="2-pki-ti-xi-nei-rong">2 PKI体系内容</span></h1><h2><span id="2-1-shu-zi-zheng-shu-yu-si-yao">2.1 数字证书与私钥</span></h2><p><img src="./img/9631618476373_.pic_hd.jpg"></p>
 <ul>
 <li>数字证书中不含私密信息，可以进行公开发布</li>
 <li>数字证书可作为”网络身份证”来使用，流程如下：<ul>
@@ -254,7 +254,7 @@
 <li>CA中心拥有一张自签名证书。浏览器内置CA中心的证书来信任根证书。</li>
 <li>为了保证私钥唯一性，可将私钥锁定在硬件设备里，无法导出，然后用公钥申请证书。</li>
 </ul>
-<h2><span id="2-2-pki-ca-yu-kmc">2.2 PKI/CA与KMC</span></h2><p><img src="/2021/04/29/CA/PKI-CA/img/9641618479475_.pic.jpg"></p>
+<h2><span id="2-2-pki-ca-yu-kmc">2.2 PKI/CA与KMC</span></h2><p><img src="./img/9641618479475_.pic.jpg"></p>
 <ul>
 <li>PKI引入CA来统一管理证书的生命周期，包括<ul>
 <li>证书的签发和更新。更新的公钥可以选择是否改变</li>
@@ -397,8 +397,8 @@
 <li>PKCS#12格式，常见后缀pfx或p12</li>
 </ul>
 <h2><span id="4-5-si-yao-he-zheng-shu-fang-wen-fang-shi">4.5 私钥和证书访问方式</span></h2><p>讲的是，有个Crypto API 来管理证书和私钥。还是先放数据库吧。用盐和用户密码进行一次hash之后作为对称秘钥对私钥加密</p>
-<h1><span id="5-ca-yu-kmc-xi-tong-she-ji">5 CA与KMC 系统设计</span></h1><h2><span id="5-1-xi-tong-jie-gou">5.1 系统结构</span></h2><p><img src="/2021/04/29/CA/PKI-CA/img/9751618798293_.pic_hd.jpg"></p>
-<p><img src="/2021/04/29/CA/PKI-CA/img/9761618799946_.pic_hd.jpg"></p>
+<h1><span id="5-ca-yu-kmc-xi-tong-she-ji">5 CA与KMC 系统设计</span></h1><h2><span id="5-1-xi-tong-jie-gou">5.1 系统结构</span></h2><p><img src="./img/9751618798293_.pic_hd.jpg"></p>
+<p><img src="./img/9761618799946_.pic_hd.jpg"></p>
 <p>CA实体结构</p>
 <ul>
 <li>1、CA相关实体<ul>
@@ -436,7 +436,7 @@
 <li>证书管理系统</li>
 <li>安全管理系统</li>
 </ul>
-<p>KMC系统结构<br><img src="/2021/04/29/CA/PKI-CA/img/9771618800472_.pic.jpg"></p>
+<p>KMC系统结构<br><img src="./img/9771618800472_.pic.jpg"></p>
 <ul>
 <li>秘钥生成</li>
 <li>秘钥存储</li>
@@ -465,7 +465,7 @@
 <li>安全管理（安全访问控制，核心数据备份）</li>
 <li>多级审核</li>
 </ul>
-<p>模块组成：<br><img src="/2021/04/29/CA/PKI-CA/img/9781618816155_.pic_hd.jpg"></p>
+<p>模块组成：<br><img src="./img/9781618816155_.pic_hd.jpg"></p>
 <hr>
 <p>2、证书/CRL签发系统</p>
 <ul>
@@ -657,7 +657,7 @@
 <hr>
 <p>5、安全性</p>
 <p>6、模块设计</p>
-<p><img src="/2021/04/29/CA/PKI-CA/img/9791618818812_.pic_hd.jpg"></p>
+<p><img src="./img/9791618818812_.pic_hd.jpg"></p>
 <h3><span id="5-2-4-shuang-zheng-shu-ji-zhu-liu-cheng-she-ji">5.2.4 双证书技术流程设计</span></h3><h2><span id="5-3-ocsp-socsp-fu-wu">5.3 OCSP/SOCSP服务</span></h2><h3><span id="5-3-1-ocsp-socsp-fu-wu">5.3.1 OCSP/SOCSP服务</span></h3><p>SOCSP就是Simplae OCSP，协议请求和相应较为简化</p>
 <h3><span id="5-3-2-crl-fu-wu">5.3.2 CRL服务</span></h3><p>CRL服务<br>CRL详细内容：需要就直接去翻书吧，这章主要介绍了CRL的一些字段</p>
 <h3><span id="5-3-3-ldap-fu-wu">5.3.3 LDAP服务</span></h3><h2><span id="5-4-ca-bu-shu-jie-gou">5.4 CA 部署结构</span></h2><ul>
@@ -665,7 +665,7 @@
 <li>对于当前业务这种微服务来讲，可能能做到就是把东西全放到这一个服务里面去。</li>
 <li>如果真要做这种分布式的CA，需要时再来研究吧，感觉现在看了没啥用</li>
 </ul>
-<h1><span id="6-ca-ying-yong-shi-li">6 CA应用实例</span></h1><h2><span id="6-1-ca-ji-ben-yong-fa">6.1 CA基本用法</span></h2><p>1、身份认证<br>用户的证书上记录了用户的信息，为了证明用户是证书的所有者，可以采用<strong>挑战应答模式</strong>进行身份认证。<br>    - 服务端随机生成一个随机数<br>    - 用户用自己的私钥对随机数签名，将签名和证书一起交给服务端<br>    - 服务端校验签名、校验证书，确认用户的合法性<br><img src="/2021/04/29/CA/PKI-CA/img/9801618831664_.pic_hd.jpg"></p>
+<h1><span id="6-ca-ying-yong-shi-li">6 CA应用实例</span></h1><h2><span id="6-1-ca-ji-ben-yong-fa">6.1 CA基本用法</span></h2><p>1、身份认证<br>用户的证书上记录了用户的信息，为了证明用户是证书的所有者，可以采用<strong>挑战应答模式</strong>进行身份认证。<br>    - 服务端随机生成一个随机数<br>    - 用户用自己的私钥对随机数签名，将签名和证书一起交给服务端<br>    - 服务端校验签名、校验证书，确认用户的合法性<br><img src="./img/9801618831664_.pic_hd.jpg"></p>
 <hr>
 <p>2、保密性</p>
 <ul>
@@ -699,7 +699,7 @@
 <li>审计</li>
 <li>秘钥管理</li>
 </ul>
-<p>架构示意：<br><img src="/2021/04/29/CA/PKI-CA/img/9811618833812_.pic_hd.jpg"></p>
+<p>架构示意：<br><img src="./img/9811618833812_.pic_hd.jpg"></p>
 <h2><span id="6-5-wang-shang-bao-shui-xi-tong">6.5 网上报税系统</span></h2><ul>
 <li>确保纳税人身份</li>
 <li>确保数据的保密性和完整性</li>
@@ -711,7 +711,7 @@
 <li>确定身份</li>
 <li>责任归属</li>
 <li>强调时间可信需求</li>
-<li>安全完整传输<br><img src="/2021/04/29/CA/PKI-CA/img/9821618834144_.pic_hd.jpg"></li>
+<li>安全完整传输<br><img src="./img/9821618834144_.pic_hd.jpg"></li>
 </ul>
 <h1><span id="7-ca-zhong-xin-yun-ying">7 CA中心运营</span></h1><h1><span id="8-xiang-guan-fa-lu-fa-gui">8 相关法律法规</span></h1><p>用到相关东西的时候，可以来翻翻</p>
 <ul>
@@ -724,7 +724,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/" data-id="cko3t66z20027rsxgd6mp489w" data-title="PKI/CA与数字证书技术大全" class="article-share-link">分享</a>
+      <a data-url="https://mgintoki.github.io/2021/04/29/CA/PKI-CA/" data-id="cko40h7ys0027kcxgdz38d4y1" data-title="PKI/CA与数字证书技术大全" class="article-share-link">分享</a>
       
       
       
@@ -797,10 +797,6 @@
       <ul>
         
           <li>
-            <a href="/2021/04/30/hexo/config/">博客配置</a>
-          </li>
-        
-          <li>
             <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/">《架构修炼之道-亿级网关...》阅读笔记</a>
           </li>
         
@@ -810,6 +806,10 @@
         
           <li>
             <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/">图解http阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/28/hexo/config/">博客配置</a>
           </li>
         
           <li>
