@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>《编码，隐匿在计算机硬件背后的语言》阅读笔记 | MGintoki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="书籍链接： 一、几种常见的编码 1、莫斯编码 布莱叶盲人编码 UPC 通用产品编码（超市商品的条形码） 二进制编码   二、基本电信号讲解 电报机和继电器   三、逻辑门 逻辑运算与开关 逻辑门（logic gates） 二进制加法器 二进制减法器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《编码，隐匿在计算机硬件背后的语言》阅读笔记">
+<meta property="og:url" content="https://mgintoki.github.io/2021/05/04/cs/%E7%BC%96%E7%A0%81,%E9%9A%90%E5%8C%BF%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E8%83%8C%E5%90%8E%E7%9A%84%E8%AF%AD%E8%A8%80/index.html">
+<meta property="og:site_name" content="MGintoki">
+<meta property="og:description" content="书籍链接： 一、几种常见的编码 1、莫斯编码 布莱叶盲人编码 UPC 通用产品编码（超市商品的条形码） 二进制编码   二、基本电信号讲解 电报机和继电器   三、逻辑门 逻辑运算与开关 逻辑门（logic gates） 二进制加法器 二进制减法器">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mgintoki.github.io/2021/05/04/cs/%E7%BC%96%E7%A0%81,%E9%9A%90%E5%8C%BF%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E8%83%8C%E5%90%8E%E7%9A%84%E8%AF%AD%E8%A8%80/img/2021-05-06-16-52-29.png">
+<meta property="og:image" content="https://mgintoki.github.io/2021/05/04/cs/%E7%BC%96%E7%A0%81,%E9%9A%90%E5%8C%BF%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E8%83%8C%E5%90%8E%E7%9A%84%E8%AF%AD%E8%A8%80/img/2021-05-06-16-43-16.png">
+<meta property="og:image" content="https://mgintoki.github.io/2021/05/04/cs/%E7%BC%96%E7%A0%81,%E9%9A%90%E5%8C%BF%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E8%83%8C%E5%90%8E%E7%9A%84%E8%AF%AD%E8%A8%80/img/2021-05-06-17-05-46.png">
+<meta property="og:image" content="https://mgintoki.github.io/2021/05/04/cs/2021-05-07-19-05-42.png">
+<meta property="article:published_time" content="2021-05-04T09:13:38.000Z">
+<meta property="article:modified_time" content="2021-05-07T11:53:15.476Z">
+<meta property="article:author" content="MGintoki">
+<meta property="article:tag" content="计组">
+<meta property="article:tag" content="编码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mgintoki.github.io/2021/05/04/cs/%E7%BC%96%E7%A0%81,%E9%9A%90%E5%8C%BF%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E8%83%8C%E5%90%8E%E7%9A%84%E8%AF%AD%E8%A8%80/img/2021-05-06-16-52-29.png">
+  
+    <link rel="alternate" href="/atom.xml" title="MGintoki" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon-32x32.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MGintoki</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mgintoki.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-cs/编码,隐匿在计算机硬件背后的语言" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/04/cs/%E7%BC%96%E7%A0%81,%E9%9A%90%E5%8C%BF%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E8%83%8C%E5%90%8E%E7%9A%84%E8%AF%AD%E8%A8%80/" class="article-date">
+  <time class="dt-published" datetime="2021-05-04T09:13:38.000Z" itemprop="datePublished">2021-05-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%BB%84/">计组</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      《编码，隐匿在计算机硬件背后的语言》阅读笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#shu-ji-lian-jie">书籍链接：</a></li>
+<li><a href="#yi-ji-chong-chang-jian-de-bian-ma">一、几种常见的编码</a><ul>
+<li><a href="#1-mo-si-bian-ma">1、莫斯编码</a></li>
+<li><a href="#bu-lai-xie-mang-ren-bian-ma">布莱叶盲人编码</a></li>
+<li><a href="#upc-tong-yong-chan-pin-bian-ma-chao-shi-shang-pin-de-tiao-xing-ma">UPC 通用产品编码（超市商品的条形码）</a></li>
+<li><a href="#er-jin-zhi-bian-ma">二进制编码</a></li>
+</ul>
+</li>
+<li><a href="#er-ji-ben-dian-xin-hao-jiang-jie">二、基本电信号讲解</a><ul>
+<li><a href="#dian-bao-ji-he-ji-dian-qi">电报机和继电器</a></li>
+</ul>
+</li>
+<li><a href="#san-luo-ji-men">三、逻辑门</a><ul>
+<li><a href="#luo-ji-yun-suan-yu-kai-guan">逻辑运算与开关</a></li>
+<li><a href="#luo-ji-men-logic-gates">逻辑门（logic gates）</a></li>
+<li><a href="#er-jin-zhi-jia-fa-qi">二进制加法器</a></li>
+<li><a href="#er-jin-zhi-jian-fa-qi">二进制减法器</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
+<span id="more"></span>
+[toc]
+# 书籍链接：
+---
+# 一、几种常见的编码
+编码，两个实体之间约定进行信息交换的信息规则。可以分为writte speech 和 spoken language。
+- 英语、汉语、各种语言字母本身并无含义，也是一种信息编码方式
+## 1、莫斯编码
+
+<p>莫斯编码是国际通用的一种常见编码方式，用点划的方式来标识32种不同的字符。（包括26和英文字符和多种重读音）</p>
+<ul>
+<li>基本规则是点（dot）和划（slash),其中划一般长度是点的三倍，而约定字符和字符之间的间隔是划的长度，单词之间的间隔是划的两倍</li>
+<li>为了简化编码以及读写，将简单的字段，分配给了高频字幕，如 点代表e</li>
+<li>通常来说，莫斯编码采用4位非定长信息位来表示信息，这就带来了2 + 4 + 8 + 16 = 30 位不同的信息长度</li>
+</ul>
+<h2><span id="bu-lai-xie-mang-ren-bian-ma">布莱叶盲人编码</span></h2><p>布莱叶编码是一种，使用2*3（总数一共为六的信息位）来标识信息的编码方法，之所以进行这样的设计是为了便于盲人进行触摸识别信息。</p>
+<ul>
+<li>其中存在着predence（前置码）。例如数字前置码，标识这后续的信息位用来表示数字，以及相对应的文本前置码</li>
+<li>存在escape转义码，转义码之后跟着的字符会按照不同的约定规则进行解析</li>
+<li><strong>编码为了在有限的信息位中，表达尽量多组合数目（否则信息长度过大回不利于读写），可以进行去前置或转义等操作，这点在现代的计算机系统中，也深有体现</strong></li>
+</ul>
+<h2><span id="upc-tong-yong-chan-pin-bian-ma-chao-shi-shang-pin-de-tiao-xing-ma">UPC 通用产品编码（超市商品的条形码）</span></h2><blockquote>
+<p>UPC编码的启示主要是，如何利用冗余和校验，保证编码的高可用性</p>
+</blockquote>
+<p>基本的UPC编码结构如下：</p>
+<ul>
+<li>最左和左右是三个bit的护线，帮助扫描仪定位，便于扫描仪定位单个bit的条和间隙的宽度是多少</li>
+<li>中间的护线是UPC校验码，用来辅助定位，以及验证条形码有没有被印错或是篡改。其是经过计算得出的，扫描仪根据自己扫描的结果计算，并与校验码比对</li>
+<li>数字转换的二进制吗，对应到图形上，1对应黑条，0对应空白</li>
+<li>左边和右边的数字，都是有两个条，且都有两个连续的1（也就是说，一个UPC数字对应的二进制至少包含2个连续的1，和一个1）</li>
+<li>左边的数字，1是奇数个，右边的数字，1是偶数个。便于进行正向或是反向识别以及校验功能<br><img src="./img/2021-05-06-16-52-29.png"><br><img src="./img/2021-05-06-16-43-16.png"></li>
+</ul>
+<h2><span id="er-jin-zhi-bian-ma">二进制编码</span></h2><ul>
+<li>古罗马数字编码，并非按照进制来进行编码，而是采用1、5、10、50这样的单位进行编码。一串古罗马数字的大小，只是相当于他们之间的所有数字的和，一串数字的大小和他们的位置没有任何关系<ul>
+<li>对于加法减法性能一般，不适合乘除</li>
+</ul>
+</li>
+<li>对于阿拉伯数字，数字的大小开始和他的位置相关，并且适合于乘法运算</li>
+</ul>
+<p>二进制特点：</p>
+<ul>
+<li><p>二进制是算数和电子技术之间的桥梁，开关，灯泡，电线，继电器等，都可以用二进制0和1来表示</p>
+</li>
+<li><p>二进制的长度增长的特别快</p>
+</li>
+<li><p>二进制是用来表示信息的最小单位</p>
+<ul>
+<li>在知晓上下文的情形下，0和1两个选项就可以承载信息</li>
+</ul>
+</li>
+<li><p>UPC编码高度很大，是为了便于OCR光学识别技术进行识别，扫描设备不需要对准的非常精确，只需要覆盖一整条UPC编码就行。</p>
+<h1><span id="er-ji-ben-dian-xin-hao-jiang-jie">二、基本电信号讲解</span></h1></li>
+</ul>
+<p>本章主要讲解了一些高中物理知识的电信号相关，用于后续讲解门电路做铺垫</p>
+<ul>
+<li>可以把地球本身视作一个“导体”，严格来说，地球自身是可以作为一个电子库的。</li>
+<li>不同的材料电阻性能是有区别的，电阻小的，经济的材料便是铜线</li>
+<li>为了降低铺线成本，通常为了实现电流环路，不会铺来回两条线形成环路，而是两头接地，施以高压进行传输</li>
+</ul>
+<h2><span id="dian-bao-ji-he-ji-dian-qi">电报机和继电器</span></h2><blockquote>
+<p>电报 telegraph ；继电器 relay<br>早期发明的电报器，只是一个可以用来传递莫斯编码信息的机器<br>早期使用电压的高低，来进行莫斯编码传输信息</p>
+</blockquote>
+<ul>
+<li>但是即便加以高压，因为铜线始终存在电阻，所以极限载荷距离便是几百英里左右。</li>
+<li>为了解决长距离线路的电路载荷问题，开发出了“继电器”这一原件。</li>
+<li>基础的继电器，只是作为电信号传导的延伸作用，起到放大因为距离而衰减的电信号的作用</li>
+</ul>
+<h1><span id="san-luo-ji-men">三、逻辑门</span></h1><h2><span id="luo-ji-yun-suan-yu-kai-guan">逻辑运算与开关</span></h2><blockquote>
+<p>逻辑运算亦称布尔运算，传统的代数运算是用来处理数字的，而逻辑运算处理的对象是集合</p>
+</blockquote>
+<ul>
+<li>逻辑运算的基本运算符有3种，与或非（AND/*，OR/+，NOT/1-）</li>
+<li>逻辑运算符可以分别对应到电路的串联电路，并联电路，以及反相器</li>
+<li>通过将逻辑运算符对应到电路，实现了现实世界的逻辑运算转化成机器可理解的运算的过程<br><img src="./img/2021-05-06-17-05-46.png"><h2><span id="luo-ji-men-logic-gates">逻辑门（logic gates）</span></h2><blockquote>
+<p>逻辑门的工作方式为：让电流通过或是阻止电流通过</p>
+</blockquote>
+</li>
+<li>一个与门、或门 包括两个继电器。（两个继电器可以类比成两个电流开关，当串联的时候就是与门，并联的时候就是或门）</li>
+</ul>
+<h2><span id="er-jin-zhi-jia-fa-qi">二进制加法器</span></h2><p>在二进制运算中，加法可以拆分为两步：</p>
+<ul>
+<li><p>计算加和输出</p>
+<ul>
+<li>加和输出的结果可以用异或门表示，共三个逻辑门</li>
+<li>异或门是一个或门、一个与非门的输出作为一个与门的输入，与门的输出作为异或门的输出</li>
+</ul>
+</li>
+<li><p>计算进位输出</p>
+<ul>
+<li>进位输出可以使用与门来实现，较为简单，需要一个逻辑门</li>
+</ul>
+</li>
+<li><p>一个用于计算加法和输出的异或门，和一个用于计算加法进位输出的与门，构成了一个半加器</p>
+<ul>
+<li>一个半加器一共需要8个继电器</li>
+</ul>
+</li>
+<li><p>全加器是由两个半加器，加上一个或门构成的，全加器是一个完整的，可以用于加法器的原件<br><img src="../2021-05-07-19-05-42.png"></p>
+</li>
+</ul>
+<p>如果需要制作8位二进制的加法器，那么需要8个全加器，一个全加器=两个半加器+一个或门=18个继电器，所以8位加法器需要144个继电器</p>
+<ul>
+<li>当前的计算机使用了晶体管代替继电器</li>
+</ul>
+<h2><span id="er-jin-zhi-jian-fa-qi">二进制减法器</span></h2><blockquote>
+<p>本章可以多读下原书，因为原书以一种娓娓道来的方式，辅以大量证明，可以让人较为容易的理解减法器的设计思路，自己总结反而总是感觉有点不对劲</p>
+</blockquote>
+<p>减法和加法的一个显著区别是，加法是进位，而减法是借位。为了避免借位这种麻烦操作，得出了特殊的减法算法</p>
+<p>”取反“是一个重要的概念，取反=补码<br>以200-100做举例：</p>
+<ul>
+<li>用999 - 100 = 899；避免产生任何借位</li>
+<li>200 + 899 - 1000 + 1 ；<ul>
+<li>200 + 899 = 1099</li>
+<li>1099 - 1000 = 99 避免任何借位</li>
+<li>99 + 1 = 100 得出最终结果</li>
+</ul>
+</li>
+</ul>
+<p>对于二进制来说，取反操作相当于把原来的0变1，1变0<br>例如：1111-1010 = 0101</p>
+<hr>
+<p>计算机中负数的表示：</p>
+<p>可以把数列一个循环：<br>50 51 … 99 0 1 2 3 4 …49<br>把99视作-1来看，那么对于加法5 + -1 =  5 + 88 = 104，忽略溢出位，则结果为4</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mgintoki.github.io/2021/05/04/cs/%E7%BC%96%E7%A0%81,%E9%9A%90%E5%8C%BF%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E8%83%8C%E5%90%8E%E7%9A%84%E8%AF%AD%E8%A8%80/" data-id="ckoe9dg3x000btgxgh6z9drrb" data-title="《编码，隐匿在计算机硬件背后的语言》阅读笔记" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E7%A0%81/" rel="tag">编码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%BB%84/" rel="tag">计组</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">《架构修炼之道-亿级网关...》阅读笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CA/">CA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E4%B9%A6/">杂书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%BB%84/">计组</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CA/" style="font-size: 10px;">CA</a> <a href="/tags/DAO/" style="font-size: 12.5px;">DAO</a> <a href="/tags/DevOps/" style="font-size: 15px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/HyperLedger/" style="font-size: 10px;">HyperLedger</a> <a href="/tags/K8S/" style="font-size: 10px;">K8S</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/did/" style="font-size: 17.5px;">did</a> <a href="/tags/mathchain/" style="font-size: 10px;">mathchain</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E8%B5%84%E4%BA%A7/" style="font-size: 10px;">加密资产</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 20px;">区块链</a> <a href="/tags/%E5%AE%B9%E5%99%A8/" style="font-size: 10px;">容器</a> <a href="/tags/%E6%9D%82%E4%B9%A6/" style="font-size: 12.5px;">杂书</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 12.5px;">架构</a> <a href="/tags/%E7%9B%91%E6%8E%A7/" style="font-size: 10px;">监控</a> <a href="/tags/%E7%BC%96%E7%A0%81/" style="font-size: 10px;">编码</a> <a href="/tags/%E7%BD%91%E5%85%B3/" style="font-size: 10px;">网关</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">计算机网络</a> <a href="/tags/%E8%AE%A1%E7%BB%84/" style="font-size: 10px;">计组</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">证书</a> <a href="/tags/%E9%87%91%E8%9E%8D/" style="font-size: 10px;">金融</a> <a href="/tags/%E9%93%BE%E7%A0%81/" style="font-size: 10px;">链码</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/05/04/cs/%E7%BC%96%E7%A0%81,%E9%9A%90%E5%8C%BF%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E8%83%8C%E5%90%8E%E7%9A%84%E8%AF%AD%E8%A8%80/">《编码，隐匿在计算机硬件背后的语言》阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/architecture/%E6%9E%B6%E6%9E%84%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93/">《架构修炼之道-亿级网关...》阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/CA/PKI-CA/">PKI/CA与数字证书技术大全</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/29/network/%E5%9B%BE%E8%A7%A3http/">图解http阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/28/hexo/config/">博客配置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 MGintoki<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
